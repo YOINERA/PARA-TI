@@ -167,13 +167,7 @@
             <source src="assets/music.mp3" type="audio/mpeg">
         </audio>
         
-        <div id="mobile-controls">
-    <div class="direction-buttons">
-        <button id="left-btn">←</button>
-        <button id="right-btn">→</button>
-    </div>
-    <button id="jump-btn">↑</button>
-</div>
+       
     </div>
 
     <script>
@@ -276,21 +270,19 @@ if (isMobileDevice()) {
                     platforms: [
                         { x: 0, y: 500, width: 200, height: 20 },
                         { x: 300, y: 500, width: 50, height: 20 },
-                        { x: 450, y: 500, width: 50, height: 20 },
-                        { x: 600, y: 500, width: 50, height: 20 },
-                        { x: 750, y: 500, width: 50, height: 20 },
-                        { x: 900, y: 500, width: 50, height: 20 },
+                        { x: 450, y: 500, width: 150, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 750, y: 500, width: 150, height: 20 },
+                        { x: 900, y: 500, width: 80, height: 20 },
                         { x: 1050, y: 500, width: 50, height: 20 },
                         { x: 1200, y: 500, width: 200, height: 20 }
                     ],
                     enemies: [
-                        { x: 350, y: 470, speed: 3, range: 50 },
-                        { x: 500, y: 470, speed: 3, range: 50 },
-                        { x: 800, y: 470, speed: 3, range: 50 }
+                        { x: 500, y: 470, speed: 3, range: 70 },
+                        { x: 800, y: 470, speed: 3, range: 70 }
                     ],
                     coins: [
-                        { x: 350, y: 450 }, { x: 500, y: 450 },
-                        { x: 650, y: 450 }, { x: 800, y: 450 }
+                        { x: 350, y: 450 }, { x: 500, y: 450 },  { x: 800, y: 450 }
                     ],
                     goal: { x: 1300, y: 450 }
                 },
@@ -335,7 +327,6 @@ if (isMobileDevice()) {
                     enemies: [
                         { x: 350, y: 470, speed: 2, range: 100 },
                         { x: 650, y: 470, speed: 3, range: 50 },
-                        { x: 750, y: 420, speed: 2, range: 50 },
                         { x: 950, y: 470, speed: 3, range: 150 }
                     ],
                     coins: [
@@ -476,9 +467,8 @@ if (isMobileDevice()) {
                         { x: 1200, y: 500, width: 200, height: 20 }
                     ],
                     enemies: [
-                        { x: 350, y: 470, speed: 2, range: 50 },
-                        { x: 450, y: 420, speed: 3, range: 50 },
-                        { x: 550, y: 370, speed: 2, range: 50 },
+                        { x: 350, y: 470, speed: 2, range: 90 },
+                        { x: 550, y: 370, speed: 2, range: 40 },
                         { x: 950, y: 470, speed: 3, range: 150 }
                     ],
                     coins: [
@@ -490,33 +480,31 @@ if (isMobileDevice()) {
                 },
                 // Nivel 12 - I
                 {
-                    platforms: [
-                        { x: 0, y: 500, width: 200, height: 20 },
-                        { x: 300, y: 500, width: 50, height: 20 },
-                        { x: 450, y: 500, width: 50, height: 20 },
-                        { x: 600, y: 500, width: 50, height: 20 },
-                        { x: 750, y: 500, width: 50, height: 20 },
-                        { x: 900, y: 500, width: 50, height: 20 },
-                        { x: 1050, y: 500, width: 50, height: 20 },
-                        { x: 1200, y: 500, width: 200, height: 20 }
-                    ],
-                    enemies: [
-                        { x: 350, y: 470, speed: 3, range: 50 },
-                        { x: 500, y: 470, speed: 3, range: 50 },
-                        { x: 800, y: 470, speed: 3, range: 50 }
-                    ],
-                    coins: [
-                        { x: 350, y: 450 }, { x: 500, y: 450 },
-                        { x: 650, y: 450 }, { x: 800, y: 450 }
-                    ],
-                    goal: { x: 1300, y: 450 }
-                },
+        platforms: [
+            { x: 0, y: 500, width: 200, height: 20 },
+            { x: 300, y: 500, width: 200, height: 20 },
+            { x: 250, y: 400, width: 100, height: 20 },
+            { x: 450, y: 400, width: 100, height: 20 },
+            { x: 600, y: 500, width: 200, height: 20 },
+            { x: 900, y: 500, width: 200, height: 20 },
+            { x: 1200, y: 500, width: 200, height: 20 }
+        ],
+        enemies: [
+            { x: 350, y: 470, speed: 2, range: 100 },
+            { x: 650, y: 470, speed: 2, range: 100 }
+        ],
+        coins: [
+            { x: 350, y: 450 }, { x: 400, y: 450 },
+            { x: 650, y: 450 }
+        ],
+        goal: { x: 1300, y: 450 }
+    },
                 // Nivel 13 - N
                 {
                     platforms: [
                         { x: 0, y: 500, width: 200, height: 20 },
                         { x: 300, y: 500, width: 50, height: 20 },
-                        { x: 400, y: 450, width: 50, height: 20 },
+                        { x: 400, y: 450, width: 150, height: 20 },
                         { x: 500, y: 400, width: 50, height: 20 },
                         { x: 600, y: 500, width: 50, height: 20 },
                         { x: 900, y: 500, width: 200, height: 20 },
@@ -524,7 +512,6 @@ if (isMobileDevice()) {
                     ],
                     enemies: [
                         { x: 350, y: 470, speed: 2, range: 50 },
-                        { x: 450, y: 420, speed: 3, range: 50 },
                         { x: 550, y: 370, speed: 2, range: 50 },
                         { x: 950, y: 470, speed: 3, range: 150 }
                     ],
@@ -573,7 +560,6 @@ if (isMobileDevice()) {
                     ],
                     enemies: [
                         { x: 350, y: 470, speed: 2, range: 100 },
-                        { x: 650, y: 470, speed: 3, range: 50 },
                         { x: 750, y: 420, speed: 2, range: 50 },
                         { x: 950, y: 470, speed: 3, range: 150 }
                     ],
@@ -620,7 +606,6 @@ if (isMobileDevice()) {
                     ],
                     enemies: [
                         { x: 350, y: 470, speed: 2, range: 50 },
-                        { x: 450, y: 470, speed: 3, range: 50 },
                         { x: 950, y: 470, speed: 2, range: 150 }
                     ],
                     coins: [
@@ -691,8 +676,6 @@ if (isMobileDevice()) {
                     ],
                     enemies: [
                         { x: 350, y: 470, speed: 2, range: 50 },
-                        { x: 450, y: 420, speed: 3, range: 50 },
-                        { x: 550, y: 370, speed: 2, range: 50 },
                         { x: 950, y: 470, speed: 3, range: 150 }
                     ],
                     coins: [
@@ -1614,6 +1597,64 @@ function restartGame() {
 
         // Iniciar el juego cuando se carga la página
         window.addEventListener('load', initGame);
+
+        let isResizing = false;
+
+function resizeCanvas() {
+    if (isResizing) return;
+    isResizing = true;
+    
+    // Guardar posición relativa del jugador
+    const playerRelativeX = gameState.player.x - gameState.camera.x;
+    
+    if (isMobileDevice()) {
+        // Para móviles, ajustar considerando la orientación
+        const isPortrait = window.innerHeight > window.innerWidth;
+        
+        if (isPortrait) {
+            // Mostrar mensaje de orientación
+            document.getElementById('orientation-message').style.display = 'flex';
+            return;
+        } else {
+            // Ocultar mensaje en horizontal
+            document.getElementById('orientation-message').style.display = 'none';
+        }
+    }
+    
+    // Ajustar dimensiones
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    config.width = canvas.width;
+    config.height = canvas.height;
+    
+    // Restaurar posición relativa del jugador
+    gameState.player.x = playerRelativeX + gameState.camera.x;
+    
+    // Asegurarse que el jugador no esté fuera de los límites
+    if (gameState.player.y > config.height) {
+        gameState.player.y = config.height - gameState.player.height;
+    }
+    
+    isResizing = false;
+}
+
+let resizeTimeout;
+
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        // Pausar temporalmente la detección de caída
+        const wasRunning = gameState.gameRunning;
+        gameState.gameRunning = false;
+        
+        resizeCanvas();
+        
+        // Restaurar el estado del juego después del redimensionamiento
+        setTimeout(() => {
+            gameState.gameRunning = wasRunning;
+        }, 100);
+    }, 200); // Pequeño delay para agrupar eventos rápidos de resize
+});
     </script>
 </body>
 </html>
