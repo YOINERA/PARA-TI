@@ -3,97 +3,1573 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Mapa de Nuestro Amor</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+    <title>Juego de Plataformas</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: white;
+        }
+        
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        #game-canvas {
+            display: block;
+            background-color: #87CEEB;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        #ui p {
+            margin: 5px 0;
+        }
+        
+        #secret-phrase {
+            margin-top: 15px;
+            font-size: 20px;
+            letter-spacing: 5px;
+        }
+        
+        .secret-letter {
+            display: inline-block;
+            margin: 0 5px;
+        }
+        
+        .unlocked {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 200;
+        }
+        
+        .screen h2 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .screen button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .screen button:hover {
+            background-color: #388E3C;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #mobile-controls {
+        position: fixed;
+        bottom: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing: border-box;
+        z-index: 150;
+        gap: 20px; /* Espacio entre elementos */
+    }
+    .direction-buttons {
+        display: flex;
+        gap: 20px; /* Espacio entre flechas izquierda y derecha */
+    }
+        
+        #mobile-controls button {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: 2px solid white;
+        font-size: 1.5em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+        
+        #left-btn, #right-btn {
+            position: relative;
+        }
+        
+        #jump-btn {
+        margin-left: auto; /* Empuja el botón de salto a la derecha */
+    }
+    </style>
 </head>
 <body>
-    <div id="loading-screen">
-        <div class="loader">
-            <div class="heart"></div>
-            <p>Cargando nuestro mundo de amor...</p>
-        </div>
-    </div>
-
     <div id="game-container">
-        <!-- Pantalla de inicio -->
-        <div id="start-screen" class="screen active">
-            <h1>El Mapa de Nuestro Amor</h1>
-            <p class="subtitle">Un viaje interactivo a través de nuestro amor</p>
-            <div class="start-btn-container">
-                <button id="start-btn" class="magic-btn">Comenzar Aventura</button>
-            </div>
+        <canvas id="game-canvas"></canvas>
+        
+        <div id="ui">
+            <p id="score">Puntos: 0</p>
+            <p id="lives">Vidas: 10</p>
+            <p id="level">Nivel: 1</p>
+            <div id="secret-phrase"></div>
         </div>
-
-        <!-- Nivel 1: Bosque de los Recuerdos -->
-        <div id="forest-level" class="screen">
-            <div class="level-header">
-                <h2>🌲 Bosque de los Recuerdos</h2>
-                <p>Responde correctamente para avanzar</p>
-            </div>
-            <div id="question-container" class="question-box">
-                <p id="question-text">Cargando pregunta...</p>
-                <div id="options-container" class="options-grid"></div>
-            </div>
-            <div class="progress-container">
-                <div class="progress-bar" id="forest-progress"></div>
-                <span id="forest-counter">0/5</span>
-            </div>
+        
+        <div id="start-screen" class="screen">
+            <h2>Juego de Plataformas</h2>
+            <button id="start-btn">Comenzar Juego</button>
         </div>
-
-        <!-- Nivel 2: Laberinto de los Secretos -->
-        <div id="maze-level" class="screen">
-            <div class="level-header">
-                <h2>🧩 Laberinto de los Secretos</h2>
-                <p>Encuentra los pares de nuestros momentos</p>
-            </div>
-            <div id="maze-game" class="maze-grid"></div>
-            <div class="maze-stats">
-                <span>Intentos: <span id="attempts">0</span></span>
-                <span>Pares encontrados: <span id="matches">0</span>/8</span>
-            </div>
+        
+        <div id="level-complete" class="screen hidden">
+            <h2>¡Nivel Completado!</h2>
+            <button id="next-level-btn">Siguiente Nivel</button>
         </div>
-
-        <!-- Nivel 3: Galería de los Susurros -->
-        <div id="gallery-level" class="screen">
-            <div class="level-header">
-                <h2>🖼️ Galería de los Susurros</h2>
-                <p>Descubre todos los mensajes que escondí para ti</p>
-            </div>
-            <div id="gallery-grid" class="gallery-container"></div>
-            <div class="gallery-progress">
-                <span id="gallery-counter">0/12</span>
-                <div class="progress-bar" id="gallery-progress"></div>
-            </div>
+        
+        <div id="game-over" class="screen hidden">
+            <h2>¡Game Over!</h2>
+            <button id="restart-btn">Volver a Intentar</button>
         </div>
-
-        <!-- Nivel Final: Cielo de las Promesas -->
-        <div id="final-level" class="screen">
-            <div class="final-content">
-                <h2>✨ Cielo de las Promesas ✨</h2>
-                <div id="final-message" class="final-text">
-                    <p>Has completado nuestro mapa del amor...</p>
-                </div>
-                <div id="final-question" class="final-interaction">
-                    <p>¿Aceptas seguir escribiendo esta historia juntos?</p>
-                    <div class="final-buttons">
-                        <button id="final-yes" class="magic-btn">¡Sí, por siempre!</button>
-                        <button id="final-no" class="ghost-btn">(No tengo opción, te amo)</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+        <audio id="bg-music" loop>
+            <source src="assets/music.mp3" type="audio/mpeg">
+        </audio>
+        
+        <div id="mobile-controls">
+    <div class="direction-buttons">
+        <button id="left-btn">←</button>
+        <button id="right-btn">→</button>
+    </div>
+    <button id="jump-btn">↑</button>
+</div>
     </div>
 
-    <!-- Efectos especiales -->
-    <div id="particles-js"></div>
-    <div id="hearts-container"></div>
+    <script>
+        // Configuración del juego
+        const config = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            gravity: 0.5,
+            playerSpeed: 5,
+            jumpForce: 12,
+            scale: 1,
+            secretPhrase: 'QUIERES CAMINAR DE MI MANO?',
+            levels: [
+                // Nivel 1 - Q
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 300, height: 20 },
+                        { x: 400, y: 400, width: 200, height: 20, color: '#4CAF50' },
+                        { x: 700, y: 300, width: 200, height: 20, color: '#2196F3' },
+                        { x: 1000, y: 400, width: 200, height: 20, color: '#FFC107' },
+                        { x: 1300, y: 500, width: 300, height: 20, color: '#F44336' }
+                    ],
+                    enemies: [
+                        { x: 450, y: 370, speed: 2, range: 150 },
+                        { x: 750, y: 270, speed: 3, range: 100 }
+                    ],
+                    coins: [
+                        { x: 450, y: 350 }, { x: 500, y: 350 },
+                        { x: 800, y: 250 }, { x: 850, y: 250 }
+                    ],
+                    goal: { x: 1400, y: 450 }
+                },
+                // Nivel 2 - U
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 450, width: 200, height: 20 },
+                        { x: 250, y: 350, width: 100, height: 20 },
+                        { x: 450, y: 350, width: 100, height: 20 },
+                        { x: 600, y: 450, width: 200, height: 20 },
+                        { x: 900, y: 400, width: 200, height: 20 },
+                        { x: 1200, y: 450, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 420, speed: 2, range: 100 },
+                        { x: 650, y: 420, speed: 3, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 400 }, { x: 400, y: 400 },
+                        { x: 650, y: 400 }, { x: 700, y: 400 }
+                    ],
+                    goal: { x: 1300, y: 400 }
+                },
+                // Nivel 3 - I
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 450, y: 500, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 50, height: 20 },
+                        { x: 750, y: 500, width: 50, height: 20 },
+                        { x: 900, y: 500, width: 50, height: 20 },
+                        { x: 1050, y: 500, width: 50, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 3, range: 50 },
+                        { x: 500, y: 470, speed: 3, range: 50 },
+                        { x: 800, y: 470, speed: 3, range: 50 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 500, y: 450 },
+                        { x: 650, y: 450 }, { x: 800, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 4 - E
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 600, y: 400, width: 50, height: 20 },
+                        { x: 600, y: 300, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 5 - R
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 50, height: 20 },
+                        { x: 700, y: 450, width: 50, height: 20 },
+                        { x: 800, y: 400, width: 50, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 50 },
+                        { x: 750, y: 420, speed: 2, range: 50 },
+                        { x: 950, y: 470, speed: 3, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 750, y: 400 },
+                        { x: 850, y: 350 }, { x: 950, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 6 - E
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 600, y: 400, width: 50, height: 20 },
+                        { x: 600, y: 300, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 7 - S
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 600, y: 400, width: 50, height: 20 },
+                        { x: 600, y: 300, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 8 - (Espacio)
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 9 - C
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 10 - A
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 250, y: 400, width: 100, height: 20 },
+                        { x: 450, y: 400, width: 100, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 11 - M
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 400, y: 450, width: 50, height: 20 },
+                        { x: 500, y: 400, width: 50, height: 20 },
+                        { x: 400, y: 350, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 50 },
+                        { x: 450, y: 420, speed: 3, range: 50 },
+                        { x: 550, y: 370, speed: 2, range: 50 },
+                        { x: 950, y: 470, speed: 3, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 450, y: 400 },
+                        { x: 550, y: 350 }, { x: 650, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 12 - I
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 450, y: 500, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 50, height: 20 },
+                        { x: 750, y: 500, width: 50, height: 20 },
+                        { x: 900, y: 500, width: 50, height: 20 },
+                        { x: 1050, y: 500, width: 50, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 3, range: 50 },
+                        { x: 500, y: 470, speed: 3, range: 50 },
+                        { x: 800, y: 470, speed: 3, range: 50 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 500, y: 450 },
+                        { x: 650, y: 450 }, { x: 800, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 13 - N
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 400, y: 450, width: 50, height: 20 },
+                        { x: 500, y: 400, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 50, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 50 },
+                        { x: 450, y: 420, speed: 3, range: 50 },
+                        { x: 550, y: 370, speed: 2, range: 50 },
+                        { x: 950, y: 470, speed: 3, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 450, y: 400 },
+                        { x: 550, y: 350 }, { x: 650, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 14 - A
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 250, y: 400, width: 100, height: 20 },
+                        { x: 450, y: 400, width: 100, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 15 - R
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 50, height: 20 },
+                        { x: 700, y: 450, width: 50, height: 20 },
+                        { x: 800, y: 400, width: 50, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 50 },
+                        { x: 750, y: 420, speed: 2, range: 50 },
+                        { x: 950, y: 470, speed: 3, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 750, y: 400 },
+                        { x: 850, y: 350 }, { x: 950, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 16 - (Espacio)
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 17 - D
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 50, height: 20 },
+                        { x: 400, y: 500, width: 50, height: 20 },
+                        { x: 400, y: 300, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 50 },
+                        { x: 450, y: 470, speed: 3, range: 50 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 450, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 18 - E
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 600, y: 400, width: 50, height: 20 },
+                        { x: 600, y: 300, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 19 - (Espacio)
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 20 - M
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 400, y: 450, width: 50, height: 20 },
+                        { x: 500, y: 400, width: 50, height: 20 },
+                        { x: 400, y: 350, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 50 },
+                        { x: 450, y: 420, speed: 3, range: 50 },
+                        { x: 550, y: 370, speed: 2, range: 50 },
+                        { x: 950, y: 470, speed: 3, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 450, y: 400 },
+                        { x: 550, y: 350 }, { x: 650, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 21 - I
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 450, y: 500, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 50, height: 20 },
+                        { x: 750, y: 500, width: 50, height: 20 },
+                        { x: 900, y: 500, width: 50, height: 20 },
+                        { x: 1050, y: 500, width: 50, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 3, range: 50 },
+                        { x: 500, y: 470, speed: 3, range: 50 },
+                        { x: 800, y: 470, speed: 3, range: 50 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 500, y: 450 },
+                        { x: 650, y: 450 }, { x: 800, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 22 - (Espacio)
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 23 - M
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 400, y: 450, width: 50, height: 20 },
+                        { x: 500, y: 400, width: 50, height: 20 },
+                        { x: 400, y: 350, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 50 },
+                        { x: 450, y: 420, speed: 3, range: 50 },
+                        { x: 550, y: 370, speed: 2, range: 50 },
+                        { x: 950, y: 470, speed: 3, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 450, y: 400 },
+                        { x: 550, y: 350 }, { x: 650, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 24 - A
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 250, y: 400, width: 100, height: 20 },
+                        { x: 450, y: 400, width: 100, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 25 - N
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 50, height: 20 },
+                        { x: 400, y: 450, width: 50, height: 20 },
+                        { x: 500, y: 400, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 50, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 50 },
+                        { x: 450, y: 420, speed: 3, range: 50 },
+                        { x: 550, y: 370, speed: 2, range: 50 },
+                        { x: 950, y: 470, speed: 3, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 450, y: 400 },
+                        { x: 550, y: 350 }, { x: 650, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 26 - O
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 450, y: 400, width: 50, height: 20 },
+                        { x: 300, y: 300, width: 200, height: 20 },
+                        { x: 600, y: 500, width: 200, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 100 },
+                        { x: 650, y: 470, speed: 3, range: 100 },
+                        { x: 950, y: 470, speed: 2, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 400, y: 450 },
+                        { x: 650, y: 450 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                },
+                // Nivel 27 - ?
+                {
+                    platforms: [
+                        { x: 0, y: 500, width: 200, height: 20 },
+                        { x: 300, y: 500, width: 100, height: 20 },
+                        { x: 300, y: 400, width: 50, height: 20 },
+                        { x: 450, y: 350, width: 50, height: 20 },
+                        { x: 600, y: 400, width: 50, height: 20 },
+                        { x: 600, y: 500, width: 100, height: 20 },
+                        { x: 900, y: 500, width: 200, height: 20 },
+                        { x: 1200, y: 500, width: 200, height: 20 }
+                    ],
+                    enemies: [
+                        { x: 350, y: 470, speed: 2, range: 50 },
+                        { x: 500, y: 370, speed: 3, range: 50 },
+                        { x: 650, y: 420, speed: 2, range: 50 },
+                        { x: 950, y: 470, speed: 3, range: 150 }
+                    ],
+                    coins: [
+                        { x: 350, y: 450 }, { x: 500, y: 350 },
+                        { x: 650, y: 400 }, { x: 700, y: 450 },
+                        { x: 950, y: 450 }, { x: 1000, y: 450 }
+                    ],
+                    goal: { x: 1300, y: 450 }
+                }
+            ]
+        };
 
-    <audio id="background-music" loop>
-        <source src="assets/music/soft-piano.mp3" type="audio/mpeg">
-    </audio>
+        // Elementos del DOM
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const livesElement = document.getElementById('lives');
+        const levelElement = document.getElementById('level');
+        const startScreen = document.getElementById('start-screen');
+        const startBtn = document.getElementById('start-btn');
+        const levelCompleteScreen = document.getElementById('level-complete');
+        const nextLevelBtn = document.getElementById('next-level-btn');
+        const gameOverScreen = document.getElementById('game-over');
+        const restartBtn = document.getElementById('restart-btn');
+        const bgMusic = document.getElementById('bg-music');
+        const jumpBtn = document.getElementById('jump-btn');
+        const leftBtn = document.getElementById('left-btn');
+        const rightBtn = document.getElementById('right-btn');
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="script.js"></script>
+        // Estado del juego
+        let gameState = {
+            score: 0,
+            lives: 10,
+            currentLevel: 0,
+            unlockedLetters: Array(config.secretPhrase.length).fill(false),
+            player: {
+                x: 50,
+                y: 400,
+                width: 40,
+                height: 60,
+                velocityX: 0,
+                velocityY: 0,
+                isJumping: false,
+                direction: 1 // 1 for right, -1 for left
+            },
+            platforms: [],
+            enemies: [],
+            coins: [],
+            goal: null,
+            camera: {
+                x: 0,
+                y: 0
+            },
+            keys: {
+                left: false,
+                right: false,
+                up: false
+            },
+            gameRunning: false
+        };
+
+        // Nueva función para mostrar la frase secreta
+        function renderSecretPhrase() {
+            const phraseContainer = document.getElementById('secret-phrase');
+            phraseContainer.innerHTML = '';
+            
+            for (let i = 0; i < config.secretPhrase.length; i++) {
+                const letterSpan = document.createElement('span');
+                letterSpan.textContent = gameState.unlockedLetters[i] ? config.secretPhrase[i] : '_';
+                letterSpan.className = 'secret-letter';
+                if (gameState.unlockedLetters[i]) {
+                    letterSpan.classList.add('unlocked');
+                }
+                phraseContainer.appendChild(letterSpan);
+            }
+        }
+
+        // Inicializar el juego
+        function initGame() {
+            resizeCanvas();
+            loadLevel(gameState.currentLevel);
+            startScreen.classList.remove('hidden');
+            gameOverScreen.classList.add('hidden');
+            levelCompleteScreen.classList.add('hidden');
+
+            const phraseContainer = document.createElement('div');
+            phraseContainer.id = 'secret-phrase';
+            document.getElementById('ui').appendChild(phraseContainer);
+            renderSecretPhrase();
+            
+            // Event listeners
+            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('keydown', handleKeyDown);
+            window.addEventListener('keyup', handleKeyUp);
+            
+            startBtn.addEventListener('click', startGame);
+            nextLevelBtn.addEventListener('click', nextLevel);
+            restartBtn.addEventListener('click', restartGame);
+            
+            // Controles móviles
+            jumpBtn.addEventListener('touchstart', () => gameState.keys.up = true);
+            jumpBtn.addEventListener('touchend', () => gameState.keys.up = false);
+            leftBtn.addEventListener('touchstart', () => gameState.keys.left = true);
+            leftBtn.addEventListener('touchend', () => gameState.keys.left = false);
+            rightBtn.addEventListener('touchstart', () => gameState.keys.right = true);
+            rightBtn.addEventListener('touchend', () => gameState.keys.right = false);
+            
+            // Toque en pantalla para saltar en móvil
+            canvas.addEventListener('touchstart', (e) => {
+                if (gameState.gameRunning) {
+                    gameState.keys.up = true;
+                    e.preventDefault();
+                }
+            });
+            
+            canvas.addEventListener('touchend', () => {
+                gameState.keys.up = false;
+            });
+        }
+
+        // Redimensionar canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            config.width = canvas.width;
+            config.height = canvas.height;
+        }
+
+        // Cargar nivel
+        function loadLevel(levelIndex) {
+            const level = config.levels[levelIndex];
+            gameState.platforms = level.platforms;
+            gameState.enemies = level.enemies.map(enemy => ({
+                ...enemy,
+                width: 40,
+                height: 40,
+                originalX: enemy.x,
+                direction: 1,
+                y: enemy.y - 40
+            }));
+            gameState.coins = level.coins.map(coin => ({
+                ...coin,
+                width: 20,
+                height: 20,
+                collected: false,
+                animation: 0
+            }));
+            gameState.goal = {
+                ...level.goal,
+                width: 40,
+                height: 60
+            };
+            gameState.player = {
+                x: 50,
+                y: 400,
+                width: 40,
+                height: 60,
+                velocityX: 0,
+                velocityY: 0,
+                isJumping: false,
+                direction: 1
+            };
+            gameState.camera.x = 0;
+            gameState.camera.y = 0;
+            
+            levelElement.textContent = `Nivel: ${levelIndex + 1}`;
+        }
+
+        // Manejar teclas
+        function handleKeyDown(e) {
+            if (!gameState.gameRunning) return;
+            
+            switch (e.key) {
+                case 'ArrowLeft':
+                case 'a':
+                    gameState.keys.left = true;
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                    gameState.keys.right = true;
+                    break;
+                case 'ArrowUp':
+                case 'w':
+                case ' ':
+                    gameState.keys.up = true;
+                    break;
+            }
+        }
+
+        function handleKeyUp(e) {
+            switch (e.key) {
+                case 'ArrowLeft':
+                case 'a':
+                    gameState.keys.left = false;
+                    break;
+                case 'ArrowRight':
+                case 'd':
+                    gameState.keys.right = false;
+                    break;
+                case 'ArrowUp':
+                case 'w':
+                case ' ':
+                    gameState.keys.up = false;
+                    break;
+            }
+        }
+
+        // Iniciar juego
+        function startGame() {
+            gameState.score = 0;
+            gameState.lives = 10;
+            gameState.currentLevel = 0;
+            gameState.unlockedLetters = Array(config.secretPhrase.length).fill(false);
+            scoreElement.textContent = `Puntos: ${gameState.score}`;
+            livesElement.textContent = `Vidas: ${gameState.lives}`;
+            loadLevel(gameState.currentLevel);
+            startScreen.classList.add('hidden');
+            gameState.gameRunning = true;
+            renderSecretPhrase();
+            bgMusic.play().catch(e => console.log("Autoplay prevented:", e));
+            gameLoop();
+        }
+
+        // Siguiente nivel
+        function nextLevel() {
+            // Desbloquear la letra correspondiente
+            gameState.unlockedLetters[gameState.currentLevel] = true;
+            renderSecretPhrase();
+            
+            // Restaurar vidas al máximo
+            gameState.lives = 10;
+            livesElement.textContent = `Vidas: ${gameState.lives}`;
+            
+            gameState.currentLevel++;
+            if (gameState.currentLevel < config.levels.length) {
+                loadLevel(gameState.currentLevel);
+                levelCompleteScreen.classList.add('hidden');
+                gameState.gameRunning = true;
+                gameLoop();
+            } else {
+                // Juego completado
+                levelCompleteScreen.classList.add('hidden');
+                gameOverScreen.querySelector('h2').textContent = '¡Frase Completa!';
+                gameOverScreen.classList.remove('hidden');
+                gameState.gameRunning = false;
+            }
+        }
+
+        // Reiniciar juego
+        // Reiniciar juego
+function restartGame() {
+    gameState.score = 0;
+    gameState.lives = 10;
+    // No reiniciamos currentLevel para mantener el nivel actual
+    // gameState.currentLevel = 0;  // Esta línea se elimina para mantener el progreso
+    
+    scoreElement.textContent = `Puntos: ${gameState.score}`;
+    livesElement.textContent = `Vidas: ${gameState.lives}`;
+    loadLevel(gameState.currentLevel); // Carga el nivel actual
+    
+    // Oculta todas las pantallas de mensaje
+    startScreen.classList.add('hidden');
+    gameOverScreen.classList.add('hidden');
+    levelCompleteScreen.classList.add('hidden');
+    
+    gameState.gameRunning = true;
+    renderSecretPhrase();
+    bgMusic.currentTime = 0;
+    bgMusic.play().catch(e => console.log("Autoplay prevented:", e));
+    gameLoop();
+}
+
+        // Bucle principal del juego
+        function gameLoop() {
+            if (!gameState.gameRunning) return;
+            
+            update();
+            render();
+            
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Actualizar estado del juego
+        function update() {
+            const player = gameState.player;
+            
+            // Movimiento del jugador
+            player.velocityX = 0;
+            
+            if (gameState.keys.left) {
+                player.velocityX = -config.playerSpeed;
+                player.direction = -1;
+            }
+            if (gameState.keys.right) {
+                player.velocityX = config.playerSpeed;
+                player.direction = 1;
+            }
+            
+            // Salto
+            if (gameState.keys.up && !player.isJumping) {
+                player.velocityY = -config.jumpForce;
+                player.isJumping = true;
+            }
+            
+            // Aplicar gravedad
+            player.velocityY += config.gravity;
+            
+            // Actualizar posición X
+            player.x += player.velocityX;
+            
+            // Detección de colisiones en X
+            let onPlatformX = false;
+            for (const platform of gameState.platforms) {
+                if (checkCollision(player, platform)) {
+                    if (player.velocityX > 0) {
+                        player.x = platform.x - player.width;
+                    } else if (player.velocityX < 0) {
+                        player.x = platform.x + platform.width;
+                    }
+                    break;
+                }
+            }
+            
+            // Actualizar posición Y
+            player.y += player.velocityY;
+            player.isJumping = true;
+            
+            // Detección de colisiones en Y
+            for (const platform of gameState.platforms) {
+                if (checkCollision(player, platform)) {
+                    if (player.velocityY > 0) {
+                        player.y = platform.y - player.height;
+                        player.isJumping = false;
+                        player.velocityY = 0;
+                    } else if (player.velocityY < 0) {
+                        player.y = platform.y + platform.height;
+                        player.velocityY = 0;
+                    }
+                    break;
+                }
+            }
+            
+            // Actualizar enemigos
+            for (const enemy of gameState.enemies) {
+                enemy.x += enemy.speed * enemy.direction;
+                
+                // Cambiar dirección si alcanza el rango
+                if (Math.abs(enemy.x - enemy.originalX) > enemy.range) {
+                    enemy.direction *= -1;
+                }
+                
+                // Colisión con enemigos
+                if (checkCollision(player, enemy)) {
+                    playerHit();
+                    break;
+                }
+            }
+            
+            // Recolectar monedas
+            for (const coin of gameState.coins) {
+                if (!coin.collected && checkCollision(player, coin)) {
+                    coin.collected = true;
+                    gameState.score += 100;
+                    scoreElement.textContent = `Puntos: ${gameState.score}`;
+                }
+            }
+            
+            // Verificar meta
+            if (checkCollision(player, gameState.goal)) {
+                levelComplete();
+            }
+            
+            // Verificar caída
+            if (player.y > config.height) {
+                playerHit();
+            }
+            
+            // Actualizar cámara
+            gameState.camera.x = player.x - config.width / 3;
+            if (gameState.camera.x < 0) gameState.camera.x = 0;
+        }
+
+        // Renderizar el juego
+        function render() {
+            ctx.clearRect(0, 0, config.width, config.height);
+            
+            // Dibujar fondo con efecto de profundidad
+            drawBackground();
+            
+            // Dibujar plataformas
+            for (const platform of gameState.platforms) {
+                drawPlatform(platform);
+            }
+            
+            // Dibujar enemigos
+            for (const enemy of gameState.enemies) {
+                drawEnemy(enemy);
+            }
+            
+            // Dibujar monedas
+            for (const coin of gameState.coins) {
+                if (!coin.collected) {
+                    drawCoin(coin);
+                    coin.animation = (coin.animation + 0.1) % (Math.PI * 2);
+                }
+            }
+            
+            // Dibujar meta
+            drawGoal(gameState.goal);
+            
+            // Dibujar jugador
+            drawPlayer(gameState.player);
+        }
+
+        // Dibujar fondo con efecto de profundidad
+        function drawBackground() {
+            // Gradiente del cielo
+            const skyGradient = ctx.createLinearGradient(0, 0, 0, config.height);
+            skyGradient.addColorStop(0, '#87CEEB');
+            skyGradient.addColorStop(1, '#E0F7FA');
+            ctx.fillStyle = skyGradient;
+            ctx.fillRect(0, 0, config.width, config.height);
+            
+            // Montañas en el fondo (efecto parallax)
+            const mountainBase = config.height * 0.6;
+            
+            ctx.fillStyle = '#5D4037';
+            ctx.beginPath();
+            ctx.moveTo(-gameState.camera.x * 0.2, mountainBase);
+            ctx.lineTo(-gameState.camera.x * 0.2 + 300, mountainBase - 150);
+            ctx.lineTo(-gameState.camera.x * 0.2 + 600, mountainBase);
+            ctx.lineTo(-gameState.camera.x * 0.2 + 900, mountainBase - 100);
+            ctx.lineTo(-gameState.camera.x * 0.2 + 1200, mountainBase);
+            ctx.lineTo(-gameState.camera.x * 0.2 + 1500, mountainBase - 120);
+            ctx.lineTo(-gameState.camera.x * 0.2 + 1800, mountainBase);
+            ctx.lineTo(config.width, mountainBase);
+            ctx.lineTo(config.width, config.height);
+            ctx.lineTo(-gameState.camera.x * 0.2, config.height);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Nubes
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            for (let i = 0; i < 5; i++) {
+                const cloudX = (-gameState.camera.x * 0.1 + i * 400) % (config.width + 400) - 100;
+                const cloudY = 50 + Math.sin(i) * 30;
+                drawCloud(cloudX, cloudY, 100, 40);
+            }
+        }
+
+        // Dibujar nube
+        function drawCloud(x, y, width, height) {
+            ctx.beginPath();
+            ctx.arc(x, y + height / 2, height / 2, Math.PI, 0);
+            ctx.arc(x + width / 3, y, height / 2, Math.PI * 1.5, Math.PI * 0.5);
+            ctx.arc(x + width * 2/3, y, height / 2, Math.PI * 1.5, Math.PI * 0.5);
+            ctx.arc(x + width, y + height / 2, height / 2, Math.PI, 0);
+            ctx.arc(x + width * 2/3, y + height, height / 2, 0, Math.PI * 0.5);
+            ctx.arc(x + width / 3, y + height, height / 2, Math.PI * 0.5, Math.PI * 1.5);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // Dibujar plataforma con efecto 3D
+        function drawPlatform(platform) {
+            const x = platform.x - gameState.camera.x;
+            const y = platform.y - gameState.camera.y;
+            
+            if (x + platform.width < 0 || x > config.width) return;
+            
+            // Parte superior (verde)
+            ctx.fillStyle = platform.color || '#4CAF50';
+            ctx.fillRect(x, y, platform.width, platform.height);
+            
+            // Efecto 3D (lados)
+            ctx.fillStyle = '#388E3C';
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 10, y - 5);
+            ctx.lineTo(x + platform.width + 10, y - 5);
+            ctx.lineTo(x + platform.width, y);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.fillStyle = '#2E7D32';
+            ctx.beginPath();
+            ctx.moveTo(x + platform.width, y);
+            ctx.lineTo(x + platform.width + 10, y - 5);
+            ctx.lineTo(x + platform.width + 10, y + platform.height - 5);
+            ctx.lineTo(x + platform.width, y + platform.height);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Líneas de hierba
+            ctx.strokeStyle = '#2E7D32';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < platform.width; i += 20) {
+                ctx.beginPath();
+                ctx.moveTo(x + i, y);
+                ctx.lineTo(x + i + 10, y - 5);
+                ctx.stroke();
+            }
+        }
+
+        // Dibujar jugador con efecto 3D
+        function drawPlayer(player) {
+            const x = player.x - gameState.camera.x;
+            const y = player.y - gameState.camera.y;
+            
+            // Cuerpo (azul)
+            ctx.fillStyle = '#2196F3';
+            ctx.beginPath();
+            ctx.moveTo(x + player.width * 0.3, y);
+            ctx.lineTo(x + player.width * 0.7, y);
+            ctx.lineTo(x + player.width, y + player.height * 0.7);
+            ctx.lineTo(x + player.width * 0.7, y + player.height);
+            ctx.lineTo(x + player.width * 0.3, y + player.height);
+            ctx.lineTo(x, y + player.height * 0.7);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Efecto 3D (lados más oscuros)
+            ctx.fillStyle = '#1976D2';
+            ctx.beginPath();
+            ctx.moveTo(x + player.width * 0.3, y);
+            ctx.lineTo(x + player.width * 0.7, y);
+            ctx.lineTo(x + player.width * 0.7 + 5, y - 5);
+            ctx.lineTo(x + player.width * 0.3 + 5, y - 5);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.moveTo(x + player.width, y + player.height * 0.7);
+            ctx.lineTo(x + player.width * 0.7, y + player.height);
+            ctx.lineTo(x + player.width * 0.7 + 5, y + player.height - 5);
+            ctx.lineTo(x + player.width + 5, y + player.height * 0.7 - 5);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Cara
+            ctx.fillStyle = '#FFC107';
+            ctx.beginPath();
+            ctx.arc(x + player.width * 0.5, y + player.height * 0.3, player.width * 0.2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Ojos (dependiendo de la dirección)
+            ctx.fillStyle = '#000';
+            if (player.direction > 0) {
+                // Mirando a la derecha
+                ctx.beginPath();
+                ctx.arc(x + player.width * 0.55, y + player.height * 0.25, 3, 0, Math.PI * 2);
+                ctx.fill();
+            } else {
+                // Mirando a la izquierda
+                ctx.beginPath();
+                ctx.arc(x + player.width * 0.45, y + player.height * 0.25, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Brazos y piernas (animación al moverse)
+            ctx.fillStyle = '#2196F3';
+            const armAngle = Math.sin(Date.now() * 0.01) * 0.2 * player.velocityX;
+            
+            // Brazo derecho
+            ctx.save();
+            ctx.translate(x + player.width * 0.7, y + player.height * 0.4);
+            ctx.rotate(armAngle);
+            ctx.fillRect(0, 0, player.width * 0.3, player.height * 0.1);
+            ctx.restore();
+            
+            // Brazo izquierdo
+            ctx.save();
+            ctx.translate(x + player.width * 0.3, y + player.height * 0.4);
+            ctx.rotate(-armAngle);
+            ctx.fillRect(-player.width * 0.3, 0, player.width * 0.3, player.height * 0.1);
+            ctx.restore();
+            
+            // Piernas (animación al saltar)
+            const legAngle = player.isJumping ? -0.3 : Math.sin(Date.now() * 0.01) * 0.1 * player.velocityX;
+            
+            // Pierna derecha
+            ctx.save();
+            ctx.translate(x + player.width * 0.6, y + player.height * 0.8);
+            ctx.rotate(legAngle);
+            ctx.fillRect(0, 0, player.width * 0.2, player.height * 0.3);
+            ctx.restore();
+            
+            // Pierna izquierda
+            ctx.save();
+            ctx.translate(x + player.width * 0.4, y + player.height * 0.8);
+            ctx.rotate(-legAngle);
+            ctx.fillRect(-player.width * 0.2, 0, player.width * 0.2, player.height * 0.3);
+            ctx.restore();
+        }
+
+        // Dibujar enemigo
+        function drawEnemy(enemy) {
+            const x = enemy.x - gameState.camera.x;
+            const y = enemy.y - gameState.camera.y;
+            
+            if (x + enemy.width < 0 || x > config.width) return;
+            
+            // Cuerpo (rojo)
+            ctx.fillStyle = '#F44336';
+            ctx.beginPath();
+            ctx.moveTo(x + enemy.width * 0.2, y);
+            ctx.lineTo(x + enemy.width * 0.8, y);
+            ctx.lineTo(x + enemy.width, y + enemy.height * 0.8);
+            ctx.lineTo(x + enemy.width * 0.8, y + enemy.height);
+            ctx.lineTo(x + enemy.width * 0.2, y + enemy.height);
+            ctx.lineTo(x, y + enemy.height * 0.8);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Efecto 3D
+            ctx.fillStyle = '#D32F2F';
+            ctx.beginPath();
+            ctx.moveTo(x + enemy.width * 0.2, y);
+            ctx.lineTo(x + enemy.width * 0.8, y);
+            ctx.lineTo(x + enemy.width * 0.8 + 3, y - 3);
+            ctx.lineTo(x + enemy.width * 0.2 + 3, y - 3);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Ojos
+            ctx.fillStyle = '#000';
+            ctx.beginPath();
+            ctx.arc(x + enemy.width * 0.3, y + enemy.height * 0.3, 3, 0, Math.PI * 2);
+            ctx.arc(x + enemy.width * 0.7, y + enemy.height * 0.3, 3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Boca
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(x + enemy.width * 0.5, y + enemy.height * 0.5, enemy.width * 0.2, 0, Math.PI);
+            ctx.stroke();
+        }
+
+        // Dibujar moneda
+        function drawCoin(coin) {
+            const x = coin.x - gameState.camera.x;
+            const y = coin.y - gameState.camera.y;
+            
+            // Efecto de flotación
+            const floatY = y + Math.sin(coin.animation) * 5;
+            
+            // Moneda dorada
+            const gradient = ctx.createRadialGradient(
+                x + coin.width / 2, floatY + coin.height / 2, 0,
+                x + coin.width / 2, floatY + coin.height / 2, coin.width / 2
+            );
+            gradient.addColorStop(0, '#FFD700');
+            gradient.addColorStop(1, '#FF9800');
+            ctx.fillStyle = gradient;
+            
+            ctx.beginPath();
+            ctx.arc(x + coin.width / 2, floatY + coin.height / 2, coin.width / 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Detalle interior
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.7)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(x + coin.width / 2, floatY + coin.height / 2, coin.width / 3, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Reflejo
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.beginPath();
+            ctx.arc(x + coin.width * 0.7, floatY + coin.height * 0.3, coin.width * 0.1, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Dibujar meta
+        function drawGoal(goal) {
+            const x = goal.x - gameState.camera.x;
+            const y = goal.y - gameState.camera.y;
+            
+            if (x + goal.width < 0 || x > config.width) return;
+            
+            // Asta de la bandera
+            ctx.fillStyle = '#795548';
+            ctx.fillRect(x, y, 5, goal.height);
+            
+            // Bandera
+            ctx.fillStyle = '#4CAF50';
+            ctx.beginPath();
+            ctx.moveTo(x + 5, y + 10);
+            ctx.lineTo(x + goal.width - 10, y + 20);
+            ctx.lineTo(x + 5, y + 30);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Efecto de onda en la bandera
+            ctx.strokeStyle = '#388E3C';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x + 5, y + 15);
+            ctx.quadraticCurveTo(x + goal.width / 2, y + 10, x + 5, y + 25);
+            ctx.stroke();
+            
+            // Base
+            ctx.fillStyle = '#5D4037';
+            ctx.fillRect(x - 10, y + goal.height - 10, goal.width, 10);
+            
+            // Efecto 3D en la base
+            ctx.fillStyle = '#3E2723';
+            ctx.beginPath();
+            ctx.moveTo(x - 10, y + goal.height - 10);
+            ctx.lineTo(x, y + goal.height);
+            ctx.lineTo(x + goal.width, y + goal.height);
+            ctx.lineTo(x + goal.width - 10, y + goal.height - 10);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // Verificar colisión
+        function checkCollision(obj1, obj2) {
+            return obj1.x < obj2.x + obj2.width &&
+                   obj1.x + obj1.width > obj2.x &&
+                   obj1.y < obj2.y + obj2.height &&
+                   obj1.y + obj1.height > obj2.y;
+        }
+
+        // Jugador golpeado
+        function playerHit() {
+            gameState.lives--;
+            livesElement.textContent = `Vidas: ${gameState.lives}`;
+            
+            if (gameState.lives <= 0) {
+                gameOver();
+            } else {
+                // Respawn
+                gameState.player.x = 50;
+                gameState.player.y = 400;
+                gameState.player.velocityY = 0;
+                gameState.camera.x = 0;
+            }
+        }
+
+        // Nivel completado
+        function levelComplete() {
+            gameState.gameRunning = false;
+            levelCompleteScreen.classList.remove('hidden');
+        }
+
+        // Game over
+        function gameOver() {
+            gameState.gameRunning = false;
+            gameOverScreen.classList.remove('hidden');
+        }
+
+        // Iniciar el juego cuando se carga la página
+        window.addEventListener('load', initGame);
+    </script>
 </body>
 </html>
