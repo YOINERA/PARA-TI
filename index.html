@@ -97,7 +97,7 @@
         
         #mobile-controls {
         position: fixed;
-        bottom: 20px;
+        bottom: 200px;
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -177,6 +177,50 @@
     </div>
 
     <script>
+        // Al inicio del script (antes de initGame)
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+if (isMobileDevice()) {
+    // Mostrar mensaje para girar pantalla en móvil
+    const orientationMessage = document.createElement('div');
+    orientationMessage.id = 'orientation-message';
+    orientationMessage.innerHTML = 'Gira tu dispositivo a modo horizontal para jugar';
+    document.body.prepend(orientationMessage);
+    
+    // Estilo para el mensaje de orientación
+    const style = document.createElement('style');
+    style.textContent = `
+        #orientation-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            color: white;
+            font-size: 24px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        @media screen and (orientation:portrait) {
+            #orientation-message {
+                display: flex;
+            }
+        }
+        @media screen and (orientation:landscape) {
+            #orientation-message {
+                display: none;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
         // Configuración del juego
         const config = {
             width: window.innerWidth,
