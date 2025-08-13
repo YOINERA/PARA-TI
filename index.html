@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Formas de Decirte que Te Quiero</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffebee;
+            color: #d32f2f;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.5s;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #c2185b;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .love-message {
+            font-size: 1.5em;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f8bbd0;
+            border-radius: 10px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        
+        .love-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .interactive-elements {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .interactive-element {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #f06292;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            font-size: 2em;
+            color: white;
+            user-select: none;
+        }
+        
+        .interactive-element:hover {
+            transform: scale(1.1);
+            background-color: #ec407a;
+        }
+        
+        .heart {
+            width: 100px;
+            height: 100px;
+            background-color: #e91e63;
+            position: relative;
+            transform: rotate(45deg);
+            margin: 30px auto;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .heart:before, .heart:after {
+            content: "";
+            width: 100px;
+            height: 100px;
+            background-color: #e91e63;
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .heart:before {
+            top: -50px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -50px;
+        }
+        
+        @keyframes pulse {
+            0% { transform: rotate(45deg) scale(1); }
+            50% { transform: rotate(45deg) scale(1.1); }
+            100% { transform: rotate(45deg) scale(1); }
+        }
+        
+        .counter {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #7b1fa2;
+        }
+        
+        .hidden-message {
+            margin-top: 30px;
+            padding: 15px;
+            border: 2px dashed #7b1fa2;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .photo-frame {
+            width: 200px;
+            height: 200px;
+            border: 10px solid white;
+            border-radius: 5px;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            background-color: #fce4ec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .photo-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+        }
+        
+        .keyboard-input {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1em;
+            width: 300px;
+            border: 2px solid #ab47bc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tengo 100 formas de decirte que te quiero</h1>
+        <p>Descúbrelas interactuando con los elementos de abajo...</p>
+        
+        <div class="love-message" id="loveMessage">
+            <!-- Aquí aparecerán las frases -->
+        </div>
+        
+        <div class="heart" id="bigHeart"></div>
+        
+        <div class="interactive-elements">
+            <div class="interactive-element" onclick="showRandomMessage()">💖</div>
+            <div class="interactive-element" onclick="showRandomMessage()">🌹</div>
+            <div class="interactive-element" onclick="showRandomMessage()">✨</div>
+            <div class="interactive-element" onclick="showRandomMessage()">🌙</div>
+            <div class="interactive-element" onclick="showRandomMessage()">☀️</div>
+            <div class="interactive-element" onclick="showRandomMessage()">🦋</div>
+        </div>
+        
+        <div class="counter" id="counter">
+            Frases descubiertas: <span id="discoveredCount">0</span>/100
+        </div>
+        
+        <div class="photo-frame" id="photoFrame" onclick="showRandomMessage()">
+            <img id="secretPhoto" src="" alt="Nuestro secreto">
+            <span>Haz clic aquí</span>
+        </div>
+        
+        <div>
+            <input type="text" class="keyboard-input" id="loveInput" placeholder="Escribe 'te quiero' y presiona Enter" onkeypress="checkInput(event)">
+        </div>
+        
+        <div class="hidden-message" id="hiddenMessage">
+            <!-- Mensaje especial aparecerá aquí -->
+        </div>
+    </div>
+
+    <script>
+        // Todas las frases de amor
+        const loveMessages = [
+            "Te quiero en voz alta y en silencio.",
+            "Te quiero cuando estás y cuando no estás.",
+            "Te quiero en las palabras y en las pausas.",
+            "Te quiero como se quiere al primer rayo de sol.",
+            "Te quiero como se guarda un secreto.",
+            "Te quiero con miedo y con valentía.",
+            "Te quiero como si fuera la última vez.",
+            "Te quiero como si fuera la primera.",
+            "Te quiero en cada latido.",
+            "Te quiero aunque no lo sepas.",
+            // ... Agrega todas las demás frases aquí
+            "Te quiero como si fueras tú.",
+            "Te quiero porque eres tú."
+        ];
+        
+        // Frases ya mostradas
+        let shownMessages = [];
+        let discoveredCount = 0;
+        
+        // Elementos del DOM
+        const loveMessageElement = document.getElementById('loveMessage');
+        const bigHeartElement = document.getElementById('bigHeart');
+        const counterElement = document.getElementById('discoveredCount');
+        const photoFrameElement = document.getElementById('photoFrame');
+        const hiddenMessageElement = document.getElementById('hiddenMessage');
+        const loveInputElement = document.getElementById('loveInput');
+        
+        // Mostrar un mensaje aleatorio
+        function showRandomMessage() {
+            // Si ya se mostraron todas, reiniciar
+            if (shownMessages.length === loveMessages.length) {
+                shownMessages = [];
+            }
+            
+            // Encontrar un mensaje no mostrado
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * loveMessages.length);
+            } while (shownMessages.includes(randomIndex));
+            
+            // Mostrar el mensaje
+            const message = loveMessages[randomIndex];
+            loveMessageElement.textContent = message;
+            loveMessageElement.classList.add('show');
+            
+            // Agregar a los mostrados
+            shownMessages.push(randomIndex);
+            
+            // Actualizar contador si es nuevo
+            if (!shownMessages.includes(randomIndex)) {
+                discoveredCount++;
+                counterElement.textContent = discoveredCount;
+            }
+            
+            // Cambiar color de fondo aleatorio
+            const colors = ['#ffebee', '#fce4ec', '#f3e5f5', '#e8eaf6', '#e3f2fd', '#e0f7fa', '#e0f2f1', '#f1f8e9', '#f9fbe7', '#fffde7', '#fff8e1'];
+            document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Mostrar mensaje especial al descubrir cierta cantidad
+            if (discoveredCount === 10) {
+                hiddenMessageElement.style.display = 'block';
+                hiddenMessageElement.textContent = "Cada frase que descubres es un latido de mi corazón por ti.";
+            } else if (discoveredCount === 25) {
+                hiddenMessageElement.style.display = 'block';
+                hiddenMessageElement.textContent = "Eres mi pensamiento favorito en el día y mi sueño preferido en la noche.";
+            } else if (discoveredCount === 50) {
+                hiddenMessageElement.style.display = 'block';
+                hiddenMessageElement.textContent = "Llegaste a mi vida como la primavera: llena de color y promesas de felicidad.";
+            } else if (discoveredCount === 75) {
+                hiddenMessageElement.style.display = 'block';
+                hiddenMessageElement.textContent = "Si el amor fuera un mapa, tú serías mi destino final.";
+            } else if (discoveredCount === 100) {
+                hiddenMessageElement.style.display = 'block';
+                hiddenMessageElement.textContent = "Has descubierto todas mis formas de quererte... pero créeme, hay infinitas más.";
+            }
+        }
+        
+        // Interacción con el corazón grande
+        bigHeartElement.addEventListener('click', function() {
+            showRandomMessage();
+            this.style.animation = 'none';
+            setTimeout(() => {
+                this.style.animation = 'pulse 1.5s infinite';
+            }, 10);
+        });
+        
+        // Interacción con el teclado
+        function checkInput(event) {
+            if (event.key === 'Enter') {
+                if (loveInputElement.value.toLowerCase().includes('te quiero')) {
+                    showRandomMessage();
+                    loveInputElement.value = '';
+                }
+            }
+        }
+        
+        // Mostrar foto especial al hacer clic en el marco (puedes reemplazar con una foto real)
+        photoFrameElement.addEventListener('click', function() {
+            const secretPhoto = document.getElementById('secretPhoto');
+            if (secretPhoto.style.display === 'block') {
+                secretPhoto.style.display = 'none';
+                photoFrameElement.querySelector('span').style.display = 'block';
+            } else {
+                // Aquí podrías cargar una foto real
+                photoFrameElement.querySelector('span').style.display = 'none';
+                secretPhoto.style.display = 'block';
+                showRandomMessage();
+            }
+        });
+        
+        // Inicializar
+        showRandomMessage();
+    </script>
+</body>
+</html>
