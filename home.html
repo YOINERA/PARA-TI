@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLIN PET</title>
+    <style>
+        :root {
+            --primary-color: #0077b6;
+            --secondary-color: #caf0f8;
+            --accent-color: #00b4d8;
+            --text-color: #333;
+            --light-color: #fff;
+            --error-color: #e63946;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: var(--light-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .filters-section {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            width: 300px;
+            flex-shrink: 0;
+        }
+        
+        .results-section {
+            flex-grow: 1;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus,
+        select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 180, 216, 0.2);
+        }
+        
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox-option input {
+            margin-right: 8px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            background-color: #00669c;
+        }
+        
+        .btn-secondary {
+            background-color: #f1f1f1;
+            color: var(--text-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e1e1e1;
+        }
+        
+        .btn-ai {
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        .btn-ai:hover {
+            background-color: #0096c7;
+        }
+        
+        .pets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .pet-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .pet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .pet-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .pet-info {
+            padding: 15px;
+        }
+        
+        .pet-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .pet-details {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .pet-details span {
+            display: block;
+            margin-bottom: 3px;
+        }
+        
+        .pet-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .btn-view {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-view:hover {
+            background-color: #ade8f4;
+        }
+        
+        .btn-adopt {
+            background-color: var(--success-color);
+            color: var(--light-color);
+        }
+        
+        .btn-adopt:hover {
+            background-color: #27ae60;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .no-results i {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+        
+        .search-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .search-tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .search-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+        
+        .search-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .pet-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .modal-content {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 22px;
+            color: var(--primary-color);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pet-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .pet-gallery img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .pet-gallery img.main-image {
+            grid-column: span 3;
+            height: 250px;
+        }
+        
+        .pet-detail {
+            margin-bottom: 15px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            color: var(--text-color);
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .success-message {
+            background-color: rgba(46, 204, 113, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .filters-section {
+                width: 100%;
+            }
+            
+            .pet-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .pet-gallery img.main-image {
+                grid-column: span 2;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="nav">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <span>CLIN PET</span>
+                </div>
+                <div class="nav-links">
+                    <a href="home.html"><i class="fas fa-home"></i> Inicio</a>
+                    <a href="#"><i class="fas fa-heart"></i> Adopciones</a>
+                    <a href="RecomendacionIA.html"><i class="fas fa-robot"></i> Recomendaciones</a>
+                    <a href="#"><i class="fas fa-user"></i> Mi Perfil</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="search-options">
+            <h2>Buscar Mascotas</h2>
+            <div>
+                <button class="btn btn-ai" id="recIA">
+                    <i class="fas fa-robot" ></i> Recomendación por IA
+                </button>
+            </div>
+        </div>
+        
+        <div class="search-tabs">
+            <div class="search-tab active">Búsqueda</div>
+        </div>
+        
+        <div class="search-container">
+            <!-- Sección de filtros -->
+            <div class="filters-section">
+                <h3 class="section-title">Filtrar Mascotas</h3>
+                
+                <div class="form-group">
+                    <label for="pet-type">Tipo de mascota</label>
+                    <select id="pet-type">
+                        <option value="">Todos</option>
+                        <option value="dog">Perro</option>
+                        <option value="cat">Gato</option>
+                        <option value="bird">Ave</option>
+                        <option value="other">Otros</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="breed">Raza</label>
+                    <input type="text" id="breed" placeholder="Ej: Labrador, Siames">
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Edad</label>
+                    <select id="age">
+                        <option value="">Cualquier edad</option>
+                        <option value="puppy">Cachorro (0-1 año)</option>
+                        <option value="young">Joven (1-3 años)</option>
+                        <option value="adult">Adulto (3-8 años)</option>
+                        <option value="senior">Senior (8+ años)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="size">Tamaño</label>
+                    <select id="size">
+                        <option value="">Cualquier tamaño</option>
+                        <option value="small">Pequeño</option>
+                        <option value="medium">Mediano</option>
+                        <option value="large">Grande</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">Género</label>
+                    <select id="gender">
+                        <option value="">Cualquier género</option>
+                        <option value="male">Macho</option>
+                        <option value="female">Hembra</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Nivel de actividad</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="activity-low" name="activity" value="low">
+                            <label for="activity-low">Tranquilo</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="activity-medium" name="activity" value="medium">
+                            <label for="activity-medium">Moderado</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="activity-high" name="activity" value="high">
+                            <label for="activity-high">Activo</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Necesidades especiales</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="special-diet" name="special-needs" value="diet">
+                            <label for="special-diet">Dieta especial</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="special-meds" name="special-needs" value="meds">
+                            <label for="special-meds">Medicación</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="special-mobility" name="special-needs" value="mobility">
+                            <label for="special-mobility">Movilidad reducida</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="search-btn">
+                    <i class="fas fa-search"></i> Buscar Mascotas
+                </button>
+            </div>
+            
+            <!-- Sección de resultados -->
+            <div class="results-section">
+                <h3 class="section-title">Resultados</h3>
+                
+                <div class="success-message" id="success-message">
+                    <i class="fas fa-check-circle"></i> ¡Solicitud enviada con éxito! Nos pondremos en contacto contigo pronto.
+                </div>
+                
+                <div class="pets-grid" id="pets-grid">
+                    <!-- Mascota 1 -->
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Perro" class="pet-image">
+                        <div class="pet-info">
+                            <h4 class="pet-name">Max</h4>
+                            <div class="pet-details">
+                                <span><i class="fas fa-dog"></i> Perro - Labrador</span>
+                                <span><i class="fas fa-birthday-cake"></i> 2 años</span>
+                                <span><i class="fas fa-arrows-alt-v"></i> Mediano</span>
+                                <span><i class="fas fa-heartbeat"></i> Buen estado de salud</span>
+                            </div>
+                            <div class="pet-actions">
+                                <button class="btn btn-small btn-view" data-pet-id="1">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                                <button class="btn btn-small btn-adopt" data-pet-id="1">
+                                    <i class="fas fa-heart"></i> Adoptar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mascota 2 -->
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Gato" class="pet-image">
+                        <div class="pet-info">
+                            <h4 class="pet-name">Luna</h4>
+                            <div class="pet-details">
+                                <span><i class="fas fa-cat"></i> Gato - Siames</span>
+                                <span><i class="fas fa-birthday-cake"></i> 1 año</span>
+                                <span><i class="fas fa-arrows-alt-v"></i> Pequeño</span>
+                                <span><i class="fas fa-heartbeat"></i> Necesita dieta especial</span>
+                            </div>
+                            <div class="pet-actions">
+                                <button class="btn btn-small btn-view" data-pet-id="2">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                                <button class="btn btn-small btn-adopt" data-pet-id="2">
+                                    <i class="fas fa-heart"></i> Adoptar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mascota 3 -->
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Perro" class="pet-image">
+                        <div class="pet-info">
+                            <h4 class="pet-name">Rocky</h4>
+                            <div class="pet-details">
+                                <span><i class="fas fa-dog"></i> Perro - Bulldog</span>
+                                <span><i class="fas fa-birthday-cake"></i> 5 años</span>
+                                <span><i class="fas fa-arrows-alt-v"></i> Mediano</span>
+                                <span><i class="fas fa-heartbeat"></i> Movilidad reducida</span>
+                            </div>
+                            <div class="pet-actions">
+                                <button class="btn btn-small btn-view" data-pet-id="3">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                                <button class="btn btn-small btn-adopt" data-pet-id="3">
+                                    <i class="fas fa-heart"></i> Adoptar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mascota 4 -->
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Gato" class="pet-image">
+                        <div class="pet-info">
+                            <h4 class="pet-name">Milo</h4>
+                            <div class="pet-details">
+                                <span><i class="fas fa-cat"></i> Gato - Persa</span>
+                                <span><i class="fas fa-birthday-cake"></i> 3 años</span>
+                                <span><i class="fas fa-arrows-alt-v"></i> Pequeño</span>
+                                <span><i class="fas fa-heartbeat"></i> Buen estado de salud</span>
+                            </div>
+                            <div class="pet-actions">
+                                <button class="btn btn-small btn-view" data-pet-id="4">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                                <button class="btn btn-small btn-adopt" data-pet-id="4">
+                                    <i class="fas fa-heart"></i> Adoptar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mascota 5 -->
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Perro" class="pet-image">
+                        <div class="pet-info">
+                            <h4 class="pet-name">Bella</h4>
+                            <div class="pet-details">
+                                <span><i class="fas fa-dog"></i> Perro - Golden Retriever</span>
+                                <span><i class="fas fa-birthday-cake"></i> 4 meses</span>
+                                <span><i class="fas fa-arrows-alt-v"></i> Pequeño</span>
+                                <span><i class="fas fa-heartbeat"></i> Buen estado de salud</span>
+                            </div>
+                            <div class="pet-actions">
+                                <button class="btn btn-small btn-view" data-pet-id="5">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                                <button class="btn btn-small btn-adopt" data-pet-id="5">
+                                    <i class="fas fa-heart"></i> Adoptar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mascota 6 -->
+                    <div class="pet-card">
+                        <img src="https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Toby" class="pet-image">
+                        <div class="pet-info">
+                            <h4 class="pet-name">Toby</h4>
+                            <div class="pet-details">
+                                <span><i class="fas fa-dog"></i> Perro - Mestizo</span>
+                                <span><i class="fas fa-birthday-cake"></i> 7 años</span>
+                                <span><i class="fas fa-arrows-alt-v"></i> Grande</span>
+                                <span><i class="fas fa-heartbeat"></i> Medicación diaria</span>
+                            </div>
+                            <div class="pet-actions">
+                                <button class="btn btn-small btn-view" data-pet-id="6">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                                <button class="btn btn-small btn-adopt" data-pet-id="6">
+                                    <i class="fas fa-heart"></i> Adoptar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="no-results" id="no-results" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <h4>No se encontraron mascotas</h4>
+                    <p>Intenta ajustar tus filtros de búsqueda o usa nuestra recomendación por IA</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de detalle de mascota -->
+    <div class="pet-modal" id="pet-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Detalle de Mascota</h3>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="pet-gallery">
+                    <img src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Max" class="main-image">
+                    <img src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Max 1">
+                    <img src="https://images.unsplash.com/photo-1583511655826-05700d52f4d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Max 2">
+                    <img src="https://images.unsplash.com/photo-1583511655826-05700d52f4d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Max 3">
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Nombre</div>
+                    <div class="detail-value">Max</div>
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Especie/Raza</div>
+                    <div class="detail-value">Perro - Labrador</div>
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Edad</div>
+                    <div class="detail-value">2 años</div>
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Tamaño</div>
+                    <div class="detail-value">Mediano (15-25 kg)</div>
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Género</div>
+                    <div class="detail-value">Macho</div>
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Nivel de actividad</div>
+                    <div class="detail-value">Moderado - Necesita ejercicio diario</div>
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Estado de salud</div>
+                    <div class="detail-value">Buen estado de salud, vacunado y esterilizado</div>
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Comportamiento</div>
+                    <div class="detail-value">Amigable con personas y otros perros, un poco tímido al principio pero muy cariñoso una vez que gana confianza.</div>
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Historial médico</div>
+                    <div class="detail-value">Vacunas al día, desparasitado mensualmente. No tiene alergias conocidas.</div>
+                </div>
+                
+                <div class="pet-detail">
+                    <div class="detail-label">Recomendaciones especiales</div>
+                    <div class="detail-value">Se recomienda familia con experiencia en perros, idealmente con patio o acceso a áreas verdes para ejercicio.</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-modal">Cancelar</button>
+                <button class="btn btn-primary" id="adopt-modal">
+                    <a href="SolicitarAdopcion.html" class="btn btn-primary">
+    <i class="fas fa-heart"></i> Solicitar Adopción
+</a>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables
+            const viewButtons = document.querySelectorAll('.btn-view');
+            const adoptButtons = document.querySelectorAll('.btn-adopt');
+            const petModal = document.getElementById('pet-modal');
+            const closeModal = document.getElementById('close-modal');
+            const cancelModal = document.getElementById('cancel-modal');
+            const adoptModal = document.getElementById('adopt-modal');
+            const searchBtn = document.getElementById('search-btn');
+            const successMessage = document.getElementById('success-message');
+            const petsGrid = document.getElementById('pets-grid');
+            const noResults = document.getElementById('no-results');
+            const aiBtn = document.querySelector('.btn-ai');
+            
+            // Mostrar modal al hacer clic en Ver
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const petId = this.getAttribute('data-pet-id');
+                    // Aquí podrías cargar datos específicos de la mascota según petId
+                    petModal.style.display = 'flex';
+                });
+            });
+            
+            // Mostrar modal al hacer clic en Adoptar
+            adoptButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const petId = this.getAttribute('data-pet-id');
+                    // Aquí podrías cargar datos específicos de la mascota según petId
+                    petModal.style.display = 'flex';
+                });
+            });
+            
+            // Cerrar modal
+            closeModal.addEventListener('click', function() {
+                petModal.style.display = 'none';
+            });
+            
+            cancelModal.addEventListener('click', function() {
+                petModal.style.display = 'none';
+            });
+            
+            // Solicitar adopción
+            // Solicitar adopción
+adoptModal.addEventListener('click', function() {
+    // Redirigir a la página de solicitud de adopción
+    window.location.href = 'solicitaradopcion.html';
+});
+            
+            // Buscar mascotas
+            searchBtn.addEventListener('click', function() {
+                // Simular búsqueda con filtros
+                const petType = document.getElementById('pet-type').value;
+                const age = document.getElementById('age').value;
+                
+                // Ejemplo: si se filtra por gatos y no hay gatos en los resultados
+                if (petType === 'cat' && age === 'puppy') {
+                    petsGrid.style.display = 'none';
+                    noResults.style.display = 'block';
+                } else {
+                    petsGrid.style.display = 'grid';
+                    noResults.style.display = 'none';
+                }
+            });
+            
+            // Recomendación por IA
+            recIA.addEventListener('click', function() {
+                window.location.href = 'RecomendacionIA.html'; // Redirigir a la página principal después del registro
+            });
+            
+            // Cambiar pestañas
+            const tabs = document.querySelectorAll('.search-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (this.textContent === 'Mis solicitudes') {
+                        petsGrid.style.display = 'none';
+                        noResults.style.display = 'block';
+                        noResults.innerHTML = `
+                            <i class="fas fa-clipboard-list"></i>
+                            <h4>No tienes solicitudes pendientes</h4>
+                            <p>Cuando solicites adoptar una mascota, aparecerán aquí</p>
+                        `;
+                    } else {
+                        petsGrid.style.display = 'grid';
+                        noResults.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
