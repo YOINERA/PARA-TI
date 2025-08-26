@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLIN PET</title>
+    <title>CIPET</title>
     <style>
         :root {
             --primary-color: #0077b6;
@@ -503,7 +503,7 @@
         <div class="container">
             <div class="logo">
                 <i class="fas fa-paw"></i>
-                <span>CLIN PET</span>
+                <span>CIPET</span>
             </div>
         </div>
     </header>
@@ -591,11 +591,6 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="dni" class="required-field">DNI</label>
-                            <input type="text" id="dni" name="dni" required>
-                        </div>
-                        
-                        <div class="form-group">
                             <label for="address" class="required-field">Dirección</label>
                             <textarea id="address" name="address" rows="2" required></textarea>
                         </div>
@@ -616,11 +611,11 @@
                             <label for="income" class="required-field">Aproximado de ingresos al mes</label>
                             <select id="income" name="income" required>
                                 <option value="">Seleccione un rango</option>
-                                <option value="1">Menos de $500</option>
-                                <option value="2">$500 - $1,000</option>
-                                <option value="3">$1,000 - $1,500</option>
-                                <option value="4">$1,500 - $2,000</option>
-                                <option value="5">Más de $2,000</option>
+                                <option value="1">Menos de S/ 1200</option>
+                                <option value="2">S/ 1200 - S/ 2000</option>
+                                <option value="3">S/ 2000 - S/ 3000</option>
+                                <option value="4">S/ 3000 - S/ 4500</option>
+                                <option value="5">Más de S/ 4500</option>
                             </select>
                         </div>
                         
@@ -799,7 +794,6 @@
                 const firstName = document.getElementById('first-name').value;
                 const lastName = document.getElementById('last-name').value;
                 const phone = document.getElementById('phone').value;
-                const dni = document.getElementById('dni').value;
                 const address = document.getElementById('address').value;
                 
                 // Validar contraseña
@@ -832,7 +826,7 @@
                 }
                 
                 // Validar campos requeridos
-                if (!email || !password || !confirmPassword || !firstName || !lastName || !phone || !dni || !address) {
+                if (!email || !password || !confirmPassword || !firstName || !lastName || !phone || !address) {
                     alert('Por favor complete todos los campos requeridos');
                     return;
                 }

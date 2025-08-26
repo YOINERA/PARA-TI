@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLIN PET</title>
+    <title>CIPET</title>
     <style>
+        
+
         :root {
             --primary-color: #0077b6;
             --secondary-color: #caf0f8;
@@ -434,7 +436,7 @@
             <div class="nav">
                 <div class="logo">
                     <i class="fas fa-paw"></i>
-                    <span>CLIN PET</span>
+                    <span>CIPET</span>
                 </div>
                 <div class="nav-links">
                     <a href="home.html"><i class="fas fa-home"></i> Inicio</a>
@@ -485,7 +487,6 @@
                                 <li><i class="fas fa-check"></i> Vacunas al día</li>
                                 <li><i class="fas fa-check"></i> Esterilizado</li>
                                 <li><i class="fas fa-check"></i> Desparasitado</li>
-                                <li><i class="fas fa-check"></i> Microchip implantado</li>
                             </ul>
                         </div>
                         
@@ -543,11 +544,22 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="city" class="required-field">Ciudad</label>
-                        <input type="text" id="city" name="city" required>
+                    <select id="city" name="city" required>
+                        <option value="" disabled selected>Seleccione una ciudad</option>
+                        <option value="lima">Lima</option>
+                        <option value="arequipa">Arequipa</option>
+                        <option value="trujillo">Trujillo</option>
+                        <option value="cusco">Cusco</option>
+                        <option value="chiclayo">Chiclayo</option>
+                        <option value="piura">Piura</option>
+                        <option value="iquitos">Iquitos</option>
+                    </select>
                     </div>
                     <div class="form-group">
                         <label for="district" class="required-field">Distrito</label>
-                        <input type="text" id="district" name="district" required>
+                    <select id="district" name="district" required disabled>
+                        <option value="" disabled selected>Primero seleccione una ciudad</option>
+                    </select>
                     </div>
                 </div>
                 
@@ -736,6 +748,71 @@
                    e.target.parentElement.classList.contains('file-remove')) {
                     const fileItem = e.target.closest('.file-item');
                     fileItem.parentElement.removeChild(fileItem);
+                }
+            });
+
+            const citySelect = document.getElementById('city');
+            const districtSelect = document.getElementById('district');
+            const form = document.getElementById('locationForm');
+            
+            // Datos de distritos por ciudad
+            const districtsByCity = {
+                lima: [
+                    "Miraflores", "San Isidro", "Barranco", "Surco", "La Molina", 
+                    "Jesús María", "Lince", "Pueblo Libre", "San Miguel", "Magdalena"
+                ],
+                arequipa: [
+                    "Yanahuara", "Cayma", "Cerro Colorado", "Sachaca", "Hunter", 
+                    "Jacobo Hunter", "Alto Selva Alegre", "Mariano Melgar", "Miraflores"
+                ],
+                trujillo: [
+                    "Trujillo", "La Esperanza", "El Porvenir", "Florencia de Mora", 
+                    "Huanchaco", "Laredo", "Moche", "Salaverry", "Victor Larco Herrera"
+                ],
+                cusco: [
+                    "Cusco", "San Jerónimo", "San Sebastián", "Santiago", "Wanchaq",
+                    "Saylla", "Oropesa", "Poroy", "Ccorca"
+                ],
+                chiclayo: [
+                    "Chiclayo", "José Leonardo Ortiz", "La Victoria", "Pimentel", 
+                    "Pomalca", "Pátapo", "Pucalá", "Tuman", "Reque"
+                ],
+                piura: [
+                    "Piura", "Castilla", "Catacaos", "Cura Mori", "El Tallán", 
+                    "La Arena", "La Unión", "Las Lomas", "Tambo Grande"
+                ],
+                iquitos: [
+                    "Iquitos", "Punchana", "Belén", "San Juan Bautista", 
+                    "Las Amazonas", "Mazan", "Nauta", "Requena"
+                ]
+            };
+            
+            // Cuando se cambia la ciudad
+            citySelect.addEventListener('change', function() {
+                const selectedCity = this.value;
+                
+                // Habilitar el selector de distritos
+                districtSelect.disabled = false;
+                
+                // Limpiar opciones actuales
+                districtSelect.innerHTML = '';
+                
+                // Agregar opción por defecto
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                defaultOption.textContent = 'Seleccione un distrito';
+                districtSelect.appendChild(defaultOption);
+                
+                // Agregar distritos según la ciudad seleccionada
+                if (selectedCity && districtsByCity[selectedCity]) {
+                    districtsByCity[selectedCity].forEach(function(district) {
+                        const option = document.createElement('option');
+                        option.value = district.toLowerCase().replace(/\s+/g, '-');
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
                 }
             });
             

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Adoptantes - CLIN PET</title>
+    <title>CIPET</title>
     <style>
         :root {
             --primary-color: #0077b6;
@@ -239,19 +239,19 @@
             font-weight: 500;
         }
         
-        .status.active {
+        .status.pending {
+            background-color: rgba(255, 158, 0, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .status.approved {
             background-color: rgba(46, 204, 113, 0.1);
             color: var(--success-color);
         }
         
-        .status.inactive {
+        .status.rejected {
             background-color: rgba(230, 57, 70, 0.1);
             color: var(--error-color);
-        }
-        
-        .status.pending {
-            background-color: rgba(255, 158, 0, 0.1);
-            color: var(--warning-color);
         }
         
         .action-btn {
@@ -275,13 +275,13 @@
             margin-right: 5px;
         }
         
-        .action-btn.block {
-            background-color: rgba(255, 158, 0, 0.1);
-            color: var(--warning-color);
+        .action-btn.approve {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success-color);
             margin-right: 5px;
         }
         
-        .action-btn.delete {
+        .action-btn.reject {
             background-color: rgba(230, 57, 70, 0.1);
             color: var(--error-color);
         }
@@ -309,7 +309,7 @@
             background-color: var(--light-color);
             border-radius: 8px;
             width: 90%;
-            max-width: 600px;
+            max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -400,6 +400,11 @@
             color: white;
         }
         
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
         .btn-danger {
             background-color: var(--error-color);
             color: white;
@@ -433,6 +438,97 @@
             margin-top: 5px;
         }
         
+        .pet-info {
+            display: flex;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .pet-image {
+            width: 150px;
+            height: 150px;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pet-image i {
+            font-size: 50px;
+            color: #ccc;
+        }
+        
+        .pet-details {
+            padding: 15px;
+            flex: 1;
+        }
+        
+        .pet-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .pet-breed {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .pet-description {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 4px;
+            background-color: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            z-index: 2000;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .notification i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .notification.error {
+            background-color: var(--error-color);
+        }
+        
+        .notification.warning {
+            background-color: var(--warning-color);
+        }
+        
+        .filter-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+        }
+        
         @media (max-width: 768px) {
             .admin-container {
                 flex-direction: column;
@@ -457,7 +553,79 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+            
+            .pet-info {
+                flex-direction: column;
+            }
+            
+            .pet-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .filter-container {
+                flex-direction: column;
+            }
         }
+
+        /* Estilos para la simulación de correo */
+.email-simulation {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.email-header {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.email-subject {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.email-info {
+    font-size: 14px;
+    color: #666;
+}
+
+.email-info div {
+    margin-bottom: 5px;
+}
+
+.email-content {
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.email-loading, .email-success {
+    text-align: center;
+    padding: 30px;
+    display: none;
+}
+
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.email-success i {
+    font-size: 40px;
+    color: var(--success-color);
+    margin-bottom: 15px;
+}
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -468,7 +636,7 @@
             <div class="sidebar-header">
                 <div class="sidebar-title">
                     <i class="fas fa-paw"></i>
-                    <span>CLIN PET</span>
+                    <span>CIPET</span>
                 </div>
                 <div style="font-size: 12px; color: #aaa; margin-top: 5px;">Panel de Administración</div>
             </div>
@@ -478,7 +646,7 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </div>
-                <div class="menu-item active">
+                <div class="menu-item">
                     <i class="fas fa-users"></i>
                     <span>Adoptantes</span>
                 </div>
@@ -486,7 +654,7 @@
                     <i class="fas fa-dog"></i>
                     <span>Mascotas</span>
                 </div>
-                <div class="menu-item">
+                <div class="menu-item active">
                     <i class="fas fa-file-alt"></i>
                     <span>Solicitudes</span>
                 </div>
@@ -508,7 +676,7 @@
         <!-- Main Content -->
         <div class="main-content">
             <div class="header">
-                <h1 class="page-title">Gestión de Adoptantes</h1>
+                <h1 class="page-title">Gestión de Solicitudes de Adopción</h1>
                 <div class="user-menu">
                     <span>Admin User</span>
                     <div class="user-avatar">
@@ -520,121 +688,128 @@
             <!-- Dashboard Cards -->
             <div class="dashboard-cards">
                 <div class="card">
-                    <div class="card-title">Adoptantes Registrados</div>
-                    <div class="card-value">1,248</div>
+                    <div class="card-title">Total Solicitudes</div>
+                    <div class="card-value">156</div>
                     <div class="card-info positive">
-                        <i class="fas fa-arrow-up"></i> 12% este mes
+                        <i class="fas fa-arrow-up"></i> 15% este mes
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-title">Adoptantes Activos</div>
-                    <div class="card-value">892</div>
+                    <div class="card-title">Solicitudes Pendientes</div>
+                    <div class="card-value">78</div>
+                    <div class="card-info">
+                        <i class="fas fa-equals"></i> Igual que la semana pasada
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Solicitudes Aprobadas</div>
+                    <div class="card-value">52</div>
                     <div class="card-info positive">
                         <i class="fas fa-arrow-up"></i> 8% este mes
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-title">Adoptantes Bloqueados</div>
-                    <div class="card-value">24</div>
+                    <div class="card-title">Solicitudes Rechazadas</div>
+                    <div class="card-value">26</div>
                     <div class="card-info negative">
-                        <i class="fas fa-arrow-down"></i> 2% este mes
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-title">Solicitudes Pendientes</div>
-                    <div class="card-value">156</div>
-                    <div class="card-info">
-                        <i class="fas fa-equals"></i> Igual que el mes pasado
+                        <i class="fas fa-arrow-down"></i> 5% este mes
                     </div>
                 </div>
             </div>
             
-            <!-- Adopters Table -->
+            <!-- Filters -->
+            <div class="filter-container">
+                <select class="filter-select" id="status-filter">
+                    <option value="all">Todas las solicitudes</option>
+                    <option value="pending">Pendientes</option>
+                    <option value="approved">Aprobadas</option>
+                    <option value="rejected">Rechazadas</option>
+                </select>
+                
+                <select class="filter-select" id="date-filter">
+                    <option value="newest">Más recientes primero</option>
+                    <option value="oldest">Más antiguas primero</option>
+                </select>
+            </div>
+            
+            <!-- Requests Table -->
             <div class="table-container">
                 <div class="table-header">
-                    <h2 class="table-title">Lista de Adoptantes</h2>
+                    <h2 class="table-title">Lista de Solicitudes</h2>
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Buscar adoptante...">
+                        <input type="text" placeholder="Buscar solicitud..." id="search-input">
                     </div>
                 </div>
                 
-                <table>
+                <table id="requests-table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Ubicación</th>
+                            <th>Adoptante</th>
+                            <th>Mascota</th>
+                            <th>Fecha</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>#1001</td>
+                        <tr data-status="pending">
+                            <td>#SOL001</td>
                             <td>María González</td>
-                            <td>maria.g@example.com</td>
-                            <td>+51 987654321</td>
-                            <td>Lima</td>
-                            <td><span class="status active">Activo</span></td>
+                            <td>Max (Labrador)</td>
+                            <td>15/04/2023</td>
+                            <td><span class="status pending">Pendiente</span></td>
                             <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn block"><i class="fas fa-ban"></i></button>
+                                <button class="action-btn view" data-id="SOL001"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn approve" data-id="SOL001"><i class="fas fa-check"></i></button>
+                                <button class="action-btn reject" data-id="SOL001"><i class="fas fa-times"></i></button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>#1002</td>
+                        <tr data-status="approved">
+                            <td>#SOL002</td>
                             <td>Carlos Mendoza</td>
-                            <td>carlos.m@example.com</td>
-                            <td>+51 987654322</td>
-                            <td>Arequipa</td>
-                            <td><span class="status active">Activo</span></td>
+                            <td>Luna (Siamesa)</td>
+                            <td>12/04/2023</td>
+                            <td><span class="status approved">Aprobada</span></td>
                             <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn block"><i class="fas fa-ban"></i></button>
+                                <button class="action-btn view" data-id="SOL002"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit" data-id="SOL002"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>#1003</td>
+                        <tr data-status="rejected">
+                            <td>#SOL003</td>
                             <td>Lucía Ramírez</td>
-                            <td>lucia.r@example.com</td>
-                            <td>+51 987654323</td>
-                            <td>Trujillo</td>
-                            <td><span class="status inactive">Bloqueado</span></td>
+                            <td>Rocky (Bulldog)</td>
+                            <td>10/04/2023</td>
+                            <td><span class="status rejected">Rechazada</span></td>
                             <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn view" data-id="SOL003"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit" data-id="SOL003"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>#1004</td>
+                        <tr data-status="pending">
+                            <td>#SOL004</td>
                             <td>Jorge Silva</td>
-                            <td>jorge.s@example.com</td>
-                            <td>+51 987654324</td>
-                            <td>Cusco</td>
-                            <td><span class="status pending">En revisión</span></td>
+                            <td>Bella (Golden)</td>
+                            <td>08/04/2023</td>
+                            <td><span class="status pending">Pendiente</span></td>
                             <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn block"><i class="fas fa-ban"></i></button>
+                                <button class="action-btn view" data-id="SOL004"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn approve" data-id="SOL004"><i class="fas fa-check"></i></button>
+                                <button class="action-btn reject" data-id="SOL004"><i class="fas fa-times"></i></button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>#1005</td>
+                        <tr data-status="pending">
+                            <td>#SOL005</td>
                             <td>Ana Torres</td>
-                            <td>ana.t@example.com</td>
-                            <td>+51 987654325</td>
-                            <td>Chiclayo</td>
-                            <td><span class="status active">Activo</span></td>
+                            <td>Simba (Mestizo)</td>
+                            <td>05/04/2023</td>
+                            <td><span class="status pending">Pendiente</span></td>
                             <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn block"><i class="fas fa-ban"></i></button>
+                                <button class="action-btn view" data-id="SOL005"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn approve" data-id="SOL005"><i class="fas fa-check"></i></button>
+                                <button class="action-btn reject" data-id="SOL005"><i class="fas fa-times"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -643,139 +818,664 @@
         </div>
     </div>
     
-    <!-- Modal de Detalle de Adoptante -->
-    <div class="modal-overlay" id="adopter-modal">
+    <!-- Modal de Detalle de Solicitud -->
+    <div class="modal-overlay" id="request-modal">
         <div class="modal">
             <div class="modal-header">
-                <h3 class="modal-title">Detalle del Adoptante</h3>
+                <h3 class="modal-title">Detalle de Solicitud de Adopción</h3>
                 <button class="close-modal">&times;</button>
             </div>
             <div class="modal-body">
+                <div class="pet-info">
+                    <div class="pet-image">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    <div class="pet-details">
+                        <div class="pet-name" id="modal-pet-name">Max</div>
+                        <div class="pet-breed" id="modal-pet-breed">Labrador Retriever - 2 años</div>
+                        <div class="pet-description" id="modal-pet-description">
+                            Labrador macho, esterilizado, con todas sus vacunas al día. Juguetón y amigable con niños y otros perros.
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 style="margin-bottom: 15px;">Información del Adoptante</h4>
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label>Nombre Completo</label>
-                        <input type="text" value="María González">
+                        <input type="text" id="adopter-name" value="María González" readonly>
                     </div>
                     <div class="form-group">
                         <label>DNI</label>
-                        <input type="text" value="12345678">
+                        <input type="text" id="adopter-dni" value="12345678" readonly>
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" value="maria.g@example.com">
+                        <input type="email" id="adopter-email" value="maria.g@example.com" readonly>
                     </div>
                     <div class="form-group">
                         <label>Teléfono</label>
-                        <input type="tel" value="+51 987654321">
+                        <input type="tel" id="adopter-phone" value="+51 987654321" readonly>
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label>Dirección</label>
-                        <input type="text" value="Av. Lima 123, Miraflores">
+                        <input type="text" id="adopter-address" value="Av. Lima 123, Miraflores" readonly>
                     </div>
                     <div class="form-group">
                         <label>Ciudad</label>
-                        <input type="text" value="Lima">
+                        <input type="text" id="adopter-city" value="Lima" readonly>
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Fecha de Registro</label>
-                        <input type="text" value="15/03/2023" readonly>
+                        <label>Fecha de Solicitud</label>
+                        <input type="text" id="request-date" value="15/04/2023" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Estado</label>
-                        <select>
-                            <option value="active" selected>Activo</option>
-                            <option value="inactive">Bloqueado</option>
-                            <option value="pending">En revisión</option>
+                        <label>Estado de Solicitud</label>
+                        <select id="request-status">
+                            <option value="pending">Pendiente</option>
+                            <option value="approved">Aprobada</option>
+                            <option value="rejected">Rechazada</option>
                         </select>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>Información Adicional</label>
-                    <textarea>Vive en departamento con patio pequeño. Tiene experiencia previa con perros. Trabaja desde casa 3 días a la semana.</textarea>
+                    <label>Motivo de Adopción</label>
+                    <textarea id="adoption-reason" readonly>He tenido labradores toda mi vida y extraño la compañía de un perro. Trabajo desde casa y tengo tiempo para dedicarle. Mi departamento tiene espacio suficiente y hay un parque cerca.</textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>Razón de Bloqueo (si aplica)</label>
-                    <textarea placeholder="Describa la razón para bloquear esta cuenta"></textarea>
+                    <label>Experiencia previa con mascotas</label>
+                    <textarea id="previous-experience" readonly>Tuve un labrador durante 12 años que falleció el año pasado por vejez. También tengo experiencia con gatos.</textarea>
+                </div>
+                
+                <div class="form-group" id="rejection-reason-container" style="display: none;">
+                    <label>Razón de Rechazo (si aplica)</label>
+                    <textarea id="rejection-reason" placeholder="Describa la razón para rechazar esta solicitud"></textarea>
                 </div>
                 
                 <div class="activity-log">
-                    <h4>Registro de Actividad</h4>
+                    <h4>Historial de la Solicitud</h4>
                     <div class="log-item">
-                        <div class="log-date">10/04/2023 - 14:30</div>
-                        <div class="log-action">Solicitud de adopción aprobada</div>
-                        <div class="log-details">Adoptó a "Max" (Perro Labrador)</div>
+                        <div class="log-date">15/04/2023 - 14:30</div>
+                        <div class="log-action">Solicitud enviada</div>
+                        <div class="log-details">El adoptante completó el formulario de solicitud</div>
                     </div>
-                    <div class="log-item">
-                        <div class="log-date">05/04/2023 - 09:15</div>
-                        <div class="log-action">Actualización de perfil</div>
-                        <div class="log-details">Cambió su número de teléfono</div>
-                    </div>
-                    <div class="log-item">
-                        <div class="log-date">15/03/2023 - 16:45</div>
-                        <div class="log-action">Registro completado</div>
-                        <div class="log-details">Creó su cuenta en el sistema</div>
+                    <div id="status-history">
+                        <!-- El historial de estados se cargará aquí dinámicamente -->
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary">Cancelar</button>
-                <button class="btn btn-primary">Guardar Cambios</button>
-                <button class="btn btn-danger">Bloquear Cuenta</button>
+                <button class="btn btn-secondary" id="close-modal">Cancelar</button>
+                <button class="btn btn-primary" id="save-changes">Guardar Cambios</button>
             </div>
         </div>
+    </div>
+
+    <!-- Modal de Simulación de Correo -->
+<div class="modal-overlay" id="email-modal">
+    <div class="modal" style="max-width: 600px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Notificación por Correo Electrónico</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="email-simulation">
+                <div class="email-header">
+                    <div class="email-subject">
+                        <strong>Asunto:</strong>
+                        <span id="email-subject">Actualización de su solicitud de adopción</span>
+                    </div>
+                    <div class="email-info">
+                        <div><strong>De:</strong> CIPET &lt;notificaciones@cipet.org&gt;</div>
+                        <div><strong>Para:</strong> <span id="email-to">adoptante@ejemplo.com</span></div>
+                        <div><strong>Fecha:</strong> <span id="email-date">15/04/2023 14:30</span></div>
+                    </div>
+                </div>
+                <div class="email-content" id="email-content">
+                    <!-- Contenido del correo se insertará aquí -->
+                </div>
+                <div class="email-loading" id="email-loading">
+                    <div class="loading-spinner"></div>
+                    <p>Enviando correo electrónico...</p>
+                </div>
+                <div class="email-success" id="email-success">
+                    <i class="fas fa-check-circle"></i>
+                    <p>¡Correo electrónico enviado exitosamente!</p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id="email-close-btn">Cerrar</button>
+        </div>
+    </div>
+</div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Los cambios se guardaron correctamente</span>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Variables globales
+            const modal = document.getElementById('request-modal');
+            const closeModalBtn = document.querySelector('.close-modal');
+            const cancelModalBtn = document.getElementById('close-modal');
+            const saveChangesBtn = document.getElementById('save-changes');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            const statusFilter = document.getElementById('status-filter');
+            const dateFilter = document.getElementById('date-filter');
+            const searchInput = document.getElementById('search-input');
+            const requestStatus = document.getElementById('request-status');
+            const rejectionReasonContainer = document.getElementById('rejection-reason-container');
+            
+            // Datos de ejemplo para las solicitudes
+            const requestsData = {
+                'SOL001': {
+                    adopterName: 'María González',
+                    adopterDni: '12345678',
+                    adopterEmail: 'maria.g@example.com',
+                    adopterPhone: '+51 987654321',
+                    adopterAddress: 'Av. Lima 123, Miraflores',
+                    adopterCity: 'Lima',
+                    requestDate: '15/04/2023',
+                    status: 'pending',
+                    petName: 'Max',
+                    petBreed: 'Labrador Retriever - 2 años',
+                    petDescription: 'Labrador macho, esterilizado, con todas sus vacunas al día. Juguetón y amigable con niños y otros perros.',
+                    adoptionReason: 'He tenido labradores toda mi vida y extraño la compañía de un perro. Trabajo desde casa y tengo tiempo para dedicarle. Mi departamento tiene espacio suficiente y hay un parque cerca.',
+                    previousExperience: 'Tuve un labrador durante 12 años que falleció el año pasado por vejez. También tengo experiencia con gatos.',
+                    history: [
+                        { date: '15/04/2023 - 14:30', action: 'Solicitud enviada', details: 'El adoptante completó el formulario de solicitud' }
+                    ]
+                },
+                'SOL002': {
+                    adopterName: 'Carlos Mendoza',
+                    adopterDni: '87654321',
+                    adopterEmail: 'carlos.m@example.com',
+                    adopterPhone: '+51 987654322',
+                    adopterAddress: 'Calle Arequipa 456, Centro',
+                    adopterCity: 'Arequipa',
+                    requestDate: '12/04/2023',
+                    status: 'approved',
+                    petName: 'Luna',
+                    petBreed: 'Gato Siames - 1 año',
+                    petDescription: 'Gata siamesa, esterilizada, tranquila y cariñosa. Prefiere ambientes calmados.',
+                    adoptionReason: 'Busco un compañero felino para mi apartamento. Trabajo desde casa y puedo dedicarle tiempo y atención.',
+                    previousExperience: 'He tenido gatos toda mi vida. Mi último gato vivió hasta los 16 años.',
+                    history: [
+                        { date: '12/04/2023 - 10:15', action: 'Solicitud enviada', details: 'El adoptante completó el formulario de solicitud' },
+                        { date: '13/04/2023 - 16:20', action: 'Solicitud aprobada', details: 'Administrador: Juan Pérez' }
+                    ]
+                },
+                'SOL003': {
+                    adopterName: 'Lucía Ramírez',
+                    adopterDni: '56781234',
+                    adopterEmail: 'lucia.r@example.com',
+                    adopterPhone: '+51 987654323',
+                    adopterAddress: 'Jr. Trujillo 789',
+                    adopterCity: 'Trujillo',
+                    requestDate: '10/04/2023',
+                    status: 'rejected',
+                    petName: 'Rocky',
+                    petBreed: 'Bulldog Inglés - 3 años',
+                    petDescription: 'Bulldog macho, tranquilo y amigable. Necesita dueños con experiencia en la raza.',
+                    adoptionReason: 'Siempre he querido un bulldog y ahora tengo el espacio y recursos para cuidarlo adecuadamente.',
+                    previousExperience: 'He tenido perros antes pero nunca un bulldog. Estoy dispuesta a aprender sobre sus cuidados especiales.',
+                    history: [
+                        { date: '10/04/2023 - 09:30', action: 'Solicitud enviada', details: 'El adoptante completó el formulario de solicitud' },
+                        { date: '11/04/2023 - 14:45', action: 'Solicitud rechazada', details: 'Administrador: Juan Pérez - Razón: Espacio insuficiente para la raza' }
+                    ]
+                },
+                'SOL004': {
+                    adopterName: 'Jorge Silva',
+                    adopterDni: '43218765',
+                    adopterEmail: 'jorge.s@example.com',
+                    adopterPhone: '+51 987654324',
+                    adopterAddress: 'Av. Cusco 1011',
+                    adopterCity: 'Cusco',
+                    requestDate: '08/04/2023',
+                    status: 'pending',
+                    petName: 'Bella',
+                    petBreed: 'Golden Retriever - 4 meses',
+                    petDescription: 'Cachorra Golden Retriever, juguetona y energética. Necesitará entrenamiento y socialización.',
+                    adoptionReason: 'Queremos una mascota para nuestra familia con dos niños de 8 y 10 años. Les encantan los animales.',
+                    previousExperience: 'Tuvimos un perro mestizo que vivió con nosotros 14 años. Falleció el año pasado.',
+                    history: [
+                        { date: '08/04/2023 - 15:20', action: 'Solicitud enviada', details: 'El adoptante completó el formulario de solicitud' }
+                    ]
+                },
+                'SOL005': {
+                    adopterName: 'Ana Torres',
+                    adopterDni: '87654321',
+                    adopterEmail: 'ana.t@example.com',
+                    adopterPhone: '+51 987654325',
+                    adopterAddress: 'Calle Chiclayo 1213',
+                    adopterCity: 'Chiclayo',
+                    requestDate: '05/04/2023',
+                    status: 'pending',
+                    petName: 'Simba',
+                    petBreed: 'Gato Mestizo - 6 meses',
+                    petDescription: 'Gato joven, juguetón y curioso. Rescatado de la calle, ahora busca un hogar permanente.',
+                    adoptionReason: 'Busco un gato joven para compañía en mi apartamento. Prefiero adoptar antes que comprar.',
+                    previousExperience: 'Nunca he tenido gatos pero he investigado mucho sobre sus cuidados. Tengo amigos con gatos que me pueden orientar.',
+                    history: [
+                        { date: '05/04/2023 - 11:45', action: 'Solicitud enviada', details: 'El adoptante completó el formulario de solicitud' }
+                    ]
+                }
+            };
+            
             // Abrir modal al hacer clic en Ver
             const viewButtons = document.querySelectorAll('.action-btn.view');
-            const modal = document.getElementById('adopter-modal');
-            const closeModal = document.querySelector('.close-modal');
-            
             viewButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    modal.style.display = 'flex';
+                    const requestId = this.getAttribute('data-id');
+                    openRequestModal(requestId);
+                });
+            });
+            
+            // Aprobar solicitud
+            const approveButtons = document.querySelectorAll('.action-btn.approve');
+            approveButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const requestId = this.getAttribute('data-id');
+                    updateRequestStatus(requestId, 'approved');
+                });
+            });
+            
+            // Rechazar solicitud
+            const rejectButtons = document.querySelectorAll('.action-btn.reject');
+            rejectButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const requestId = this.getAttribute('data-id');
+                    updateRequestStatus(requestId, 'rejected');
                 });
             });
             
             // Cerrar modal
-            closeModal.addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelModalBtn.addEventListener('click', closeModal);
             
             // Cerrar modal al hacer clic fuera
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
-                    modal.style.display = 'none';
+                    closeModal();
                 }
             });
             
-            // Simular búsqueda
-            const searchInput = document.querySelector('.search-box input');
-            searchInput.addEventListener('input', function() {
-                console.log('Buscando:', this.value);
-                // Aquí iría la lógica de búsqueda real
+            // Guardar cambios en el modal
+            saveChangesBtn.addEventListener('click', function() {
+                const requestId = this.getAttribute('data-request-id');
+                const newStatus = requestStatus.value;
+                const rejectionReason = document.getElementById('rejection-reason').value;
+                
+                updateRequestStatus(requestId, newStatus, rejectionReason);
+                closeModal();
             });
             
-            // Menú responsive
-            const menuItems = document.querySelectorAll('.menu-item');
-            menuItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    menuItems.forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                });
+            // Filtrar por estado
+            statusFilter.addEventListener('change', filterRequests);
+            
+            // Filtrar por fecha
+            dateFilter.addEventListener('change', filterRequests);
+            
+            // Buscar solicitudes
+            searchInput.addEventListener('input', filterRequests);
+            
+            // Mostrar/ocultar razón de rechazo según estado
+            requestStatus.addEventListener('change', function() {
+                if (this.value === 'rejected') {
+                    rejectionReasonContainer.style.display = 'block';
+                } else {
+                    rejectionReasonContainer.style.display = 'none';
+                }
             });
+            
+            // Función para abrir el modal con los datos de la solicitud
+            function openRequestModal(requestId) {
+                const requestData = requestsData[requestId];
+                
+                if (requestData) {
+                    // Llenar los campos del modal con los datos
+                    document.getElementById('modal-pet-name').textContent = requestData.petName;
+                    document.getElementById('modal-pet-breed').textContent = requestData.petBreed;
+                    document.getElementById('modal-pet-description').textContent = requestData.petDescription;
+                    document.getElementById('adopter-name').value = requestData.adopterName;
+                    document.getElementById('adopter-dni').value = requestData.adopterDni;
+                    document.getElementById('adopter-email').value = requestData.adopterEmail;
+                    document.getElementById('adopter-phone').value = requestData.adopterPhone;
+                    document.getElementById('adopter-address').value = requestData.adopterAddress;
+                    document.getElementById('adopter-city').value = requestData.adopterCity;
+                    document.getElementById('request-date').value = requestData.requestDate;
+                    document.getElementById('request-status').value = requestData.status;
+                    document.getElementById('adoption-reason').value = requestData.adoptionReason;
+                    document.getElementById('previous-experience').value = requestData.previousExperience;
+                    
+                    // Mostrar/ocultar razón de rechazo según estado actual
+                    if (requestData.status === 'rejected') {
+                        rejectionReasonContainer.style.display = 'block';
+                        document.getElementById('rejection-reason').value = requestData.rejectionReason || '';
+                    } else {
+                        rejectionReasonContainer.style.display = 'none';
+                    }
+                    
+                    // Cargar historial
+                    const statusHistory = document.getElementById('status-history');
+                    statusHistory.innerHTML = '';
+                    
+                    requestData.history.forEach(item => {
+                        if (item.action !== 'Solicitud enviada') {
+                            const logItem = document.createElement('div');
+                            logItem.className = 'log-item';
+                            logItem.innerHTML = `
+                                <div class="log-date">${item.date}</div>
+                                <div class="log-action">${item.action}</div>
+                                <div class="log-details">${item.details}</div>
+                            `;
+                            statusHistory.appendChild(logItem);
+                        }
+                    });
+                    
+                    // Guardar el ID de la solicitud en el botón de guardar
+                    saveChangesBtn.setAttribute('data-request-id', requestId);
+                    
+                    // Mostrar el modal
+                    modal.style.display = 'flex';
+                }
+            }
+            
+            // Función para cerrar el modal
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+            
+            // Función para actualizar el estado de una solicitud
+function updateRequestStatus(requestId, newStatus, rejectionReason = '') {
+    const requestData = requestsData[requestId];
+    if (requestData) {
+        const oldStatus = requestData.status;
+        requestData.status = newStatus;
+        
+        // Agregar al historial
+        const now = new Date();
+        const dateStr = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} - ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+        
+        let actionText = '';
+        let detailsText = `Administrador: Admin User`;
+        
+        if (newStatus === 'approved') {
+            actionText = 'Solicitud aprobada';
+        } else if (newStatus === 'rejected') {
+            actionText = 'Solicitud rechazada';
+            if (rejectionReason) {
+                detailsText += ` - Razón: ${rejectionReason}`;
+                requestData.rejectionReason = rejectionReason;
+            }
+        }
+        
+        requestData.history.push({
+            date: dateStr,
+            action: actionText,
+            details: detailsText
+        });
+        
+        // Actualizar la fila en la tabla
+        updateRequestRow(requestId, newStatus);
+        
+        // Mostrar notificación
+        showNotification(`Estado de la solicitud ${requestId} actualizado a ${getStatusText(newStatus)}`, 'success');
+        
+        // Mostrar simulación de envío de correo
+        simulateEmailNotification(requestData, newStatus, rejectionReason);
+    }
+}
+
+// Función para simular el envío de correo
+function simulateEmailNotification(requestData, newStatus, rejectionReason = '') {
+    const emailModal = document.getElementById('email-modal');
+    const emailTo = document.getElementById('email-to');
+    const emailDate = document.getElementById('email-date');
+    const emailSubject = document.getElementById('email-subject');
+    const emailContent = document.getElementById('email-content');
+    const emailLoading = document.getElementById('email-loading');
+    const emailSuccess = document.getElementById('email-success');
+    
+    // Configurar información del correo
+    emailTo.textContent = `${requestData.adopterName} <${requestData.adopterEmail}>`;
+    
+    const now = new Date();
+    emailDate.textContent = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+    
+    // Configurar asunto y contenido según el estado
+    let subject = '';
+    let content = '';
+    
+    if (newStatus === 'approved') {
+        subject = '¡Felicidades! Su solicitud de adopción ha sido aprobada';
+        content = `
+            <p>Estimado/a ${requestData.adopterName},</p>
+            <p>Nos complace informarle que su solicitud de adopción para <strong>${requestData.petName}</strong> ha sido <strong>APROBADA</strong>.</p>
+            <p>En los próximos días nos pondremos en contacto con usted para coordinar el proceso de entrega y firma de documentos.</p>
+            <p>¡Gracias por elegir adoptar y darle un hogar a una mascota que lo necesita!</p>
+            <br>
+            <p>Atentamente,<br>El equipo de CIPET</p>
+        `;
+    } else if (newStatus === 'rejected') {
+        subject = 'Actualización sobre su solicitud de adopción';
+        content = `
+            <p>Estimado/a ${requestData.adopterName},</p>
+            <p>Lamentamos informarle que su solicitud de adopción para <strong>${requestData.petName}</strong> no ha sido aprobada.</p>
+            ${rejectionReason ? `<p><strong>Razón:</strong> ${rejectionReason}</p>` : ''}
+            <p>Le agradecemos su interés en adoptar y le invitamos a considerar otras mascotas disponibles en nuestro centro.</p>
+            <br>
+            <p>Atentamente,<br>El equipo de CIPET</p>
+        `;
+    } else {
+        subject = 'Actualización sobre su solicitud de adopción';
+        content = `
+            <p>Estimado/a ${requestData.adopterName},</p>
+            <p>Su solicitud de adopción para <strong>${requestData.petName}</strong> está actualmente en estado: <strong>PENDIENTE</strong>.</p>
+            <p>Le mantendremos informado sobre cualquier actualización en el proceso de revisión.</p>
+            <br>
+            <p>Atentamente,<br>El equipo de CIPET</p>
+        `;
+    }
+    
+    emailSubject.textContent = subject;
+    emailContent.innerHTML = content;
+    
+    // Mostrar modal
+    emailModal.style.display = 'flex';
+    
+    // Simular proceso de envío
+    emailLoading.style.display = 'block';
+    
+    setTimeout(() => {
+        emailLoading.style.display = 'none';
+        emailSuccess.style.display = 'block';
+    }, 2000);
+}
+
+// Cerrar modal de correo
+document.getElementById('email-close-btn').addEventListener('click', function() {
+    document.getElementById('email-modal').style.display = 'none';
+});
+
+// Cerrar modal al hacer clic en la X
+document.querySelector('#email-modal .close-modal').addEventListener('click', function() {
+    document.getElementById('email-modal').style.display = 'none';
+});
+
+// Cerrar modal al hacer clic fuera
+document.getElementById('email-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.style.display = 'none';
+    }
+});
+            
+            // Función para actualizar la fila en la tabla
+            function updateRequestRow(requestId, newStatus) {
+                const row = document.querySelector(`tr[data-status] button[data-id="${requestId}"]`).closest('tr');
+                if (row) {
+                    row.setAttribute('data-status', newStatus);
+                    
+                    // Actualizar el badge de estado
+                    const statusCell = row.querySelector('td:nth-child(5)');
+                    statusCell.innerHTML = `<span class="status ${newStatus}">${getStatusText(newStatus)}</span>`;
+                    
+                    // Actualizar botones según el nuevo estado
+                    const actionsCell = row.querySelector('td:nth-child(6)');
+                    if (newStatus === 'pending') {
+                        actionsCell.innerHTML = `
+                            <button class="action-btn view" data-id="${requestId}"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn approve" data-id="${requestId}"><i class="fas fa-check"></i></button>
+                            <button class="action-btn reject" data-id="${requestId}"><i class="fas fa-times"></i></button>
+                        `;
+                    } else {
+                        actionsCell.innerHTML = `
+                            <button class="action-btn view" data-id="${requestId}"><i class="fas fa-eye"></i></button>
+                            <button class="action-btn edit" data-id="${requestId}"><i class="fas fa-edit"></i></button>
+                        `;
+                    }
+                    
+                    // Reasignar eventos a los nuevos botones
+                    assignButtonEvents();
+                }
+            }
+            
+            // Función para obtener el texto del estado
+            function getStatusText(status) {
+                switch(status) {
+                    case 'pending': return 'Pendiente';
+                    case 'approved': return 'Aprobada';
+                    case 'rejected': return 'Rechazada';
+                    default: return status;
+                }
+            }
+            
+            // Función para mostrar notificación
+            function showNotification(message, type = 'success') {
+                notificationText.textContent = message;
+                notification.className = 'notification';
+                
+                if (type === 'error') {
+                    notification.classList.add('error');
+                    notification.querySelector('i').className = 'fas fa-exclamation-circle';
+                } else if (type === 'warning') {
+                    notification.classList.add('warning');
+                    notification.querySelector('i').className = 'fas fa-exclamation-triangle';
+                } else {
+                    notification.querySelector('i').className = 'fas fa-check-circle';
+                }
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Función para enviar notificación por correo (simulado)
+            function sendEmailNotification(email, name, status, reason = '') {
+                console.log(`=== SIMULACIÓN DE ENVÍO DE CORREO ===`);
+                console.log(`Para: ${email}`);
+                console.log(`Asunto: Actualización de su solicitud de adopción en CIPET`);
+                
+                let body = `Hola ${name},\n\n`;
+                
+                if (status === 'approved') {
+                    body += `Nos complace informarte que tu solicitud de adopción ha sido APROBADA. `;
+                    body += `Pronto nos pondremos en contacto contigo para coordinar los siguientes pasos.\n\n`;
+                } else if (status === 'rejected') {
+                    body += `Lamentamos informarte que tu solicitud de adopción ha sido RECHAZADA. `;
+                    if (reason) {
+                        body += `Razón: ${reason}\n\n`;
+                    }
+                    body += `Te agradecemos por tu interés en adoptar y te animamos a considerar otras mascotas disponibles.\n\n`;
+                }
+                
+                body += `Atentamente,\nEl equipo de CIPET`;
+                
+                console.log(`Cuerpo del mensaje:\n${body}`);
+                console.log(`=================================`);
+                
+                // En una implementación real, aquí se haría una llamada a un servidor
+                // o API de envío de correos electrónicos
+            }
+            
+            // Función para filtrar las solicitudes
+            function filterRequests() {
+                const statusValue = statusFilter.value;
+                const searchValue = searchInput.value.toLowerCase();
+                const dateValue = dateFilter.value;
+                
+                const rows = document.querySelectorAll('#requests-table tbody tr');
+                
+                rows.forEach(row => {
+                    const status = row.getAttribute('data-status');
+                    const adoptante = row.cells[1].textContent.toLowerCase();
+                    const mascota = row.cells[2].textContent.toLowerCase();
+                    const id = row.cells[0].textContent.toLowerCase();
+                    
+                    const statusMatch = statusValue === 'all' || status === statusValue;
+                    const searchMatch = adoptante.includes(searchValue) || mascota.includes(searchValue) || id.includes(searchValue);
+                    
+                    if (statusMatch && searchMatch) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // Ordenar por fecha si es necesario
+                if (dateValue !== 'newest') {
+                    // Implementar ordenamiento si es necesario
+                }
+            }
+            
+            // Función para asignar eventos a los botones
+            function assignButtonEvents() {
+                // Asignar eventos a los botones Ver
+                document.querySelectorAll('.action-btn.view').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const requestId = this.getAttribute('data-id');
+                        openRequestModal(requestId);
+                    });
+                });
+                
+                // Asignar eventos a los botones Aprobar
+                document.querySelectorAll('.action-btn.approve').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const requestId = this.getAttribute('data-id');
+                        updateRequestStatus(requestId, 'approved');
+                    });
+                });
+                
+                // Asignar eventos a los botones Rechazar
+                document.querySelectorAll('.action-btn.reject').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const requestId = this.getAttribute('data-id');
+                        updateRequestStatus(requestId, 'rejected');
+                    });
+                });
+            }
+            
+            // Inicializar asignación de eventos
+            assignButtonEvents();
         });
     </script>
 </body>
