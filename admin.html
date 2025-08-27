@@ -626,6 +626,12 @@
     color: var(--success-color);
     margin-bottom: 15px;
 }
+.view-document {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -762,8 +768,6 @@
                             <td><span class="status pending">Pendiente</span></td>
                             <td>
                                 <button class="action-btn view" data-id="SOL001"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn approve" data-id="SOL001"><i class="fas fa-check"></i></button>
-                                <button class="action-btn reject" data-id="SOL001"><i class="fas fa-times"></i></button>
                             </td>
                         </tr>
                         <tr data-status="approved">
@@ -774,7 +778,6 @@
                             <td><span class="status approved">Aprobada</span></td>
                             <td>
                                 <button class="action-btn view" data-id="SOL002"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit" data-id="SOL002"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
                         <tr data-status="rejected">
@@ -785,7 +788,6 @@
                             <td><span class="status rejected">Rechazada</span></td>
                             <td>
                                 <button class="action-btn view" data-id="SOL003"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit" data-id="SOL003"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
                         <tr data-status="pending">
@@ -796,8 +798,6 @@
                             <td><span class="status pending">Pendiente</span></td>
                             <td>
                                 <button class="action-btn view" data-id="SOL004"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn approve" data-id="SOL004"><i class="fas fa-check"></i></button>
-                                <button class="action-btn reject" data-id="SOL004"><i class="fas fa-times"></i></button>
                             </td>
                         </tr>
                         <tr data-status="pending">
@@ -808,8 +808,6 @@
                             <td><span class="status pending">Pendiente</span></td>
                             <td>
                                 <button class="action-btn view" data-id="SOL005"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn approve" data-id="SOL005"><i class="fas fa-check"></i></button>
-                                <button class="action-btn reject" data-id="SOL005"><i class="fas fa-times"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -873,6 +871,71 @@
                         <input type="text" id="adopter-city" value="Lima" readonly>
                     </div>
                 </div>
+
+                <div class="form-row">
+    <div class="form-group">
+        <label>Fecha de Nacimiento</label>
+        <input type="text" id="adopter-birthdate" value="15/05/1990" readonly>
+    </div>
+    <div class="form-group">
+        <label>Distrito</label>
+        <input type="text" id="adopter-district" value="Miraflores" readonly>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Tipo de Vivienda</label>
+    <input type="text" id="housing-type" value="Departamento" readonly>
+</div>
+
+<div class="form-group">
+    <label>Descripción de Vivienda</label>
+    <textarea id="housing-description" readonly>Departamento de 3 habitaciones, 75m2, con buena iluminación.</textarea>
+</div>
+
+<div class="form-row">
+    <div class="form-group">
+        <label>¿Cuenta con patio/área verde?</label>
+        <input type="text" id="has-patio" value="Sí" readonly>
+    </div>
+    <div class="form-group">
+        <label>Miembros de familia</label>
+        <input type="text" id="family-members" value="2 adultos, 1 niño" readonly>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Otras mascotas</label>
+    <input type="text" id="other-pets" value="No" readonly>
+</div>
+
+<div class="form-group">
+    <label>Rutina diaria</label>
+    <textarea id="daily-routine" readonly>Trabajo desde casa, paseos matutinos y vespertinos, fines de semana en parque.</textarea>
+</div>
+
+<h4 style="margin: 20px 0 10px;">Documentos adjuntos</h4>
+<div class="form-row">
+    <div class="form-group">
+        <label>DNI/CE</label>
+        <button class="btn btn-secondary view-document">
+            <i class="fas fa-file-pdf"></i> Ver documento
+        </button>
+    </div>
+    <div class="form-group">
+        <label>Recibo de servicio</label>
+        <button class="btn btn-secondary view-document">
+            <i class="fas fa-file-pdf"></i> Ver documento
+        </button>
+    </div>
+</div>
+
+<div class="form-group">
+    <div style="display: flex; align-items: center;">
+        <input type="checkbox" id="follow-up" checked disabled style="width: auto; margin-right: 10px;">
+        <label for="follow-up" style="display: inline; margin: 0;">Acepta visitas de seguimiento post-adopción</label>
+    </div>
+</div>
                 
                 <div class="form-row">
                     <div class="form-group">
@@ -1342,13 +1405,10 @@ document.getElementById('email-modal').addEventListener('click', function(e) {
                     if (newStatus === 'pending') {
                         actionsCell.innerHTML = `
                             <button class="action-btn view" data-id="${requestId}"><i class="fas fa-eye"></i></button>
-                            <button class="action-btn approve" data-id="${requestId}"><i class="fas fa-check"></i></button>
-                            <button class="action-btn reject" data-id="${requestId}"><i class="fas fa-times"></i></button>
                         `;
                     } else {
                         actionsCell.innerHTML = `
                             <button class="action-btn view" data-id="${requestId}"><i class="fas fa-eye"></i></button>
-                            <button class="action-btn edit" data-id="${requestId}"><i class="fas fa-edit"></i></button>
                         `;
                     }
                     
