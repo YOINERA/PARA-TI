@@ -678,19 +678,7 @@
                             <textarea id="criminal-record" name="criminal-record" rows="3" required placeholder="Tenga en cuenta que estos datos serán comprobados"></textarea>
                         </div>
                         
-                        <div class="form-group">
-                            <label class="required-field">¿Deseas que te visiten durante tu proceso de adaptación?</label>
-                            <div class="radio-group">
-                                <div class="radio-option">
-                                    <input type="radio" id="visits-yes" name="visits" value="yes" required>
-                                    <label for="visits-yes">Sí</label>
-                                </div>
-                                <div class="radio-option">
-                                    <input type="radio" id="visits-no" name="visits" value="no">
-                                    <label for="visits-no">No</label>
-                                </div>
-                            </div>
-                        </div>
+                      
                         
                         <div class="form-group">
                             <div class="radio-option">
@@ -861,10 +849,9 @@
                 const hasKids = document.querySelector('input[name="has-kids"]:checked');
                 const disability = document.querySelector('input[name="disability"]:checked');
                 const criminalRecord = document.getElementById('criminal-record').value;
-                const visits = document.querySelector('input[name="visits"]:checked');
                 const dataConsent = document.getElementById('data-consent').checked;
                 
-                if (!income || !location || !housingSize || !homeSchedule || !age || !hasKids || !disability || !criminalRecord || !visits || !dataConsent) {
+                if (!income || !location || !housingSize || !homeSchedule || !age || !hasKids || !disability || !criminalRecord || !dataConsent) {
                     alert('Por favor complete todos los campos requeridos');
                     return;
                 }
