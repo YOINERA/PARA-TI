@@ -1,35 +1,57 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>1000 Cartitas — Para Ti</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="header">
-    <h1>1000 cartitas para ti 💌</h1>
-    <p>Haz click en una cartita para abrirla.</p>
-  </header>
+    <div class="background-animation"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="heart-icon">❤️</div>
+            <h1 class="title">36 Días Contigo</h1>
+            <p class="subtitle">Cada día es una nueva razón para amarte</p>
+            <div class="days-counter">Día <span id="current-day">1</span> de 36</div>
+        </header>
 
-  <main>
-    <div id="cardsContainer" class="grid"></div>
-  </main>
+        <main class="main-content">
+            <div class="letters-grid" id="letters-container">
+                <!-- Las cartitas se generarán con JavaScript -->
+            </div>
+        </main>
 
-  <!-- Modal / pantalla de fuegos artificiales -->
-  <div id="modal" class="modal hidden" aria-hidden="true">
-    <canvas id="fireworksCanvas"></canvas>
-    <div class="modal-content">
-      <button id="closeBtn" class="close" aria-label="Cerrar">✕</button>
-      <div id="cartMessage" class="cart-message"></div>
-      <div class="te-amo">TE AMO</div>
+        <footer class="footer">
+            <p>Hecho con ❤️ para ti</p>
+        </footer>
     </div>
-  </div>
 
-  <footer class="footer">
-    <small>MI KIM ❤️</small>
-  </footer>
+    <!-- Modal para mostrar mensajes completos -->
+    <div class="modal" id="message-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 id="modal-day">Día 1</h2>
+                <div class="heart-decoration">💖</div>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="love-btn" class="love-button">TE AMO ❤️</button>
+            </div>
+        </div>
+    </div>
 
-  <script src="script.js"></script>
+    <!-- Área de fuegos artificiales -->
+    <canvas id="fireworks-canvas"></canvas>
+
+    <!-- Mensaje de amor flotante -->
+    <div id="floating-love" class="floating-love">TE AMO</div>
+
+    <script src="script.js"></script>
 </body>
 </html>
