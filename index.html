@@ -1,1 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>1000 Cartitas — Para Ti</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>1000 cartitas para ti 💌</h1>
+    <p>Haz click en una cartita para abrirla.</p>
+  </header>
 
+  <main>
+    <div id="cardsContainer" class="grid"></div>
+  </main>
+
+  <!-- Modal / pantalla de fuegos artificiales -->
+  <div id="modal" class="modal hidden" aria-hidden="true">
+    <canvas id="fireworksCanvas"></canvas>
+    <div class="modal-content">
+      <button id="closeBtn" class="close" aria-label="Cerrar">✕</button>
+      <div id="cartMessage" class="cart-message"></div>
+      <div class="te-amo">TE AMO</div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <small>MI KIM ❤️</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
