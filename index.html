@@ -7,6 +7,234 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Nuevos estilos para efectos especiales */
+        .blackout-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10002;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .blackout-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10003;
+            pointer-events: none;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .firework-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .spectacular-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            animation: titleGlow 2s infinite alternate;
+            z-index: 10004;
+            display: none;
+        }
+        
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+                transform: scale(1);
+            }
+            100% {
+                text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 215, 0, 0.7);
+                transform: scale(1.05);
+            }
+        }
+        
+        .love-messages-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10005;
+            pointer-events: none;
+        }
+        
+        .love-message-big {
+            position: absolute;
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ff6b8b;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 0 20px rgba(255, 107, 139, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        
+        .music-player-mini {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 10006;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            display: none;
+        }
+        
+        .music-player-mini.active {
+            display: flex;
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translate(-50%, 100px);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+        
+        .music-info {
+            color: white;
+            text-align: center;
+        }
+        
+        .song-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .song-artist {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .music-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .music-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            background: transparent;
+            color: #ffd700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .music-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .countdown {
+            font-size: 8rem;
+            font-weight: bold;
+            color: #ffd700;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            margin-bottom: 20px;
+            z-index: 10007;
+        }
+        
+        .return-btn {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ff6b8b, #ff2e63);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10008;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            display: none;
+        }
+        
+        .return-btn.show {
+            opacity: 1;
+            transform: translateY(0);
+            display: flex;
+        }
+        
+        .return-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 107, 139, 0.5);
+        }
+        
+        /* Ajustar el modal para que esté por encima de todo */
+        .modal {
+            z-index: 10009;
+        }
+        
+        /* Estilo para las estrellas */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
     <!-- Navegación flotante -->
@@ -107,7 +335,7 @@
         </footer>
     </div>
 
-    <!-- Modal mejorado - FIXED -->
+    <!-- Modal mejorado -->
     <div class="modal" id="message-modal">
         <div class="modal-overlay"></div>
         <div class="modal-content">
@@ -159,6 +387,37 @@
     <!-- Mensaje de amor flotante -->
     <div id="floating-love" class="floating-love">TE AMO</div>
 
+    <!-- Nuevos elementos para el espectáculo -->
+    <div class="blackout-overlay" id="blackout-overlay">
+        <div class="countdown" id="countdown">3</div>
+        <h1 class="spectacular-title" id="spectacular-title">Para Mi Amor, KIM</h1>
+    </div>
+    
+    <div class="fireworks-container" id="fireworks-container"></div>
+    <div class="love-messages-container" id="love-messages-container"></div>
+    
+    <div class="music-player-mini" id="music-player-mini">
+        <div class="music-info">
+            <div class="song-title">Yellow</div>
+            <div class="song-artist">Coldplay - Para ti, mi amor</div>
+        </div>
+        <div class="music-controls">
+            <button class="music-btn" id="play-music-btn">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="music-btn" id="pause-music-btn">
+                <i class="fas fa-pause"></i>
+            </button>
+            <button class="music-btn" id="stop-music-btn">
+                <i class="fas fa-stop"></i>
+            </button>
+        </div>
+    </div>
+    
+    <button class="return-btn" id="return-btn">
+        <i class="fas fa-arrow-left"></i> Volver
+    </button>
+
     <!-- Audio para efectos -->
     <audio id="heart-sound" preload="auto">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-heartbeat-100.mp3" type="audio/mpeg">
@@ -166,391 +425,397 @@
     <audio id="sparkle-sound" preload="auto">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-300.mp3" type="audio/mpeg">
     </audio>
+    
+    <!-- Audio para la canción Yellow -->
+    <audio id="yellow-song" preload="auto">
+        <source src="assets/music/yellow.mp3" type="audio/mpeg">
+        <!-- Si el archivo no existe, usar una versión online como respaldo -->
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-day-583.mp3" type="audio/mpeg">
+    </audio>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         // Datos mejorados con categorías
         const messages = [
-    {
-        day: 1,
-        message: "Tu sonrisa ilumina mis días más grises. Desde que estás en mi vida, todo tiene más color.",
-        icon: "😊",
-        category: "romantic"
-    },
-    {
-        day: 2,
-        message: "Contigo he descubierto un amor que no conocía. Un amor que sana, que comprende, que perdona.",
-        icon: "❤️",
-        category: "romantic"
-    },
-    {
-        day: 3,
-        message: "Eres la razón por la que creo en el destino. No fue casualidad encontrarte, fue el universo conspirando a nuestro favor.",
-        icon: "✨",
-        category: "romantic"
-    },
-    {
-        day: 4,
-        message: "Mi niño interior revive cuando estoy contigo. Esas ganas de jugar, de reír sin motivo, de soñar despierto.",
-        icon: "👦",
-        category: "funny"
-    },
-    {
-        day: 5,
-        message: "Me haces sentir que puedo conquistar el mundo. Tu fe en mí es mi mayor motivación.",
-        icon: "🌎",
-        category: "deep"
-    },
-    {
-        day: 6,
-        message: "Tu mirada despierta mariposas en mi estómago. Esos nervios que solo tú provocas en mí.",
-        icon: "🦋",
-        category: "romantic"
-    },
-    {
-        day: 7,
-        message: "Cada momento a tu lado es un tesoro. Guardo cada risa, cada abrazo, cada mirada en el cofre de mis mejores recuerdos.",
-        icon: "💎",
-        category: "romantic"
-    },
-    {
-        day: 8,
-        message: "Eres el sueño que nunca quise despertar. Contigo la realidad supera cualquier fantasía.",
-        icon: "💭",
-        category: "romantic"
-    },
-    {
-        day: 9,
-        message: "Tu amor sana las heridas de mi pasado. Donde había dolor, ahora hay esperanza gracias a ti.",
-        icon: "🩹",
-        category: "deep"
-    },
-    {
-        day: 10,
-        message: "Contigo quiero construir un futuro lleno de risas. Un hogar donde el amor sea el cimiento más fuerte.",
-        icon: "🏡",
-        category: "future"
-    },
-    {
-        day: 11,
-        message: "Eres mi refugio en los días difíciles. En tus brazos encuentro la paz que mi alma necesita.",
-        icon: "🛡️",
-        category: "deep"
-    },
-    {
-        day: 12,
-        message: "Tu voz es la melodía que calma mi alma. Podría escucharte hablar por horas sin cansarme.",
-        icon: "🎵",
-        category: "romantic"
-    },
-    {
-        day: 13,
-        message: "Amo la persona que soy cuando estoy contigo. Me inspiras a ser mejor cada día.",
-        icon: "🌟",
-        category: "deep"
-    },
-    {
-        day: 14,
-        message: "Eres la respuesta a todas mis preguntas. En tu amor encontré el sentido que tanto buscaba.",
-        icon: "❓",
-        category: "deep"
-    },
-    {
-        day: 15,
-        message: "Tu amor me da fuerzas para ser mejor cada día. Quiero merecerte, quiero ser tu orgullo.",
-        icon: "💪",
-        category: "deep"
-    },
-    {
-        day: 16,
-        message: "Contigo hasta lo simple se vuelve mágico. Un paseo, una comida, una tarde en casa... todo es especial contigo.",
-        icon: "🔮",
-        category: "romantic"
-    },
-    {
-        day: 17,
-        message: "Eres mi confidente y mi mejor amiga. Puedo contarte mis mayores sueños y mis peores miedos.",
-        icon: "🤝",
-        category: "deep"
-    },
-    {
-        day: 18,
-        message: "Tu risa es mi sonido favorito. Es contagiosa, auténtica, y llena mi corazón de alegría.",
-        icon: "😂",
-        category: "funny"
-    },
-    {
-        day: 19,
-        message: "Amo cómo me miras, como si fuera único. Esa mirada que me hace sentir el hombre más afortunado del mundo.",
-        icon: "👀",
-        category: "romantic"
-    },
-    {
-        day: 20,
-        message: "Eres el regalo que la vida me dio después de tanto esperar. Valió la pena la espera.",
-        icon: "🎁",
-        category: "romantic"
-    },
-    {
-        day: 21,
-        message: "Contigo quiero envejecer riendo. Ver cómo se nos llena el rostro de arrugas, pero el corazón de amor.",
-        icon: "👵👴",
-        category: "future"
-    },
-    {
-        day: 22,
-        message: "Tu amor me hace sentir completo. Esas partes de mí que faltaban, ahora están aquí contigo.",
-        icon: "🧩",
-        category: "deep"
-    },
-    {
-        day: 23,
-        message: "Eres mi paz en medio del caos. Cuando el mundo gira demasiado rápido, tú eres mi centro.",
-        icon: "🕊️",
-        category: "deep"
-    },
-    {
-        day: 24,
-        message: "Amo cada detalle, cada gesto, cada mirada tuya. Me enamoro más de ti cada día.",
-        icon: "📝",
-        category: "romantic"
-    },
-    {
-        day: 25,
-        message: "Contigo el tiempo vuela y se detiene a la vez. Los minutos pasan rápido, pero los momentos quedan para siempre.",
-        icon: "⏳",
-        category: "romantic"
-    },
-    {
-        day: 26,
-        message: "Eres la dueña de mis pensamientos. Me despierto pensando en ti y me duermo soñando contigo.",
-        icon: "🤔",
-        category: "romantic"
-    },
-    {
-        day: 27,
-        message: "Tu amor es el combustible de mis sueños. Contigo a mi lado, siento que puedo lograr cualquier cosa.",
-        icon: "🚀",
-        category: "deep"
-    },
-    {
-        day: 28,
-        message: "Eres mi inspiración para ser mejor. Quiero ser la versión más grandiosa de mí mismo para ti.",
-        icon: "💡",
-        category: "deep"
-    },
-    {
-        day: 29,
-        message: "Amo cómo encajas perfectamente en mi vida. Como si siempre hubieras estado destinada a estar aquí.",
-        icon: "🔑",
-        category: "romantic"
-    },
-    {
-        day: 30,
-        message: "Contigo quiero compartir todos mis días. Los buenos, los malos, los simples, los extraordinarios.",
-        icon: "📅",
-        category: "future"
-    },
-    {
-        day: 31,
-        message: "Eres la luz que guía mi camino. En la oscuridad, tú eres mi faro, mi esperanza.",
-        icon: "💡",
-        category: "deep"
-    },
-    {
-        day: 32,
-        message: "Tu amor es mi mayor fortuna. No cambiaría lo que siento por ti por todo el oro del mundo.",
-        icon: "💰",
-        category: "romantic"
-    },
-    {
-        day: 33,
-        message: "Eres mi razón para sonreír sin motivo. Esa felicidad interna que brota cuando pienso en ti.",
-        icon: "😄",
-        category: "romantic"
-    },
-    {
-        day: 34,
-        message: "Contigo todo tiene más sentido. Los planes, los esfuerzos, las luchas... todo vale la pena por nuestro amor.",
-        icon: "🎯",
-        category: "deep"
-    },
-    {
-        day: 35,
-        message: "Amo cómo me haces sentir amado. Esa seguridad de saber que soy importante para ti.",
-        icon: "💖",
-        category: "romantic"
-    },
-    {
-        day: 36,
-        message: "Eres mi eterno y único amor. No imagino mi vida sin ti, no quiero mi vida sin ti. Eres mi todo.",
-        icon: "∞",
-        category: "romantic"
-    },
-    // Nuevos mensajes del 37 al 63
-    {
-        day: 37,
-        message: "Tu amor transforma lo ordinario en extraordinario. Conviertes cada instante en un recuerdo inolvidable.",
-        icon: "✨",
-        category: "romantic"
-    },
-    {
-        day: 38,
-        message: "Contigo aprendí que el amor verdadero existe y que es más hermoso de lo que imaginaba.",
-        icon: "💕",
-        category: "deep"
-    },
-    {
-        day: 39,
-        message: "Eres el capítulo más bello de mi historia. Cada día contigo es una página que atesoro con el alma.",
-        icon: "📖",
-        category: "deep"
-    },
-    {
-        day: 40,
-        message: "Me robaste el corazón y ahora eres mi ladrona favorita. ¡Pero no me lo devuelvas nunca!",
-        icon: "😏",
-        category: "funny"
-    },
-    {
-        day: 41,
-        message: "Tu amor es mi refugio seguro. En tus brazos el mundo desaparece y solo existimos tú y yo.",
-        icon: "🛡️",
-        category: "deep"
-    },
-    {
-        day: 42,
-        message: "Contigo descubro nuevas razones para vivir cada día. Eres mi aventura favorita.",
-        icon: "🧭",
-        category: "romantic"
-    },
-    {
-        day: 43,
-        message: "Eres la melodía perfecta que armoniza mi vida. Sin ti, todo sería silencio.",
-        icon: "🎶",
-        category: "romantic"
-    },
-    {
-        day: 44,
-        message: "Amo cómo construimos recuerdos juntos. Cada experiencia compartida es un tesoro eterno.",
-        icon: "📸",
-        category: "future"
-    },
-    {
-        day: 45,
-        message: "Tu ternura es el bálsamo que cura cualquier herida. En tus gestos encuentro el amor más puro.",
-        icon: "🫂",
-        category: "deep"
-    },
-    {
-        day: 46,
-        message: "Contigo el amor crece cada día como un árbol fuerte que echa raíces profundas.",
-        icon: "🌳",
-        category: "future"
-    },
-    {
-        day: 47,
-        message: "Eres mi confidente de sueños locos. Contigo puedo ser completamente yo sin miedo al juicio.",
-        icon: "🌠",
-        category: "deep"
-    },
-    {
-        day: 48,
-        message: "Tu amor es el mejor regalo que he recibido. Más valioso que cualquier tesoro material.",
-        icon: "🎁",
-        category: "romantic"
-    },
-    {
-        day: 49,
-        message: "Amo cómo celebramos juntos cada pequeña victoria. Contigo hasta lo pequeño se siente enorme.",
-        icon: "🏆",
-        category: "funny"
-    },
-    {
-        day: 50,
-        message: "Eres mi compañera de todas las aventuras. Desde las más simples hasta las más extraordinarias.",
-        icon: "🗺️",
-        category: "future"
-    },
-    {
-        day: 51,
-        message: "Tu amor ilumina mis días más oscuros como una estrella que brilla en la noche.",
-        icon: "⭐",
-        category: "deep"
-    },
-    {
-        day: 52,
-        message: "Contigo aprendí el verdadero significado de la complicidad. Esa conexión que solo nosotros entendemos.",
-        icon: "🔒",
-        category: "deep"
-    },
-    {
-        day: 53,
-        message: "Eres la calma después de cada tormenta. En tu presencia encuentro paz y serenidad.",
-        icon: "⛅",
-        category: "deep"
-    },
-    {
-        day: 54,
-        message: "Amo cómo crecemos juntos, entrelazando nuestras vidas y fortaleciéndonos mutuamente.",
-        icon: "🌱",
-        category: "future"
-    },
-    {
-        day: 55,
-        message: "Tu amor es mi mayor inspiración para crear, soñar y creer en lo imposible.",
-        icon: "🎨",
-        category: "deep"
-    },
-    {
-        day: 56,
-        message: "Eres el hogar al que siempre quiero volver. Donde sea que estemos, contigo estoy en casa.",
-        icon: "🏠",
-        category: "romantic"
-    },
-    {
-        day: 57,
-        message: "Contigo el presente es un regalo y el futuro una promesa llena de esperanza.",
-        icon: "🎁",
-        category: "future"
-    },
-    {
-        day: 58,
-        message: "Tu amor transformó mi vida completamente. Donde había vacío, ahora hay plenitud absoluta.",
-        icon: "🦋",
-        category: "deep"
-    },
-    {
-        day: 59,
-        message: "Eres mi razón para creer en los milagros. Encontrarte fue el más hermoso de todos.",
-        icon: "🙏",
-        category: "romantic"
-    },
-    {
-        day: 60,
-        message: "Amo cómo nuestro amor supera cualquier obstáculo. Juntos somos más fuertes que cualquier desafío.",
-        icon: "🚧",
-        category: "deep"
-    },
-    {
-        day: 61,
-        message: "Eres mi amor infinito, mi siempre y para siempre. Hoy y todos los días de mi vida.",
-        icon: "💫",
-        category: "romantic"
-    },
-    {
-        day: 62,
-        message: "Tu risa es contagiosa y tu alegría es mi combustible. Me haces sentir vivo de una manera única.",
-        icon: "😂",
-        category: "funny"
-    },
-    {
-        day: 63,
-        message: "Eres el sueño que elegí vivir cada día. Mi amor por ti crece con cada amanecer.",
-        icon: "🌅",
-        category: "romantic"
-    }
-];
+            {
+                day: 1,
+                message: "Tu sonrisa ilumina mis días más grises. Desde que estás en mi vida, todo tiene más color.",
+                icon: "😊",
+                category: "romantic"
+            },
+            {
+                day: 2,
+                message: "Contigo he descubierto un amor que no conocía. Un amor que sana, que comprende, que perdona.",
+                icon: "❤️",
+                category: "romantic"
+            },
+            {
+                day: 3,
+                message: "Eres la razón por la que creo en el destino. No fue casualidad encontrarte, fue el universo conspirando a nuestro favor.",
+                icon: "✨",
+                category: "romantic"
+            },
+            {
+                day: 4,
+                message: "Mi niño interior revive cuando estoy contigo. Esas ganas de jugar, de reír sin motivo, de soñar despierto.",
+                icon: "👦",
+                category: "funny"
+            },
+            {
+                day: 5,
+                message: "Me haces sentir que puedo conquistar el mundo. Tu fe en mí es mi mayor motivación.",
+                icon: "🌎",
+                category: "deep"
+            },
+            {
+                day: 6,
+                message: "Tu mirada despierta mariposas en mi estómago. Esos nervios que solo tú provocas en mí.",
+                icon: "🦋",
+                category: "romantic"
+            },
+            {
+                day: 7,
+                message: "Cada momento a tu lado es un tesoro. Guardo cada risa, cada abrazo, cada mirada en el cofre de mis mejores recuerdos.",
+                icon: "💎",
+                category: "romantic"
+            },
+            {
+                day: 8,
+                message: "Eres el sueño que nunca quise despertar. Contigo la realidad supera cualquier fantasía.",
+                icon: "💭",
+                category: "romantic"
+            },
+            {
+                day: 9,
+                message: "Tu amor sana las heridas de mi pasado. Donde había dolor, ahora hay esperanza gracias a ti.",
+                icon: "🩹",
+                category: "deep"
+            },
+            {
+                day: 10,
+                message: "Contigo quiero construir un futuro lleno de risas. Un hogar donde el amor sea el cimiento más fuerte.",
+                icon: "🏡",
+                category: "future"
+            },
+            {
+                day: 11,
+                message: "Eres mi refugio en los días difíciles. En tus brazos encuentro la paz que mi alma necesita.",
+                icon: "🛡️",
+                category: "deep"
+            },
+            {
+                day: 12,
+                message: "Tu voz es la melodía que calma mi alma. Podría escucharte hablar por horas sin cansarme.",
+                icon: "🎵",
+                category: "romantic"
+            },
+            {
+                day: 13,
+                message: "Amo la persona que soy cuando estoy contigo. Me inspiras a ser mejor cada día.",
+                icon: "🌟",
+                category: "deep"
+            },
+            {
+                day: 14,
+                message: "Eres la respuesta a todas mis preguntas. En tu amor encontré el sentido que tanto buscaba.",
+                icon: "❓",
+                category: "deep"
+            },
+            {
+                day: 15,
+                message: "Tu amor me da fuerzas para ser mejor cada día. Quiero merecerte, quiero ser tu orgullo.",
+                icon: "💪",
+                category: "deep"
+            },
+            {
+                day: 16,
+                message: "Contigo hasta lo simple se vuelve mágico. Un paseo, una comida, una tarde en casa... todo es especial contigo.",
+                icon: "🔮",
+                category: "romantic"
+            },
+            {
+                day: 17,
+                message: "Eres mi confidente y mi mejor amiga. Puedo contarte mis mayores sueños y mis peores miedos.",
+                icon: "🤝",
+                category: "deep"
+            },
+            {
+                day: 18,
+                message: "Tu risa es mi sonido favorito. Es contagiosa, auténtica, y llena mi corazón de alegría.",
+                icon: "😂",
+                category: "funny"
+            },
+            {
+                day: 19,
+                message: "Amo cómo me miras, como si fuera único. Esa mirada que me hace sentir el hombre más afortunado del mundo.",
+                icon: "👀",
+                category: "romantic"
+            },
+            {
+                day: 20,
+                message: "Eres el regalo que la vida me dio después de tanto esperar. Valió la pena la espera.",
+                icon: "🎁",
+                category: "romantic"
+            },
+            {
+                day: 21,
+                message: "Contigo quiero envejecer riendo. Ver cómo se nos llena el rostro de arrugas, pero el corazón de amor.",
+                icon: "👵👴",
+                category: "future"
+            },
+            {
+                day: 22,
+                message: "Tu amor me hace sentir completo. Esas partes de mí que faltaban, ahora están aquí contigo.",
+                icon: "🧩",
+                category: "deep"
+            },
+            {
+                day: 23,
+                message: "Eres mi paz en medio del caos. Cuando el mundo gira demasiado rápido, tú eres mi centro.",
+                icon: "🕊️",
+                category: "deep"
+            },
+            {
+                day: 24,
+                message: "Amo cada detalle, cada gesto, cada mirada tuya. Me enamoro más de ti cada día.",
+                icon: "📝",
+                category: "romantic"
+            },
+            {
+                day: 25,
+                message: "Contigo el tiempo vuela y se detiene a la vez. Los minutos pasan rápido, pero los momentos quedan para siempre.",
+                icon: "⏳",
+                category: "romantic"
+            },
+            {
+                day: 26,
+                message: "Eres la dueña de mis pensamientos. Me despierto pensando en ti y me duermo soñando contigo.",
+                icon: "🤔",
+                category: "romantic"
+            },
+            {
+                day: 27,
+                message: "Tu amor es el combustible de mis sueños. Contigo a mi lado, siento que puedo lograr cualquier cosa.",
+                icon: "🚀",
+                category: "deep"
+            },
+            {
+                day: 28,
+                message: "Eres mi inspiración para ser mejor. Quiero ser la versión más grandiosa de mí mismo para ti.",
+                icon: "💡",
+                category: "deep"
+            },
+            {
+                day: 29,
+                message: "Amo cómo encajas perfectamente en mi vida. Como si siempre hubieras estado destinada a estar aquí.",
+                icon: "🔑",
+                category: "romantic"
+            },
+            {
+                day: 30,
+                message: "Contigo quiero compartir todos mis días. Los buenos, los malos, los simples, los extraordinarios.",
+                icon: "📅",
+                category: "future"
+            },
+            {
+                day: 31,
+                message: "Eres la luz que guía mi camino. En la oscuridad, tú eres mi faro, mi esperanza.",
+                icon: "💡",
+                category: "deep"
+            },
+            {
+                day: 32,
+                message: "Tu amor es mi mayor fortuna. No cambiaría lo que siento por ti por todo el oro del mundo.",
+                icon: "💰",
+                category: "romantic"
+            },
+            {
+                day: 33,
+                message: "Eres mi razón para sonreír sin motivo. Esa felicidad interna que brota cuando pienso en ti.",
+                icon: "😄",
+                category: "romantic"
+            },
+            {
+                day: 34,
+                message: "Contigo todo tiene más sentido. Los planes, los esfuerzos, las luchas... todo vale la pena por nuestro amor.",
+                icon: "🎯",
+                category: "deep"
+            },
+            {
+                day: 35,
+                message: "Amo cómo me haces sentir amado. Esa seguridad de saber que soy importante para ti.",
+                icon: "💖",
+                category: "romantic"
+            },
+            {
+                day: 36,
+                message: "Eres mi eterno y único amor. No imagino mi vida sin ti, no quiero mi vida sin ti. Eres mi todo.",
+                icon: "∞",
+                category: "romantic"
+            },
+            {
+                day: 37,
+                message: "Tu amor transforma lo ordinario en extraordinario. Conviertes cada instante en un recuerdo inolvidable.",
+                icon: "✨",
+                category: "romantic"
+            },
+            {
+                day: 38,
+                message: "Contigo aprendí que el amor verdadero existe y que es más hermoso de lo que imaginaba.",
+                icon: "💕",
+                category: "deep"
+            },
+            {
+                day: 39,
+                message: "Eres el capítulo más bello de mi historia. Cada día contigo es una página que atesoro con el alma.",
+                icon: "📖",
+                category: "deep"
+            },
+            {
+                day: 40,
+                message: "Me robaste el corazón y ahora eres mi ladrona favorita. ¡Pero no me lo devuelvas nunca!",
+                icon: "😏",
+                category: "funny"
+            },
+            {
+                day: 41,
+                message: "Tu amor es mi refugio seguro. En tus brazos el mundo desaparece y solo existimos tú y yo.",
+                icon: "🛡️",
+                category: "deep"
+            },
+            {
+                day: 42,
+                message: "Contigo descubro nuevas razones para vivir cada día. Eres mi aventura favorita.",
+                icon: "🧭",
+                category: "romantic"
+            },
+            {
+                day: 43,
+                message: "Eres la melodía perfecta que armoniza mi vida. Sin ti, todo sería silencio.",
+                icon: "🎶",
+                category: "romantic"
+            },
+            {
+                day: 44,
+                message: "Amo cómo construimos recuerdos juntos. Cada experiencia compartida es un tesoro eterno.",
+                icon: "📸",
+                category: "future"
+            },
+            {
+                day: 45,
+                message: "Tu ternura es el bálsamo que cura cualquier herida. En tus gestos encuentro el amor más puro.",
+                icon: "🫂",
+                category: "deep"
+            },
+            {
+                day: 46,
+                message: "Contigo el amor crece cada día como un árbol fuerte que echa raíces profundas.",
+                icon: "🌳",
+                category: "future"
+            },
+            {
+                day: 47,
+                message: "Eres mi confidente de sueños locos. Contigo puedo ser completamente yo sin miedo al juicio.",
+                icon: "🌠",
+                category: "deep"
+            },
+            {
+                day: 48,
+                message: "Tu amor es el mejor regalo que he recibido. Más valioso que cualquier tesoro material.",
+                icon: "🎁",
+                category: "romantic"
+            },
+            {
+                day: 49,
+                message: "Amo cómo celebramos juntos cada pequeña victoria. Contigo hasta lo pequeño se siente enorme.",
+                icon: "🏆",
+                category: "funny"
+            },
+            {
+                day: 50,
+                message: "Eres mi compañera de todas las aventuras. Desde las más simples hasta las más extraordinarias.",
+                icon: "🗺️",
+                category: "future"
+            },
+            {
+                day: 51,
+                message: "Tu amor ilumina mis días más oscuros como una estrella que brilla en la noche.",
+                icon: "⭐",
+                category: "deep"
+            },
+            {
+                day: 52,
+                message: "Contigo aprendí el verdadero significado de la complicidad. Esa conexión que solo nosotros entendemos.",
+                icon: "🔒",
+                category: "deep"
+            },
+            {
+                day: 53,
+                message: "Eres la calma después de cada tormenta. En tu presencia encuentro paz y serenidad.",
+                icon: "⛅",
+                category: "deep"
+            },
+            {
+                day: 54,
+                message: "Amo cómo crecemos juntos, entrelazando nuestras vidas y fortaleciéndonos mutuamente.",
+                icon: "🌱",
+                category: "future"
+            },
+            {
+                day: 55,
+                message: "Tu amor es mi mayor inspiración para crear, soñar y creer en lo imposible.",
+                icon: "🎨",
+                category: "deep"
+            },
+            {
+                day: 56,
+                message: "Eres el hogar al que siempre quiero volver. Donde sea que estemos, contigo estoy en casa.",
+                icon: "🏠",
+                category: "romantic"
+            },
+            {
+                day: 57,
+                message: "Contigo el presente es un regalo y el futuro una promesa llena de esperanza.",
+                icon: "🎁",
+                category: "future"
+            },
+            {
+                day: 58,
+                message: "Tu amor transformó mi vida completamente. Donde había vacío, ahora hay plenitud absoluta.",
+                icon: "🦋",
+                category: "deep"
+            },
+            {
+                day: 59,
+                message: "Eres mi razón para creer en los milagros. Encontrarte fue el más hermoso de todos.",
+                icon: "🙏",
+                category: "romantic"
+            },
+            {
+                day: 60,
+                message: "Amo cómo nuestro amor supera cualquier obstáculo. Juntos somos más fuertes que cualquier desafío.",
+                icon: "🚧",
+                category: "deep"
+            },
+            {
+                day: 61,
+                message: "Eres mi amor infinito, mi siempre y para siempre. Hoy y todos los días de mi vida.",
+                icon: "💫",
+                category: "romantic"
+            },
+            {
+                day: 62,
+                message: "Tu risa es contagiosa y tu alegría es mi combustible. Me haces sentir vivo de una manera única.",
+                icon: "😂",
+                category: "funny"
+            },
+            {
+                day: 63,
+                message: "Eres el sueño que elegí vivir cada día. Mi amor por ti crece con cada amanecer.",
+                icon: "🌅",
+                category: "romantic"
+            }
+        ];
 
         // Estado de la aplicación
         let state = {
@@ -558,7 +823,8 @@
             favorites: JSON.parse(localStorage.getItem('favorites')) || [],
             viewedMessages: JSON.parse(localStorage.getItem('viewedMessages')) || [],
             theme: localStorage.getItem('theme') || 'light',
-            loveLevel: parseInt(localStorage.getItem('loveLevel')) || 100
+            loveLevel: parseInt(localStorage.getItem('loveLevel')) || 100,
+            isSpectacleActive: false
         };
 
         // Elementos DOM
@@ -591,7 +857,19 @@
             copyBtn: document.getElementById('copy-message'),
             shareBtn: document.getElementById('share-message'),
             saveFavoriteBtn: document.getElementById('save-favorite'),
-            nextBtn: document.getElementById('next-btn')
+            nextBtn: document.getElementById('next-btn'),
+            // Nuevos elementos
+            blackoutOverlay: document.getElementById('blackout-overlay'),
+            fireworksContainer: document.getElementById('fireworks-container'),
+            loveMessagesContainer: document.getElementById('love-messages-container'),
+            musicPlayerMini: document.getElementById('music-player-mini'),
+            countdown: document.getElementById('countdown'),
+            spectacularTitle: document.getElementById('spectacular-title'),
+            returnBtn: document.getElementById('return-btn'),
+            playMusicBtn: document.getElementById('play-music-btn'),
+            pauseMusicBtn: document.getElementById('pause-music-btn'),
+            stopMusicBtn: document.getElementById('stop-music-btn'),
+            yellowSong: document.getElementById('yellow-song')
         };
 
         // Inicialización mejorada
@@ -599,6 +877,8 @@
             init();
             updateCounters();
             updateProgress();
+            // Pre-cargar la canción
+            elements.yellowSong.load();
         });
 
         function init() {
@@ -651,7 +931,7 @@
         function setupEventListeners() {
             elements.closeModalBtn.addEventListener('click', closeMessageModal);
             elements.modalOverlay.addEventListener('click', closeMessageModal);
-            elements.loveButton.addEventListener('click', showLoveEffect);
+            elements.loveButton.addEventListener('click', showLoveSpectacle);
             elements.secretSurprise.addEventListener('click', showSecretSurprise);
             elements.printAll.addEventListener('click', printAllMessages);
             elements.themeBtn.addEventListener('click', toggleTheme);
@@ -660,6 +940,26 @@
             elements.saveFavoriteBtn.addEventListener('click', toggleFavorite);
             elements.nextBtn.addEventListener('click', showNextMessage);
             
+            // Event listeners para controles de música
+            elements.playMusicBtn.addEventListener('click', () => {
+                elements.yellowSong.play().catch(e => {
+                    console.log("No se pudo reproducir la canción:", e);
+                    showNotification("Reproduciendo música alternativa");
+                    elements.yellowSong.play();
+                });
+            });
+            
+            elements.pauseMusicBtn.addEventListener('click', () => {
+                elements.yellowSong.pause();
+            });
+            
+            elements.stopMusicBtn.addEventListener('click', () => {
+                elements.yellowSong.pause();
+                elements.yellowSong.currentTime = 0;
+            });
+            
+            elements.returnBtn.addEventListener('click', endLoveSpectacle);
+            
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && elements.modal.style.display === 'flex') {
                     closeMessageModal();
@@ -667,6 +967,33 @@
                 if (e.key === 'ArrowRight' && elements.modal.style.display === 'flex') {
                     showNextMessage();
                 }
+                // Tecla Espacio para pausar/reanudar música durante el espectáculo
+                if (e.code === 'Space' && state.isSpectacleActive) {
+                    e.preventDefault();
+                    if (elements.yellowSong.paused) {
+                        elements.yellowSong.play();
+                    } else {
+                        elements.yellowSong.pause();
+                    }
+                }
+                // Tecla ESC para salir del espectáculo
+                if (e.key === 'Escape' && state.isSpectacleActive) {
+                    endLoveSpectacle();
+                }
+            });
+            
+            // Cuando termine la canción
+            elements.yellowSong.addEventListener('ended', () => {
+                // Repetir la canción
+                elements.yellowSong.currentTime = 0;
+                elements.yellowSong.play();
+                showNotification("🎵 Reproduciendo de nuevo 🎵");
+            });
+            
+            // Cuando haya un error con el audio
+            elements.yellowSong.addEventListener('error', (e) => {
+                console.log("Error con el audio:", e);
+                showNotification("Usando música alternativa");
             });
         }
 
@@ -720,7 +1047,7 @@
             });
         }
 
-        // Abrir modal mejorado - CORREGIDO
+        // Abrir modal mejorado
         function openModal(day) {
             const messageData = messages.find(msg => msg.day == day);
             if (messageData) {
@@ -750,7 +1077,7 @@
             }
         }
 
-        // Cerrar modal - CORREGIDO
+        // Cerrar modal
         function closeMessageModal() {
             elements.modal.style.display = 'none';
         }
@@ -817,20 +1144,323 @@
             openModal(messages[nextIndex].day);
         }
 
-        // Mostrar efecto de amor mejorado
-        function showLoveEffect() {
-            showFloatingLove();
+        // Mostrar espectáculo de amor mejorado
+        function showLoveSpectacle() {
+            if (state.isSpectacleActive) return;
             
-            // Mostrar múltiples mensajes de amor
-            const loveMessages = ["TE AMO", "ERES MI TODO", "MI CORAZÓN ES TUYO", "PARA SIEMPRE"];
-            for (let i = 0; i < 5; i++) {
+            state.isSpectacleActive = true;
+            closeMessageModal();
+            
+            // 1. Apagar las luces (pantalla negra)
+            elements.blackoutOverlay.classList.add('active');
+            
+            // 2. Iniciar cuenta regresiva
+            startCountdown();
+        }
+
+        function startCountdown() {
+            let count = 3;
+            elements.countdown.textContent = count;
+            
+            const countdownInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    elements.countdown.textContent = count;
+                    // Efecto de sonido para cuenta regresiva
+                    playSound(elements.heartSound);
+                } else {
+                    clearInterval(countdownInterval);
+                    elements.countdown.textContent = "¡TE AMO!";
+                    
+                    // Esperar un momento y luego comenzar el espectáculo completo
+                    setTimeout(() => {
+                        elements.countdown.style.display = 'none';
+                        beginSpectacle();
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+        function beginSpectacle() {
+            // 1. Reproducir música automáticamente
+            playYellowSong();
+            
+            // 2. Mostrar controles de música
+            elements.musicPlayerMini.classList.add('active');
+            
+            // 3. Mostrar botón de regreso después de 5 segundos
+            setTimeout(() => {
+                elements.returnBtn.classList.add('show');
+            }, 5000);
+            
+            // 4. Crear fuegos artificiales
+            createFireworks();
+            
+            // 5. Mostrar mensajes de amor grandes
+            showBigLoveMessages();
+            
+            // 6. Mostrar título espectacular
+            elements.spectacularTitle.style.display = 'block';
+            
+            // 7. Crear efecto de estrellas
+            createStars();
+            
+            // 8. Notificación
+            showNotification("🎆 ¡ESPECTÁCULO DE AMOR! 🎆");
+        }
+
+        function playYellowSong() {
+            // Intentar reproducir la canción
+            elements.yellowSong.play().catch(e => {
+                console.log("No se pudo reproducir la canción:", e);
+                showNotification("🎵 Reproduciendo música alternativa 🎵");
+            });
+        }
+
+        function createFireworks() {
+            const colors = ['#ff6b8b', '#ffd700', '#4CAF50', '#2196F3', '#9C27B0', '#FF9800'];
+            const container = elements.fireworksContainer;
+            
+            // Crear múltiples fuegos artificiales en intervalos
+            const fireworksInterval = setInterval(() => {
+                // Crear 3-5 fuegos artificiales a la vez
+                for (let i = 0; i < 3 + Math.random() * 2; i++) {
+                    createSingleFirework(colors);
+                }
+            }, 800);
+            
+            // Guardar el intervalo para limpiarlo después
+            window.fireworksInterval = fireworksInterval;
+        }
+
+        function createSingleFirework(colors) {
+            const container = elements.fireworksContainer;
+            
+            // Posición aleatoria
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * (window.innerHeight / 2) + 100;
+            
+            // Color aleatorio
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Crear fuego artificial principal
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = `${x}px`;
+            firework.style.top = `${y}px`;
+            firework.style.backgroundColor = color;
+            firework.style.boxShadow = `0 0 20px ${color}`;
+            
+            // Animación de subida
+            const riseAnimation = firework.animate([
+                { transform: 'translateY(100vh)', opacity: 0 },
+                { transform: 'translateY(0)', opacity: 1 }
+            ], {
+                duration: 800,
+                easing: 'ease-out'
+            });
+            
+            riseAnimation.onfinish = () => {
+                // Explotar
+                explodeFirework(x, y, color);
+                firework.remove();
+            };
+            
+            container.appendChild(firework);
+        }
+
+        function explodeFirework(x, y, color) {
+            const container = elements.fireworksContainer;
+            const particles = 50 + Math.random() * 30;
+            
+            for (let i = 0; i < particles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework-particle';
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.backgroundColor = color;
+                particle.style.boxShadow = `0 0 10px ${color}`;
+                
+                // Ángulo aleatorio
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 50 + Math.random() * 150;
+                const duration = 800 + Math.random() * 700;
+                
+                // Animación de explosión
+                particle.animate([
+                    { 
+                        transform: 'translate(0, 0) scale(1)', 
+                        opacity: 1 
+                    },
+                    { 
+                        transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`, 
+                        opacity: 0 
+                    }
+                ], {
+                    duration: duration,
+                    easing: 'ease-out'
+                });
+                
+                // Eliminar después de la animación
                 setTimeout(() => {
-                    showFloatingLove(loveMessages[i % loveMessages.length]);
-                }, i * 300);
+                    if (particle.parentNode) {
+                        particle.remove();
+                    }
+                }, duration);
+                
+                container.appendChild(particle);
             }
             
-            closeMessageModal();
-            showNotification('¡TE AMO MÁS! 💖❤️💕');
+            // Sonido de explosión
+            playSound(elements.sparkleSound);
+        }
+
+        function showBigLoveMessages() {
+            const messages = [
+                "TE AMO",
+                "ERES MI TODO",
+                "MI CORAZÓN ES TUYO",
+                "PARA SIEMPRE",
+                "MI AMOR ETERNO",
+                "ERES MI SOL",
+                "MI RAZÓN DE VIVIR",
+                "CONTIGO ES PARA SIEMPRE",
+                "AMOR INFINITO",
+                "TE ELEGIRÍA MIL VECES MÁS",
+                "MI VIDA ES MEJOR CONTIGO",
+                "ERES MI FELICIDAD",
+                "TE AMO MÁS QUE AYER",
+                "MI ALMA TE PERTENECE",
+                "JUNTOS PARA SIEMPRE"
+            ];
+            
+            const container = elements.loveMessagesContainer;
+            
+            // Mostrar mensajes en intervalos
+            const messageInterval = setInterval(() => {
+                const message = messages[Math.floor(Math.random() * messages.length)];
+                createBigLoveMessage(message);
+            }, 1500);
+            
+            // Guardar el intervalo para limpiarlo después
+            window.messageInterval = messageInterval;
+        }
+
+        function createBigLoveMessage(text) {
+            const container = elements.loveMessagesContainer;
+            
+            const message = document.createElement('div');
+            message.className = 'love-message-big';
+            message.textContent = text;
+            
+            // Posición aleatoria
+            const x = Math.random() * 70 + 15; // 15% a 85%
+            const y = Math.random() * 70 + 15; // 15% a 85%
+            
+            message.style.left = `${x}%`;
+            message.style.top = `${y}%`;
+            
+            // Color aleatorio
+            const hue = Math.random() * 360;
+            message.style.color = `hsl(${hue}, 100%, 60%)`;
+            message.style.textShadow = `0 0 30px hsl(${hue}, 100%, 60%)`;
+            
+            // Tamaño aleatorio
+            const size = 3 + Math.random() * 2;
+            message.style.fontSize = `${size}rem`;
+            
+            // Animación
+            message.animate([
+                { opacity: 0, transform: 'translate(-50%, -50%) scale(0.5)' },
+                { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
+                { opacity: 0, transform: 'translate(-50%, -50%) scale(1.5)' }
+            ], {
+                duration: 3000,
+                easing: 'ease-in-out'
+            });
+            
+            // Eliminar después de la animación
+            setTimeout(() => {
+                if (message.parentNode) {
+                    message.remove();
+                }
+            }, 3000);
+            
+            container.appendChild(message);
+        }
+
+        function createStars() {
+            const container = elements.fireworksContainer;
+            
+            // Crear estrellas brillantes
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.width = '3px';
+                    star.style.height = '3px';
+                    star.style.backgroundColor = 'white';
+                    star.style.boxShadow = '0 0 10px white, 0 0 20px white';
+                    
+                    // Posición aleatoria
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    
+                    // Tamaño aleatorio
+                    const size = 0.5 + Math.random() * 1.5;
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    
+                    // Opacidad aleatoria
+                    star.style.opacity = 0.3 + Math.random() * 0.7;
+                    
+                    container.appendChild(star);
+                }, i * 100);
+            }
+        }
+
+        function endLoveSpectacle() {
+            if (!state.isSpectacleActive) return;
+            
+            state.isSpectacleActive = false;
+            
+            // 1. Detener música
+            elements.yellowSong.pause();
+            elements.yellowSong.currentTime = 0;
+            
+            // 2. Detener intervalos
+            if (window.fireworksInterval) {
+                clearInterval(window.fireworksInterval);
+            }
+            if (window.messageInterval) {
+                clearInterval(window.messageInterval);
+            }
+            
+            // 3. Ocultar elementos del espectáculo
+            elements.blackoutOverlay.classList.remove('active');
+            elements.musicPlayerMini.classList.remove('active');
+            elements.returnBtn.classList.remove('show');
+            elements.countdown.style.display = 'block';
+            elements.countdown.textContent = "3";
+            elements.spectacularTitle.style.display = 'none';
+            
+            // 4. Limpiar fuegos artificiales
+            elements.fireworksContainer.innerHTML = '';
+            elements.loveMessagesContainer.innerHTML = '';
+            
+            // 5. Mostrar notificación final
+            showNotification("❤️ Eres el amor de mi vida ❤️");
+            
+            // 6. Efecto de salida
+            showFloatingLove("PARA SIEMPRE CONTIGO");
+            playSound(elements.heartSound);
+            
+            // 7. Mostrar mensajes flotantes
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    showFloatingLove();
+                }, i * 500);
+            }
         }
 
         // Mostrar sorpresa secreta
@@ -973,7 +1603,11 @@
                 easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
             });
             
-            animation.onfinish = () => love.remove();
+            animation.onfinish = () => {
+                if (love.parentNode) {
+                    love.remove();
+                }
+            };
         }
 
         // Inicializar partículas
