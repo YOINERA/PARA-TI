@@ -705,7 +705,7 @@ function printAllMessages() {
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Mis 100 Mensajes de Amor - Para KIM</title>
+            <title>Mis Mensajes de Amor - Para KIM</title>
             <style>
                 body { font-family: Arial, sans-serif; padding: 20px; }
                 h1 { color: #ff2e63; text-align: center; }
@@ -714,7 +714,7 @@ function printAllMessages() {
             </style>
         </head>
         <body>
-            <h1>💌 100 Mensajes de Amor para KIM 💌</h1>
+            <h1>💌 Mensajes de Amor para KIM 💌</h1>
             ${messages.map(msg => `
                 <div class="message">
                     <div class="day">Día ${msg.day}</div>
@@ -754,7 +754,7 @@ function applyTheme() {
 // Actualizar contadores
 function updateCounters() {
     // Calcular días juntos (ejemplo: desde una fecha específica)
-    const startDate = new Date('2024-01-01'); // Cambiar por tu fecha
+    const startDate = new Date('2025-10-16'); // Cambiar por tu fecha
     const today = new Date();
     const diffTime = Math.abs(today - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
