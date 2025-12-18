@@ -753,14 +753,29 @@ function applyTheme() {
 
 // Actualizar contadores
 function updateCounters() {
-    // Calcular días juntos (ejemplo: desde una fecha específica)
-    const startDate = new Date('2025-10-16'); // Cambiar por tu fecha
+    // Calcular días juntos
+    const startDate = new Date('2025-10-16');
     const today = new Date();
-    const diffTime = Math.abs(today - startDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
-    elements.daysTogether.textContent = diffDays;
+    // Normalizar ambas fechas a la medianoche
+    startDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    
+    // Calcular diferencia
+    const timeDiff = today.getTime() - startDate.getTime();
+    const dayDiff = timeDiff / (1000 * 3600 * 24);
+    
+    // Redondear hacia abajo y sumar 1 (día inicial)
+    const daysTogether = Math.floor(dayDiff) + 1;
+    
+    elements.daysTogether.textContent = daysTogether;
     elements.loveLevel.textContent = state.loveLevel + '%';
+    
+    // Para depurar - puedes ver la diferencia exacta
+    console.log(`Días calculados: ${daysTogether}`);
+    console.log(`Fecha inicio: ${startDate.toDateString()}`);
+    console.log(`Fecha hoy: ${today.toDateString()}`);
+    console.log(`Diferencia exacta: ${dayDiff} días`);
 }
 
 // Actualizar barra de progreso
