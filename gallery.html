@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Momentos - Para KIM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gallery-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 20px;
+        }
+        
+        .gallery-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            color: var(--dark-color);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .gallery-filter {
+            padding: 8px 20px;
+            border: 2px solid var(--secondary-color);
+            background: transparent;
+            color: var(--dark-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .gallery-filter:hover, .gallery-filter.active {
+            background: var(--gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            height: 250px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        .gallery-date {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .gallery-description {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .photo-modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .photo-modal-img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .modal-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+        
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+        
+        .back-button a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+        
+        .back-button a:hover {
+            transform: translateX(-5px);
+        }
+        
+        .upload-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 50px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 107, 139, 0.4);
+        }
+        
+        .upload-input {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-container {
+                margin-top: 80px;
+                padding: 10px;
+            }
+            
+            .gallery-title {
+                font-size: 2.5rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            
+            .gallery-item {
+                height: 200px;
+            }
+            
+            .modal-nav {
+                padding: 0 10px;
+            }
+            
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div id="particles-js"></div>
+    
+    <div class="back-button">
+        <a href="index.html">
+            <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
+    </div>
+    
+    <div class="gallery-container">
+        <h1 class="gallery-title">Nuestros Momentos Especiales</h1>
+        
+        <div class="gallery-filters">
+            <button class="gallery-filter active" data-filter="all">Todos</button>
+            <button class="gallery-filter" data-filter="together">Juntos</button>
+            <button class="gallery-filter" data-filter="dates">Citas</button>
+            <button class="gallery-filter" data-filter="special">Especiales</button>
+            <button class="gallery-filter" data-filter="future">Futuro</button>
+        </div>
+        
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- Las fotos se cargarán con JavaScript -->
+        </div>
+        
+        <div class="upload-section">
+            <h3>¿Quieres añadir nuestros recuerdos?</h3>
+            <p>Sube fotos especiales de nosotros (solo en tu dispositivo)</p>
+            <label for="photo-upload" class="upload-btn">
+                <i class="fas fa-cloud-upload-alt"></i> Subir Foto
+            </label>
+            <input type="file" id="photo-upload" class="upload-input" accept="image/*">
+        </div>
+    </div>
+    
+    <div class="photo-modal" id="photo-modal">
+        <div class="photo-modal-content">
+            <span class="close-modal" id="close-photo-modal">&times;</span>
+            <img class="photo-modal-img" id="modal-image" src="" alt="">
+            <div class="modal-info">
+                <div class="gallery-date" id="modal-date"></div>
+                <div class="gallery-description" id="modal-description"></div>
+            </div>
+            <div class="modal-nav">
+                <button class="nav-btn" id="prev-photo">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="nav-btn" id="next-photo">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Galería de fotos con descripciones
+        const galleryPhotos = [
+            {
+                id: 1,
+                url: "https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                title: "Nuestro Primer Viaje",
+                date: "Marzo 2024",
+                description: "Esa aventura inolvidable donde todo comenzó",
+                category: "together"
+            },
+            {
+                id: 2,
+                url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                title: "Atardecer Perfecto",
+                date: "Abril 2024",
+                description: "Mirando el sol esconderse juntos",
+                category: "dates"
+            },
+            {
+                id: 3,
+                url: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                title: "Risas Sin Fin",
+                date: "Mayo 2024",
+                description: "Los momentos más divertidos contigo",
+                category: "together"
+            },
+            {
+                id: 4,
+                url: "https://images.unsplash.com/photo-1529254479751-fbacb4c7a587?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                title: "Celebración Especial",
+                date: "Junio 2024",
+                description: "Nuestro primer aniversario juntos",
+                category: "special"
+            },
+            {
+                id: 5,
+                url: "https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                title: "Sueños Compartidos",
+                date: "Futuro",
+                description: "Todo lo que aún nos espera por vivir",
+                category: "future"
+            },
+            {
+                id: 6,
+                url: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                title: "Noche de Estrellas",
+                date: "Julio 2024",
+                description: "Contando estrellas y compartiendo secretos",
+                category: "dates"
+            }
+        ];
+        
+        let currentPhotoIndex = 0;
+        let filteredPhotos = [...galleryPhotos];
+        
+        const elements = {
+            galleryGrid: document.getElementById('gallery-grid'),
+            photoModal: document.getElementById('photo-modal'),
+            modalImage: document.getElementById('modal-image'),
+            modalDate: document.getElementById('modal-date'),
+            modalDescription: document.getElementById('modal-description'),
+            closePhotoModal: document.getElementById('close-photo-modal'),
+            prevPhoto: document.getElementById('prev-photo'),
+            nextPhoto: document.getElementById('next-photo'),
+            galleryFilters: document.querySelectorAll('.gallery-filter'),
+            photoUpload: document.getElementById('photo-upload')
+        };
+        
+        function initGallery() {
+            loadGallery();
+            setupEventListeners();
+        }
+        
+        function loadGallery() {
+            elements.galleryGrid.innerHTML = '';
+            
+            filteredPhotos.forEach((photo, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.dataset.index = index;
+                item.dataset.category = photo.category;
+                
+                item.innerHTML = `
+                    <img src="${photo.url}" alt="${photo.title}" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-date">${photo.date}</div>
+                        <div class="gallery-description">${photo.title}</div>
+                    </div>
+                `;
+                
+                item.addEventListener('click', () => openPhotoModal(index));
+                elements.galleryGrid.appendChild(item);
+            });
+        }
+        
+        function openPhotoModal(index) {
+            currentPhotoIndex = index;
+            const photo = filteredPhotos[index];
+            
+            elements.modalImage.src = photo.url;
+            elements.modalDate.textContent = photo.date;
+            elements.modalDescription.textContent = photo.description;
+            
+            elements.photoModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Efecto de entrada
+            elements.modalImage.style.animation = 'zoomIn 0.5s ease';
+        }
+        
+        function closePhotoModal() {
+            elements.photoModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showPrevPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
+            openPhotoModal(currentPhotoIndex);
+        }
+        
+        function showNextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % filteredPhotos.length;
+            openPhotoModal(currentPhotoIndex);
+        }
+        
+        function filterGallery(category) {
+            if (category === 'all') {
+                filteredPhotos = [...galleryPhotos];
+            } else {
+                filteredPhotos = galleryPhotos.filter(photo => photo.category === category);
+            }
+            loadGallery();
+        }
+        
+        function setupEventListeners() {
+            elements.closePhotoModal.addEventListener('click', closePhotoModal);
+            elements.prevPhoto.addEventListener('click', showPrevPhoto);
+            elements.nextPhoto.addEventListener('click', showNextPhoto);
+            
+            elements.photoModal.addEventListener('click', (e) => {
+                if (e.target === elements.photoModal) {
+                    closePhotoModal();
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (elements.photoModal.style.display === 'block') {
+                    if (e.key === 'Escape') closePhotoModal();
+                    if (e.key === 'ArrowLeft') showPrevPhoto();
+                    if (e.key === 'ArrowRight') showNextPhoto();
+                }
+            });
+            
+            elements.galleryFilters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    elements.galleryFilters.forEach(f => f.classList.remove('active'));
+                    filter.classList.add('active');
+                    filterGallery(filter.dataset.filter);
+                });
+            });
+            
+            elements.photoUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const newPhoto = {
+                            id: galleryPhotos.length + 1,
+                            url: event.target.result,
+                            title: "Nuevo Recuerdo",
+                            date: new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }),
+                            description: "Un momento especial añadido por ti",
+                            category: "special"
+                        };
+                        
+                        galleryPhotos.push(newPhoto);
+                        filteredPhotos.push(newPhoto);
+                        loadGallery();
+                        
+                        // Mostrar notificación
+                        showNotification("¡Foto añadida a nuestros recuerdos! 📸");
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        function showNotification(message) {
+            // Crear notificación temporal
+            const notification = document.createElement('div');
+            notification.className = 'notification show';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-heart"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+        
+        document.addEventListener('DOMContentLoaded', initGallery);
+        
+        // Inicializar partículas
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: "#ff6b8b" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                move: { enable: true, speed: 0.8 }
+            }
+        });
+        
+        // Agregar animación de zoom
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes zoomIn {
+                from { transform: scale(0.8); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
