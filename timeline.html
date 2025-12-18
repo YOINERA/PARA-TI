@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Historia - Para KIM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .timeline-container {
+            max-width: 1000px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .timeline-title {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 50px;
+            color: var(--dark-color);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 50px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            width: 45%;
+            margin-bottom: 70px;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 70px;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 55%;
+            padding-left: 70px;
+        }
+        
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .timeline-date {
+            position: absolute;
+            top: -25px;
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-date {
+            right: -20px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-date {
+            left: -20px;
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            border: 5px solid var(--light-color);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-icon {
+            right: -75px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-icon {
+            left: -75px;
+        }
+        
+        .timeline-content h3 {
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .timeline-content p {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-photo {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 15px;
+            background: linear-gradient(45deg, #ffafbd, #ffc3a0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+        
+        .back-button a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+        
+        .back-button a:hover {
+            transform: translateX(-5px);
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 70px !important;
+                padding-right: 0 !important;
+            }
+            
+            .timeline-icon {
+                left: 5px !important;
+                right: auto !important;
+            }
+            
+            .timeline-date {
+                left: 70px !important;
+                right: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div id="particles-js"></div>
+    
+    <div class="back-button">
+        <a href="index.html">
+            <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
+    </div>
+    
+    <div class="timeline-container">
+        <h1 class="timeline-title">Nuestra Historia de Amor</h1>
+        
+        <div class="timeline">
+            <!-- Evento 1 -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">Enero 2024</div>
+                    <div class="timeline-icon">💘</div>
+                    <h3>El Primer Encuentro</h3>
+                    <p>El día que nuestros caminos se cruzaron por primera vez. Recuerdo perfectamente tu sonrisa y cómo el tiempo pareció detenerse.</p>
+                    <div class="timeline-photo">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Evento 2 -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">Febrero 2024</div>
+                    <div class="timeline-icon">🥰</div>
+                    <h3>Nuestra Primera Cita</h3>
+                    <p>Esa tarde perfecta donde nos conocimos más. Las risas, las miradas cómplices y la certeza de que algo especial comenzaba.</p>
+                    <div class="timeline-photo">
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Evento 3 -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">Marzo 2024</div>
+                    <div class="timeline-icon">💕</div>
+                    <h3>El Primer "Te Amo"</h3>
+                    <p>Cuando las palabras salieron de mi corazón sin pensarlo. Ese momento mágico donde supimos que esto era real.</p>
+                    <div class="timeline-photo">
+                        <i class="fas fa-kiss-wink-heart"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Añadir más eventos según tu historia -->
+            
+            <!-- Evento futuro -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">Futuro</div>
+                    <div class="timeline-icon">🚀</div>
+                    <h3>Nuestros Sueños Juntos</h3>
+                    <p>Todas las aventuras que aún nos esperan, los sueños por cumplir y la vida que construiremos juntos.</p>
+                    <div class="timeline-photo">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Inicializar partículas
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: "#ff6b8b" },
+                shape: { type: "heart" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 4, random: true },
+                move: { enable: true, speed: 1, direction: "none", random: true }
+            }
+        });
+        
+        // Efecto al hacer scroll
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        timelineItems.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(50px)';
+            item.style.transition = 'all 0.6s ease';
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
