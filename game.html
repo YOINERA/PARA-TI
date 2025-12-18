@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Amor - Para KIM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .game-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .game-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: var(--dark-color);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            opacity: 0.8;
+        }
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .memory-card {
+            aspect-ratio: 1;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            position: relative;
+        }
+        
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card .front,
+        .memory-card .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .memory-card .front {
+            background: var(--light-color);
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card .back {
+            background: var(--gradient);
+            color: white;
+        }
+        
+        .game-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .game-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            background: var(--gradient);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .game-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 107, 139, 0.4);
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+        
+        .back-button a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+        
+        .back-button a:hover {
+            transform: translateX(-5px);
+        }
+        
+        .victory-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        
+        .victory-message.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .victory-content {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.5s;
+        }
+        
+        .victory-message.show .victory-content {
+            transform: scale(1);
+        }
+        
+        .victory-content h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .game-title {
+                font-size: 2.5rem;
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div id="particles-js"></div>
+    
+    <div class="back-button">
+        <a href="index.html">
+            <i class="fas fa-arrow-left"></i> Volver al inicio
+        </a>
+    </div>
+    
+    <div class="game-container">
+        <h1 class="game-title">Juego de la Memoria del Amor</h1>
+        
+        <div class="game-stats">
+            <div class="stat">
+                <span class="stat-value" id="moves">0</span>
+                <span class="stat-label">Movimientos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="timer">00:00</span>
+                <span class="stat-label">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="pairs">0/8</span>
+                <span class="stat-label">Parejas</span>
+            </div>
+        </div>
+        
+        <div class="memory-grid" id="memory-grid">
+            <!-- Las cartas se generarán con JavaScript -->
+        </div>
+        
+        <div class="game-controls">
+            <button class="game-btn" id="start-game">
+                <i class="fas fa-play"></i> Comenzar Juego
+            </button>
+            <button class="game-btn" id="reset-game">
+                <i class="fas fa-redo"></i> Reiniciar
+            </button>
+        </div>
+    </div>
+    
+    <div class="victory-message" id="victory-message">
+        <div class="victory-content">
+            <h2>¡Felicidades mi amor! 🎉</h2>
+            <p>Has encontrado todas las parejas de nuestro amor</p>
+            <p id="final-stats"></p>
+            <button class="game-btn" id="play-again">
+                <i class="fas fa-heart"></i> Jugar Otra Vez
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        const cards = [
+            '❤️', '💕', '💘', '💝', '💖', '💗', '💓', '💞',
+            '😍', '🥰', '😘', '💋', '👩‍❤️‍👨', '💑', '💏', '💒'
+        ];
+        
+        let gameState = {
+            moves: 0,
+            pairsFound: 0,
+            totalPairs: 8,
+            timer: 0,
+            timerInterval: null,
+            flippedCards: [],
+            canFlip: true,
+            gameStarted: false
+        };
+        
+        const elements = {
+            memoryGrid: document.getElementById('memory-grid'),
+            moves: document.getElementById('moves'),
+            timer: document.getElementById('timer'),
+            pairs: document.getElementById('pairs'),
+            startBtn: document.getElementById('start-game'),
+            resetBtn: document.getElementById('reset-game'),
+            victoryMessage: document.getElementById('victory-message'),
+            finalStats: document.getElementById('final-stats'),
+            playAgainBtn: document.getElementById('play-again')
+        };
+        
+        function initGame() {
+            createCards();
+            setupEventListeners();
+            updateStats();
+        }
+        
+        function createCards() {
+            elements.memoryGrid.innerHTML = '';
+            
+            // Duplicar y mezclar cartas
+            let gameCards = [...cards, ...cards]
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 16);
+            
+            gameCards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.index = index;
+                card.dataset.emoji = emoji;
+                
+                card.innerHTML = `
+                    <div class="front">${emoji}</div>
+                    <div class="back">?</div>
+                `;
+                
+                card.addEventListener('click', () => flipCard(card));
+                elements.memoryGrid.appendChild(card);
+            });
+        }
+        
+        function setupEventListeners() {
+            elements.startBtn.addEventListener('click', startGame);
+            elements.resetBtn.addEventListener('click', resetGame);
+            elements.playAgainBtn.addEventListener('click', resetGame);
+        }
+        
+        function startGame() {
+            if (gameState.gameStarted) return;
+            
+            gameState.gameStarted = true;
+            gameState.timerInterval = setInterval(() => {
+                gameState.timer++;
+                updateTimer();
+            }, 1000);
+            
+            elements.startBtn.disabled = true;
+            createConfetti();
+        }
+        
+        function flipCard(card) {
+            if (!gameState.gameStarted || !gameState.canFlip || 
+                gameState.flippedCards.length >= 2 || 
+                card.classList.contains('flipped') ||
+                card.classList.contains('matched')) {
+                return;
+            }
+            
+            card.classList.add('flipped');
+            gameState.flippedCards.push(card);
+            
+            if (gameState.flippedCards.length === 2) {
+                gameState.moves++;
+                updateStats();
+                checkForMatch();
+            }
+        }
+        
+        function checkForMatch() {
+            gameState.canFlip = false;
+            
+            const [card1, card2] = gameState.flippedCards;
+            const isMatch = card1.dataset.emoji === card2.dataset.emoji;
+            
+            setTimeout(() => {
+                if (isMatch) {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    gameState.pairsFound++;
+                    
+                    if (gameState.pairsFound === gameState.totalPairs) {
+                        endGame();
+                    }
+                    
+                    // Efecto especial para pareja encontrada
+                    createHearts(20);
+                } else {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                }
+                
+                gameState.flippedCards = [];
+                gameState.canFlip = true;
+            }, 1000);
+        }
+        
+        function endGame() {
+            clearInterval(gameState.timerInterval);
+            
+            const minutes = Math.floor(gameState.timer / 60);
+            const seconds = gameState.timer % 60;
+            
+            elements.finalStats.innerHTML = `
+                <p>Tiempo: ${minutes}:${seconds.toString().padStart(2, '0')}</p>
+                <p>Movimientos: ${gameState.moves}</p>
+                <p>¡Eres increíble! 💖</p>
+            `;
+            
+            setTimeout(() => {
+                elements.victoryMessage.classList.add('show');
+                createFireworks(15);
+            }, 1000);
+        }
+        
+        function resetGame() {
+            clearInterval(gameState.timerInterval);
+            
+            gameState = {
+                moves: 0,
+                pairsFound: 0,
+                totalPairs: 8,
+                timer: 0,
+                timerInterval: null,
+                flippedCards: [],
+                canFlip: true,
+                gameStarted: false
+            };
+            
+            elements.victoryMessage.classList.remove('show');
+            elements.startBtn.disabled = false;
+            createCards();
+            updateStats();
+        }
+        
+        function updateStats() {
+            elements.moves.textContent = gameState.moves;
+            elements.pairs.textContent = `${gameState.pairsFound}/${gameState.totalPairs}`;
+        }
+        
+        function updateTimer() {
+            const minutes = Math.floor(gameState.timer / 60);
+            const seconds = gameState.timer % 60;
+            elements.timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Efectos especiales
+        function createConfetti() {
+            if (window.createConfetti) {
+                window.createConfetti(50);
+            }
+        }
+        
+        function createHearts(count) {
+            if (window.createHearts) {
+                window.createHearts(count);
+            }
+        }
+        
+        function createFireworks(count) {
+            if (window.createFireworks) {
+                window.createFireworks(count);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', initGame);
+        
+        // Inicializar partículas
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 40, density: { enable: true, value_area: 800 } },
+                color: { value: "#ff6b8b" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                move: { enable: true, speed: 1 }
+            }
+        });
+    </script>
+</body>
+</html>
