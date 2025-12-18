@@ -154,26 +154,23 @@
         }
         
         .timeline-date {
-            position: absolute;
-            top: -25px;
-            font-weight: bold;
-            color: var(--timeline-accent);
-            font-size: 1.3rem;
-            background: linear-gradient(135deg, white, #fff5f7);
-            padding: 10px 25px;
-            border-radius: 30px;
-            border: 3px solid var(--timeline-color);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            font-family: 'Dancing Script', cursive;
-        }
-        
-        .timeline-item:nth-child(odd) .timeline-date {
-            right: -30px;
-        }
-        
-        .timeline-item:nth-child(even) .timeline-date {
-            left: -30px;
-        }
+    position: absolute;
+    top: 10px; /* Espacio desde arriba */
+    left: 50%;
+    transform: translateX(-50%); /* Centra horizontalmente */
+    font-weight: bold;
+    color: var(--timeline-accent);
+    font-size: 1.3rem;
+    background: linear-gradient(135deg, white, #fff5f7);
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: 3px solid var(--timeline-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Dancing Script', cursive;
+    z-index: 2;
+    white-space: nowrap;
+}
+      
         
         .timeline-icon {
             position: absolute;
