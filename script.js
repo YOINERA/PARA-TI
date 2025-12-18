@@ -1,36 +1,385 @@
 // Datos mejorados con categorías
 const messages = [
-    // ... (mantener los 63 mensajes anteriores, añadir propiedad category a cada uno)
     {
         day: 1,
         message: "Tu sonrisa ilumina mis días más grises. Desde que estás en mi vida, todo tiene más color.",
         icon: "😊",
         category: "romantic"
     },
-    // ... (añadir category: "romantic", "future", "funny", "deep" a todos)
-    // Ejemplo de mensaje con categoría "funny":
     {
-        day: 64,
-        message: "Me robaste el corazón y ahora eres mi ladrona favorita. ¡Devuélvemelo nunca!",
+        day: 2,
+        message: "Contigo he descubierto un amor que no conocía. Un amor que sana, que comprende, que perdona.",
+        icon: "❤️",
+        category: "romantic"
+    },
+    {
+        day: 3,
+        message: "Eres la razón por la que creo en el destino. No fue casualidad encontrarte, fue el universo conspirando a nuestro favor.",
+        icon: "✨",
+        category: "romantic"
+    },
+    {
+        day: 4,
+        message: "Mi niño interior revive cuando estoy contigo. Esas ganas de jugar, de reír sin motivo, de soñar despierto.",
+        icon: "👦",
+        category: "funny"
+    },
+    {
+        day: 5,
+        message: "Me haces sentir que puedo conquistar el mundo. Tu fe en mí es mi mayor motivación.",
+        icon: "🌎",
+        category: "deep"
+    },
+    {
+        day: 6,
+        message: "Tu mirada despierta mariposas en mi estómago. Esos nervios que solo tú provocas en mí.",
+        icon: "🦋",
+        category: "romantic"
+    },
+    {
+        day: 7,
+        message: "Cada momento a tu lado es un tesoro. Guardo cada risa, cada abrazo, cada mirada en el cofre de mis mejores recuerdos.",
+        icon: "💎",
+        category: "romantic"
+    },
+    {
+        day: 8,
+        message: "Eres el sueño que nunca quise despertar. Contigo la realidad supera cualquier fantasía.",
+        icon: "💭",
+        category: "romantic"
+    },
+    {
+        day: 9,
+        message: "Tu amor sana las heridas de mi pasado. Donde había dolor, ahora hay esperanza gracias a ti.",
+        icon: "🩹",
+        category: "deep"
+    },
+    {
+        day: 10,
+        message: "Contigo quiero construir un futuro lleno de risas. Un hogar donde el amor sea el cimiento más fuerte.",
+        icon: "🏡",
+        category: "future"
+    },
+    {
+        day: 11,
+        message: "Eres mi refugio en los días difíciles. En tus brazos encuentro la paz que mi alma necesita.",
+        icon: "🛡️",
+        category: "deep"
+    },
+    {
+        day: 12,
+        message: "Tu voz es la melodía que calma mi alma. Podría escucharte hablar por horas sin cansarme.",
+        icon: "🎵",
+        category: "romantic"
+    },
+    {
+        day: 13,
+        message: "Amo la persona que soy cuando estoy contigo. Me inspiras a ser mejor cada día.",
+        icon: "🌟",
+        category: "deep"
+    },
+    {
+        day: 14,
+        message: "Eres la respuesta a todas mis preguntas. En tu amor encontré el sentido que tanto buscaba.",
+        icon: "❓",
+        category: "deep"
+    },
+    {
+        day: 15,
+        message: "Tu amor me da fuerzas para ser mejor cada día. Quiero merecerte, quiero ser tu orgullo.",
+        icon: "💪",
+        category: "deep"
+    },
+    {
+        day: 16,
+        message: "Contigo hasta lo simple se vuelve mágico. Un paseo, una comida, una tarde en casa... todo es especial contigo.",
+        icon: "🔮",
+        category: "romantic"
+    },
+    {
+        day: 17,
+        message: "Eres mi confidente y mi mejor amiga. Puedo contarte mis mayores sueños y mis peores miedos.",
+        icon: "🤝",
+        category: "deep"
+    },
+    {
+        day: 18,
+        message: "Tu risa es mi sonido favorito. Es contagiosa, auténtica, y llena mi corazón de alegría.",
+        icon: "😂",
+        category: "funny"
+    },
+    {
+        day: 19,
+        message: "Amo cómo me miras, como si fuera único. Esa mirada que me hace sentir el hombre más afortunado del mundo.",
+        icon: "👀",
+        category: "romantic"
+    },
+    {
+        day: 20,
+        message: "Eres el regalo que la vida me dio después de tanto esperar. Valió la pena la espera.",
+        icon: "🎁",
+        category: "romantic"
+    },
+    {
+        day: 21,
+        message: "Contigo quiero envejecer riendo. Ver cómo se nos llena el rostro de arrugas, pero el corazón de amor.",
+        icon: "👵👴",
+        category: "future"
+    },
+    {
+        day: 22,
+        message: "Tu amor me hace sentir completo. Esas partes de mí que faltaban, ahora están aquí contigo.",
+        icon: "🧩",
+        category: "deep"
+    },
+    {
+        day: 23,
+        message: "Eres mi paz en medio del caos. Cuando el mundo gira demasiado rápido, tú eres mi centro.",
+        icon: "🕊️",
+        category: "deep"
+    },
+    {
+        day: 24,
+        message: "Amo cada detalle, cada gesto, cada mirada tuya. Me enamoro más de ti cada día.",
+        icon: "📝",
+        category: "romantic"
+    },
+    {
+        day: 25,
+        message: "Contigo el tiempo vuela y se detiene a la vez. Los minutos pasan rápido, pero los momentos quedan para siempre.",
+        icon: "⏳",
+        category: "romantic"
+    },
+    {
+        day: 26,
+        message: "Eres la dueña de mis pensamientos. Me despierto pensando en ti y me duermo soñando contigo.",
+        icon: "🤔",
+        category: "romantic"
+    },
+    {
+        day: 27,
+        message: "Tu amor es el combustible de mis sueños. Contigo a mi lado, siento que puedo lograr cualquier cosa.",
+        icon: "🚀",
+        category: "deep"
+    },
+    {
+        day: 28,
+        message: "Eres mi inspiración para ser mejor. Quiero ser la versión más grandiosa de mí mismo para ti.",
+        icon: "💡",
+        category: "deep"
+    },
+    {
+        day: 29,
+        message: "Amo cómo encajas perfectamente en mi vida. Como si siempre hubieras estado destinada a estar aquí.",
+        icon: "🔑",
+        category: "romantic"
+    },
+    {
+        day: 30,
+        message: "Contigo quiero compartir todos mis días. Los buenos, los malos, los simples, los extraordinarios.",
+        icon: "📅",
+        category: "future"
+    },
+    {
+        day: 31,
+        message: "Eres la luz que guía mi camino. En la oscuridad, tú eres mi faro, mi esperanza.",
+        icon: "💡",
+        category: "deep"
+    },
+    {
+        day: 32,
+        message: "Tu amor es mi mayor fortuna. No cambiaría lo que siento por ti por todo el oro del mundo.",
+        icon: "💰",
+        category: "romantic"
+    },
+    {
+        day: 33,
+        message: "Eres mi razón para sonreír sin motivo. Esa felicidad interna que brota cuando pienso en ti.",
+        icon: "😄",
+        category: "romantic"
+    },
+    {
+        day: 34,
+        message: "Contigo todo tiene más sentido. Los planes, los esfuerzos, las luchas... todo vale la pena por nuestro amor.",
+        icon: "🎯",
+        category: "deep"
+    },
+    {
+        day: 35,
+        message: "Amo cómo me haces sentir amado. Esa seguridad de saber que soy importante para ti.",
+        icon: "💖",
+        category: "romantic"
+    },
+    {
+        day: 36,
+        message: "Eres mi eterno y único amor. No imagino mi vida sin ti, no quiero mi vida sin ti. Eres mi todo.",
+        icon: "∞",
+        category: "romantic"
+    },
+    // Nuevos mensajes del 37 al 63
+    {
+        day: 37,
+        message: "Tu amor transforma lo ordinario en extraordinario. Conviertes cada instante en un recuerdo inolvidable.",
+        icon: "✨",
+        category: "romantic"
+    },
+    {
+        day: 38,
+        message: "Contigo aprendí que el amor verdadero existe y que es más hermoso de lo que imaginaba.",
+        icon: "💕",
+        category: "deep"
+    },
+    {
+        day: 39,
+        message: "Eres el capítulo más bello de mi historia. Cada día contigo es una página que atesoro con el alma.",
+        icon: "📖",
+        category: "deep"
+    },
+    {
+        day: 40,
+        message: "Me robaste el corazón y ahora eres mi ladrona favorita. ¡Pero no me lo devuelvas nunca!",
         icon: "😏",
         category: "funny"
+    },
+    {
+        day: 41,
+        message: "Tu amor es mi refugio seguro. En tus brazos el mundo desaparece y solo existimos tú y yo.",
+        icon: "🛡️",
+        category: "deep"
+    },
+    {
+        day: 42,
+        message: "Contigo descubro nuevas razones para vivir cada día. Eres mi aventura favorita.",
+        icon: "🧭",
+        category: "romantic"
+    },
+    {
+        day: 43,
+        message: "Eres la melodía perfecta que armoniza mi vida. Sin ti, todo sería silencio.",
+        icon: "🎶",
+        category: "romantic"
+    },
+    {
+        day: 44,
+        message: "Amo cómo construimos recuerdos juntos. Cada experiencia compartida es un tesoro eterno.",
+        icon: "📸",
+        category: "future"
+    },
+    {
+        day: 45,
+        message: "Tu ternura es el bálsamo que cura cualquier herida. En tus gestos encuentro el amor más puro.",
+        icon: "🫂",
+        category: "deep"
+    },
+    {
+        day: 46,
+        message: "Contigo el amor crece cada día como un árbol fuerte que echa raíces profundas.",
+        icon: "🌳",
+        category: "future"
+    },
+    {
+        day: 47,
+        message: "Eres mi confidente de sueños locos. Contigo puedo ser completamente yo sin miedo al juicio.",
+        icon: "🌠",
+        category: "deep"
+    },
+    {
+        day: 48,
+        message: "Tu amor es el mejor regalo que he recibido. Más valioso que cualquier tesoro material.",
+        icon: "🎁",
+        category: "romantic"
+    },
+    {
+        day: 49,
+        message: "Amo cómo celebramos juntos cada pequeña victoria. Contigo hasta lo pequeño se siente enorme.",
+        icon: "🏆",
+        category: "funny"
+    },
+    {
+        day: 50,
+        message: "Eres mi compañera de todas las aventuras. Desde las más simples hasta las más extraordinarias.",
+        icon: "🗺️",
+        category: "future"
+    },
+    {
+        day: 51,
+        message: "Tu amor ilumina mis días más oscuros como una estrella que brilla en la noche.",
+        icon: "⭐",
+        category: "deep"
+    },
+    {
+        day: 52,
+        message: "Contigo aprendí el verdadero significado de la complicidad. Esa conexión que solo nosotros entendemos.",
+        icon: "🔒",
+        category: "deep"
+    },
+    {
+        day: 53,
+        message: "Eres la calma después de cada tormenta. En tu presencia encuentro paz y serenidad.",
+        icon: "⛅",
+        category: "deep"
+    },
+    {
+        day: 54,
+        message: "Amo cómo crecemos juntos, entrelazando nuestras vidas y fortaleciéndonos mutuamente.",
+        icon: "🌱",
+        category: "future"
+    },
+    {
+        day: 55,
+        message: "Tu amor es mi mayor inspiración para crear, soñar y creer en lo imposible.",
+        icon: "🎨",
+        category: "deep"
+    },
+    {
+        day: 56,
+        message: "Eres el hogar al que siempre quiero volver. Donde sea que estemos, contigo estoy en casa.",
+        icon: "🏠",
+        category: "romantic"
+    },
+    {
+        day: 57,
+        message: "Contigo el presente es un regalo y el futuro una promesa llena de esperanza.",
+        icon: "🎁",
+        category: "future"
+    },
+    {
+        day: 58,
+        message: "Tu amor transformó mi vida completamente. Donde había vacío, ahora hay plenitud absoluta.",
+        icon: "🦋",
+        category: "deep"
+    },
+    {
+        day: 59,
+        message: "Eres mi razón para creer en los milagros. Encontrarte fue el más hermoso de todos.",
+        icon: "🙏",
+        category: "romantic"
+    },
+    {
+        day: 60,
+        message: "Amo cómo nuestro amor supera cualquier obstáculo. Juntos somos más fuertes que cualquier desafío.",
+        icon: "🚧",
+        category: "deep"
+    },
+    {
+        day: 61,
+        message: "Eres mi amor infinito, mi siempre y para siempre. Hoy y todos los días de mi vida.",
+        icon: "💫",
+        category: "romantic"
+    },
+    {
+        day: 62,
+        message: "Tu risa es contagiosa y tu alegría es mi combustible. Me haces sentir vivo de una manera única.",
+        icon: "😂",
+        category: "funny"
+    },
+    {
+        day: 63,
+        message: "Eres el sueño que elegí vivir cada día. Mi amor por ti crece con cada amanecer.",
+        icon: "🌅",
+        category: "romantic"
     }
 ];
-
-// Añadir más mensajes hasta 100
-for (let i = 64; i <= 100; i++) {
-    const categories = ["romantic", "future", "funny", "deep"];
-    const category = categories[Math.floor(Math.random() * categories.length)];
-    const icons = ["💖", "✨", "🌟", "🥰", "😍", "💕", "💘", "💝", "💓", "💗"];
-    
-    messages.push({
-        day: i,
-        message: generateRandomMessage(),
-        icon: icons[Math.floor(Math.random() * icons.length)],
-        category: category
-    });
-}
-
 // Estado de la aplicación
 let state = {
     currentDay: 1,
