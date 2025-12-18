@@ -575,8 +575,18 @@ function openModal(day) {
         // Actualizar botón de favorito
         updateFavoriteButton(day);
         
+        // Mostrar modal ANTES de bloquear scroll
         elements.modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
+        
+        // Pequeña pausa antes de bloquear scroll
+        setTimeout(() => {
+            // Bloquear scroll del body pero NO del modal
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed'; // Esto ayuda en móviles
+            document.body.style.width = '100%';
+            document.body.style.height = '100%';
+        }, 10);
+        
         updateCurrentDay(day);
         
         // Efecto de entrada
@@ -588,7 +598,15 @@ function openModal(day) {
 // Cerrar modal
 function closeMessageModal() {
     elements.modal.style.display = 'none';
+    
+    // Restaurar scroll del body
     document.body.style.overflow = 'auto';
+    document.body.style.position = 'static';
+    document.body.style.width = 'auto';
+    document.body.style.height = 'auto';
+    
+    // Forzar redibujado (reflow) para algunos navegadores
+    document.body.offsetHeight;
 }
 
 // Actualizar botón de favorito
