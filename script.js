@@ -754,7 +754,7 @@ function applyTheme() {
 // Actualizar contadores
 function updateCounters() {
     // Fecha de inicio: 16 de octubre 2025
-    const startDate = new Date('2025-10-16');
+    const startDate = new Date('2025-10-17');
     const today = new Date();
     
     console.log("=== CÁLCULO EXACTO ===");
