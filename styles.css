@@ -41,7 +41,7 @@ body {
     transition: var(--transition);
 }
 
-/* Navegación flotante */
+/* Navegación flotante - CORREGIDO */
 .floating-nav {
     position: fixed;
     top: 20px;
@@ -76,6 +76,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
 }
 
 .nav-btn:hover {
@@ -157,6 +158,18 @@ body {
     opacity: 0.9;
 }
 
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 /* Header mejorado */
 .header {
     text-align: center;
@@ -199,6 +212,20 @@ body {
     background: linear-gradient(135deg, #ff8fa3, #ff4d6d);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--dark-color);
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.days-counter {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    font-weight: 500;
+    margin-bottom: 20px;
 }
 
 .search-container {
@@ -334,6 +361,34 @@ body {
     overflow: hidden;
 }
 
+.letter-footer {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.letter-category {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 3px 10px;
+    border-radius: 15px;
+    border: 1px solid var(--secondary-color);
+}
+
+.favorite-star {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.2rem;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 /* Barra de progreso */
 .progress-container {
     background: rgba(255, 255, 255, 0.9);
@@ -353,14 +408,7 @@ body {
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 10px;
-}
-
-.progress-bar::after {
-    content: '';
-    display: block;
-    height: 100%;
     width: 0%;
-    background: var(--gradient);
     transition: width 1s ease-in-out;
 }
 
@@ -434,16 +482,40 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Modal mejorado */
+/* Modal mejorado - CORREGIDO */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
 .modal-content {
     position: relative;
     background: white;
-    margin: 5% auto;
     width: 90%;
     max-width: 600px;
     border-radius: 25px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     animation: modalAppear 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10001;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .dark-mode .modal-content {
@@ -468,6 +540,12 @@ body {
     text-align: center;
     position: relative;
     border-radius: 25px 25px 0 0;
+}
+
+.heart-decoration {
+    font-size: 2rem;
+    margin-top: 10px;
+    animation: float 2s ease-in-out infinite;
 }
 
 .modal-actions {
@@ -602,6 +680,14 @@ body {
     opacity: 0;
     font-family: 'Dancing Script', cursive;
     transform: translate(-50%, -50%);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
 }
 
 /* Responsive */
