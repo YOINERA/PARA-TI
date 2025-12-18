@@ -769,15 +769,6 @@ function updateCounters() {
     console.log("Método UTC - días diferencia:", diffDaysUTC);
     console.log("Método UTC - días juntos:", diffDaysUTC + 1);
     
-    // Método 2: Cálculo directo
-    const diffTime = today.getTime() - startDate.getTime();
-    const diffDaysDirect = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    console.log("Método directo - días diferencia:", diffDaysDirect);
-    console.log("Método directo - días juntos:", diffDaysDirect + 1);
-    
-    // Mostrar el resultado (elige uno)
-    // Si quieres 63 días exactos:
-    elements.daysTogether.textContent = 63;
     
     // O si quieres el cálculo real:
     // elements.daysTogether.textContent = diffDaysUTC + 1;
