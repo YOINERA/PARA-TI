@@ -138,7 +138,59 @@
             align-items: center;
             justify-content: center;
             color: white;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .timeline-photo:hover {
+            transform: scale(1.05);
+        }
+        
+        .timeline-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .timeline-photo:hover img {
+            transform: scale(1.1);
+        }
+        
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .timeline-photo:hover .photo-overlay {
+            opacity: 1;
+        }
+        
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6b8b, #ff2e63);
+        }
+        
+        .photo-placeholder i {
             font-size: 3rem;
+            margin-bottom: 10px;
         }
         
         .back-button {
@@ -164,6 +216,67 @@
             transform: translateX(-5px);
         }
         
+        /* Modal para fotos */
+        .photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .photo-modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .photo-modal-img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .close-photo-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-photo-modal:hover {
+            color: var(--accent-color);
+        }
+        
+        .photo-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+            text-align: center;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         @media (max-width: 768px) {
             .timeline::before {
                 left: 30px;
@@ -185,6 +298,10 @@
                 left: 70px !important;
                 right: auto !important;
             }
+            
+            .timeline-title {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
@@ -202,46 +319,55 @@
         <h1 class="timeline-title">Nuestra Historia de Amor</h1>
         
         <div class="timeline">
-            <!-- Evento 1 -->
+            <!-- Evento 1: Primera Salida -->
             <div class="timeline-item">
                 <div class="timeline-content">
                     <div class="timeline-date">13 Octubre 2025</div>
                     <div class="timeline-icon">💘</div>
                     <h3>El Primer Encuentro</h3>
-                    <p>El día que nuestros caminos se cruzaron por primera vez. Recuerdo perfectamente tu sonrisa y cómo el tiempo pareció detenerse.</p>
-                    <div class="timeline-photo">
-                        <i class="fas fa-heart"></i>
+                    <p>El día que nuestros caminos se cruzaron por primera vez. Recuerdo perfectamente tu sonrisa y cómo el tiempo pareció detenerse. Fue como si el mundo entero se detuviera solo para que yo pudiera verte.</p>
+                    <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primera_salida.jpeg', 'Nuestra primera salida juntos')">
+                        <img src="assets/photos/primera_salida.jpeg" alt="Primera salida juntos" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\"photo-placeholder\"><i class=\"fas fa-heart\"></i><span>Nuestra Primera Salida</span></div>';">
+                        <div class="photo-overlay">
+                            <i class="fas fa-expand"></i>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Evento 2 -->
+            <!-- Evento 2: Primera Cita -->
             <div class="timeline-item">
                 <div class="timeline-content">
                     <div class="timeline-date">2 Noviembre 2025</div>
                     <div class="timeline-icon">🥰</div>
                     <h3>Nuestra Primera Cita</h3>
-                    <p>Esa tarde perfecta donde nos conocimos más. Las risas, las miradas cómplices y la certeza de que algo especial comenzaba.</p>
-                    <div class="timeline-photo">
-                        <i class="fas fa-star"></i>
+                    <p>Esa tarde perfecta donde nos conocimos más. Las risas, las miradas cómplices y la certeza de que algo especial comenzaba. Cada momento fue mágico y supe que quería pasar más tiempo contigo.</p>
+                    <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primera_cita.jpeg', 'Nuestra primera cita especial')">
+                        <img src="assets/photos/primera_cita.jpeg" alt="Primera cita" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\"photo-placeholder\"><i class=\"fas fa-star\"></i><span>Nuestra Primera Cita</span></div>';">
+                        <div class="photo-overlay">
+                            <i class="fas fa-expand"></i>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Evento 3 -->
+            <!-- Evento 3: Primer Te Amo -->
             <div class="timeline-item">
                 <div class="timeline-content">
                     <div class="timeline-date">19 Octubre 2025</div>
                     <div class="timeline-icon">💕</div>
                     <h3>El Primer "Te Amo"</h3>
-                    <p>Cuando las palabras salieron de mi corazón sin pensarlo. Ese momento mágico donde supimos que esto era real.</p>
-                    <div class="timeline-photo">
-                        <i class="fas fa-kiss-wink-heart"></i>
+                    <p>Cuando las palabras salieron de mi corazón sin pensarlo. Ese momento mágico donde supimos que esto era real. Fue el momento más honesto y verdadero de mi vida.</p>
+                    <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primer_te_amo.jpeg', 'El momento en que te dije "Te amo" por primera vez')">
+                        <img src="assets/photos/primer_te_amo.jpeg" alt="Primer te amo" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\"photo-placeholder\"><i class=\"fas fa-kiss-wink-heart\"></i><span>Nuestro Primer Te Amo</span></div>';">
+                        <div class="photo-overlay">
+                            <i class="fas fa-expand"></i>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Añadir más eventos según tu historia -->
+          
             
             <!-- Evento futuro -->
             <div class="timeline-item">
@@ -249,17 +375,51 @@
                     <div class="timeline-date">Futuro</div>
                     <div class="timeline-icon">🚀</div>
                     <h3>Nuestros Sueños Juntos</h3>
-                    <p>Todas las aventuras que aún nos esperan, los sueños por cumplir y la vida que construiremos juntos.</p>
+                    <p>Todas las aventuras que aún nos esperan, los sueños por cumplir y la vida que construiremos juntos. Un hogar lleno de amor, risas y momentos inolvidables.</p>
                     <div class="timeline-photo">
-                        <i class="fas fa-infinity"></i>
+                        <div class="photo-placeholder">
+                            <i class="fas fa-infinity"></i>
+                            <span>Nuestro Futuro Juntos</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     
+    <!-- Modal para fotos -->
+    <div class="photo-modal" id="photo-modal">
+        <div class="photo-modal-content">
+            <span class="close-photo-modal" onclick="closePhotoModal()">&times;</span>
+            <img class="photo-modal-img" id="modal-photo-img" src="" alt="">
+            <div class="photo-info">
+                <h3 id="modal-photo-title"></h3>
+                <p id="modal-photo-date"></p>
+            </div>
+        </div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        // Datos de las fotos con descripciones
+        const photosData = {
+            'primera_salida': {
+                title: 'Nuestra primera salida juntos',
+                date: '13 Octubre 2025',
+                description: 'El día que todo comenzó'
+            },
+            'primera_cita': {
+                title: 'Nuestra primera cita especial',
+                date: '2 Noviembre 2025',
+                description: 'Donde las risas nunca terminaron'
+            },
+            'primer_te_amo': {
+                title: 'El momento más especial',
+                date: '19 Octubre 2025',
+                description: 'Cuando te dije "Te amo" por primera vez'
+            }
+        };
+        
         // Inicializar partículas
         particlesJS('particles-js', {
             particles: {
@@ -290,6 +450,126 @@
             item.style.transition = 'all 0.6s ease';
             observer.observe(item);
         });
+        
+        // Funciones para el modal de fotos
+        function openPhotoModal(imageSrc, title) {
+            const modal = document.getElementById('photo-modal');
+            const modalImg = document.getElementById('modal-photo-img');
+            const modalTitle = document.getElementById('modal-photo-title');
+            
+            // Extraer el nombre del archivo sin extensión
+            const fileName = imageSrc.split('/').pop().split('.')[0];
+            
+            // Obtener datos de la foto
+            const photoData = photosData[fileName];
+            
+            modalImg.src = imageSrc;
+            modalImg.alt = title;
+            
+            if (photoData) {
+                modalTitle.textContent = photoData.title;
+                document.getElementById('modal-photo-date').textContent = photoData.date;
+            } else {
+                modalTitle.textContent = title;
+                document.getElementById('modal-photo-date').textContent = '';
+            }
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Efecto de entrada
+            modalImg.style.animation = 'fadeIn 0.5s ease';
+        }
+        
+        function closePhotoModal() {
+            const modal = document.getElementById('photo-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('photo-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePhotoModal();
+            }
+        });
+        
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoModal();
+            }
+        });
+        
+        // Efecto de precarga para las imágenes
+        function preloadImages() {
+            const imageUrls = [
+                'assets/photos/primera_salida.jpeg',
+                'assets/photos/primera_cita.jpeg',
+                'assets/photos/primer_te_amo.jpeg'
+            ];
+            
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
+        
+        // Pre-cargar imágenes cuando la página cargue
+        window.addEventListener('load', preloadImages);
+        
+        // Efecto de sonido al hacer clic en las fotos
+        function playPhotoSound() {
+            const sound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ');
+            sound.volume = 0.3;
+            sound.play().catch(() => {});
+        }
+        
+        // Añadir efecto de sonido a todas las fotos
+        document.querySelectorAll('.timeline-photo').forEach(photo => {
+            photo.addEventListener('click', playPhotoSound);
+        });
+        
+        // Añadir animación de latido a los iconos del timeline
+        document.querySelectorAll('.timeline-icon').forEach(icon => {
+            setInterval(() => {
+                icon.style.transform = 'translateY(-50%) scale(1.1)';
+                setTimeout(() => {
+                    icon.style.transform = 'translateY(-50%) scale(1)';
+                }, 300);
+            }, 3000);
+        });
+        
+        // Función para verificar si las imágenes existen y mostrar mensaje
+        function checkImages() {
+            const images = document.querySelectorAll('.timeline-photo img');
+            images.forEach(img => {
+                img.onerror = function() {
+                    this.style.display = 'none';
+                    const parent = this.parentElement;
+                    if (!parent.querySelector('.photo-placeholder')) {
+                        parent.innerHTML = `
+                            <div class="photo-placeholder">
+                                <i class="${parent.dataset.icon || 'fas fa-heart'}"></i>
+                                <span>${parent.dataset.title || 'Foto especial'}</span>
+                                <small>Haz clic para añadir tu foto</small>
+                            </div>
+                            <div class="photo-overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        `;
+                    }
+                };
+                
+                // Si la imagen carga correctamente, añadir clase de cargada
+                img.onload = function() {
+                    this.classList.add('loaded');
+                };
+            });
+        }
+        
+        // Ejecutar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', checkImages);
     </script>
 </body>
 </html>
