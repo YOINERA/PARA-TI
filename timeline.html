@@ -8,26 +8,87 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Variables adicionales */
+        :root {
+            --timeline-color: #ff6b8b;
+            --timeline-accent: #ff2e63;
+            --timeline-light: #fff5f7;
+            --timeline-dark: #8a1c4a;
+            --timeline-gradient: linear-gradient(135deg, #ff6b8b, #ff2e63);
+            --timeline-glow: 0 0 20px rgba(255, 107, 139, 0.5);
+        }
+        
+        .timeline-hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 50px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('assets/photos/primera_salida.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 40px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 1s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         .timeline-container {
-            max-width: 1000px;
-            margin: 100px auto 50px;
+            max-width: 1200px;
+            margin: 0 auto 100px;
             padding: 0 20px;
+            position: relative;
         }
         
         .timeline-title {
             text-align: center;
             font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            margin-bottom: 50px;
-            color: var(--dark-color);
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 4.5rem;
+            margin-bottom: 70px;
+            color: white;
+            text-shadow: 0 0 30px rgba(255, 107, 139, 0.8);
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: var(--timeline-gradient);
+            border-radius: 2px;
         }
         
         .timeline {
             position: relative;
-            padding: 50px 0;
+            padding: 80px 0;
         }
         
         .timeline::before {
@@ -35,127 +96,178 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
+            width: 6px;
             height: 100%;
-            background: var(--gradient);
-            border-radius: 2px;
+            background: var(--timeline-gradient);
+            border-radius: 3px;
+            box-shadow: var(--timeline-glow);
         }
         
         .timeline-item {
             width: 45%;
-            margin-bottom: 70px;
+            margin-bottom: 100px;
             position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .timeline-item:nth-child(odd) {
             left: 0;
-            padding-right: 70px;
+            padding-right: 100px;
         }
         
         .timeline-item:nth-child(even) {
             left: 55%;
-            padding-left: 70px;
+            padding-left: 100px;
         }
         
         .timeline-content {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 245, 247, 0.95));
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             position: relative;
-            transition: var(--transition);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid rgba(255, 107, 139, 0.1);
+            overflow: hidden;
+        }
+        
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--timeline-gradient);
         }
         
         .timeline-content:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         }
         
         .timeline-date {
             position: absolute;
             top: -25px;
             font-weight: bold;
-            color: var(--accent-color);
-            font-size: 1.2rem;
-            background: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            border: 2px solid var(--secondary-color);
+            color: var(--timeline-accent);
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, white, #fff5f7);
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 3px solid var(--timeline-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-family: 'Dancing Script', cursive;
         }
         
         .timeline-item:nth-child(odd) .timeline-date {
-            right: -20px;
+            right: -30px;
         }
         
         .timeline-item:nth-child(even) .timeline-date {
-            left: -20px;
+            left: -30px;
         }
         
         .timeline-icon {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            background: var(--gradient);
+            width: 70px;
+            height: 70px;
+            background: var(--timeline-gradient);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
-            border: 5px solid var(--light-color);
+            font-size: 2rem;
+            border: 8px solid var(--timeline-light);
+            box-shadow: 0 0 30px rgba(255, 107, 139, 0.5);
+            z-index: 10;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 107, 139, 0.5); }
+            50% { box-shadow: 0 0 50px rgba(255, 107, 139, 0.8); }
+        }
+        
+        .timeline-icon:hover {
+            transform: translateY(-50%) scale(1.2);
         }
         
         .timeline-item:nth-child(odd) .timeline-icon {
-            right: -75px;
+            right: -95px;
         }
         
         .timeline-item:nth-child(even) .timeline-icon {
-            left: -75px;
+            left: -95px;
         }
         
         .timeline-content h3 {
-            color: var(--dark-color);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
+            color: var(--timeline-dark);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .timeline-content h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--timeline-gradient);
+            border-radius: 2px;
         }
         
         .timeline-content p {
-            color: var(--text-color);
-            line-height: 1.6;
-            margin-bottom: 15px;
+            color: var(--timeline-dark);
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
         
         .timeline-photo {
             width: 100%;
-            height: 200px;
-            border-radius: 15px;
+            height: 250px;
+            border-radius: 20px;
             overflow: hidden;
-            margin-top: 15px;
-            background: linear-gradient(45deg, #ffafbd, #ffc3a0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+            margin-top: 20px;
             position: relative;
-            transition: all 0.3s ease;
             cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid transparent;
+            background: linear-gradient(45deg, #ffafbd, #ffc3a0);
         }
         
         .timeline-photo:hover {
-            transform: scale(1.05);
+            transform: perspective(1000px) rotateX(5deg) scale(1.05);
+            border-color: var(--timeline-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
         
         .timeline-photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.8s ease;
         }
         
         .timeline-photo:hover img {
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
         
         .photo-overlay {
@@ -164,18 +276,28 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.3);
+            background: linear-gradient(0deg, rgba(138, 28, 74, 0.8), transparent);
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: center;
+            padding: 20px;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
             color: white;
-            font-size: 2rem;
         }
         
         .timeline-photo:hover .photo-overlay {
             opacity: 1;
+        }
+        
+        .photo-overlay-content {
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+        
+        .timeline-photo:hover .photo-overlay-content {
+            transform: translateY(0);
         }
         
         .photo-placeholder {
@@ -186,37 +308,60 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #ff6b8b, #ff2e63);
+            color: white;
+            padding: 30px;
         }
         
         .photo-placeholder i {
-            font-size: 3rem;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .photo-placeholder span {
+            font-size: 1.3rem;
+            font-weight: 600;
             margin-bottom: 10px;
+        }
+        
+        .photo-placeholder small {
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
         
         .back-button {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 30px;
+            left: 30px;
             z-index: 1000;
         }
         
         .back-button a {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
-            background: var(--gradient);
+            gap: 15px;
+            padding: 15px 30px;
+            background: var(--timeline-gradient);
             color: white;
             text-decoration: none;
-            border-radius: 30px;
-            transition: var(--transition);
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(255, 107, 139, 0.4);
+            border: 2px solid white;
         }
         
         .back-button a:hover {
-            transform: translateX(-5px);
+            transform: translateX(-10px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 139, 0.6);
         }
         
-        /* Modal para fotos */
+        /* Modal para fotos mejorado */
         .photo-modal {
             display: none;
             position: fixed;
@@ -224,9 +369,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 10000;
-            animation: fadeIn 0.3s ease;
+            animation: modalFadeIn 0.4s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                backdrop-filter: blur(0);
+            }
+            to {
+                opacity: 1;
+                backdrop-filter: blur(10px);
+            }
         }
         
         .photo-modal-content {
@@ -236,28 +392,51 @@
             margin: auto;
             top: 50%;
             transform: translateY(-50%);
+            animation: modalSlideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(100px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(-50%) scale(1);
+            }
         }
         
         .photo-modal-img {
             width: 100%;
             height: auto;
-            max-height: 80vh;
+            max-height: 75vh;
             object-fit: contain;
-            border-radius: 10px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 5px solid rgba(255, 255, 255, 0.1);
         }
         
         .close-photo-modal {
             position: absolute;
-            top: -40px;
+            top: -60px;
             right: 0;
             color: white;
-            font-size: 2rem;
+            font-size: 3rem;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s ease;
+            background: rgba(255, 107, 139, 0.8);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid white;
         }
         
         .close-photo-modal:hover {
-            color: var(--accent-color);
+            background: var(--timeline-accent);
+            transform: rotate(90deg) scale(1.1);
         }
         
         .photo-info {
@@ -265,42 +444,206 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent);
             color: white;
-            padding: 20px;
-            border-radius: 0 0 10px 10px;
+            padding: 30px;
+            border-radius: 0 0 20px 20px;
             text-align: center;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .photo-info h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-family: 'Dancing Script', cursive;
         }
         
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 30px;
+        .photo-info p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* Efectos de decoración */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: floatAround 20s linear infinite;
+        }
+        
+        @keyframes floatAround {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Contador de momentos */
+        .moments-counter {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--timeline-color);
+            z-index: 1000;
+            text-align: center;
+            animation: slideInRight 0.6s ease;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .moments-counter .count {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--timeline-accent);
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .moments-counter .label {
+            font-size: 0.9rem;
+            color: var(--timeline-dark);
+            opacity: 0.8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .timeline-item {
+                width: 90%;
+                left: 5% !important;
+                padding: 0 0 0 100px !important;
+                margin-bottom: 80px;
             }
             
-            .timeline-item {
-                width: 100%;
-                left: 0 !important;
-                padding-left: 70px !important;
-                padding-right: 0 !important;
+            .timeline::before {
+                left: 50px;
             }
             
             .timeline-icon {
-                left: 5px !important;
+                left: 15px !important;
                 right: auto !important;
             }
             
             .timeline-date {
-                left: 70px !important;
+                left: 100px !important;
                 right: auto !important;
+                top: -20px;
             }
             
             .timeline-title {
-                font-size: 2.5rem;
+                font-size: 3.5rem;
+            }
+            
+            .hero-content {
+                padding: 30px;
+                margin: 0 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-hero {
+                height: 50vh;
+            }
+            
+            .timeline-title {
+                font-size: 2.8rem;
+                margin-bottom: 50px;
+            }
+            
+            .timeline-content {
+                padding: 30px;
+            }
+            
+            .timeline-content h3 {
+                font-size: 1.6rem;
+            }
+            
+            .timeline-photo {
+                height: 200px;
+            }
+            
+            .back-button a {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+            
+            .moments-counter {
+                padding: 15px 20px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .moments-counter .count {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .timeline-hero {
+                height: 40vh;
+            }
+            
+            .timeline-title {
+                font-size: 2.2rem;
+            }
+            
+            .timeline-item {
+                padding-left: 80px !important;
+            }
+            
+            .timeline::before {
+                left: 40px;
+            }
+            
+            .timeline-icon {
+                width: 60px;
+                height: 60px;
+                left: 5px !important;
+                font-size: 1.8rem;
+            }
+            
+            .timeline-date {
+                left: 80px !important;
+                font-size: 1.1rem;
+                padding: 8px 15px;
+            }
+            
+            .hero-content {
+                padding: 20px;
             }
         }
     </style>
@@ -309,15 +652,30 @@
     <div class="background-animation"></div>
     <div id="particles-js"></div>
     
+    <!-- Corazones flotantes -->
+    <div class="floating-hearts" id="floating-hearts"></div>
+    
+    <!-- Sección hero -->
+    <div class="timeline-hero">
+        <div class="hero-content">
+            <h1 class="timeline-title">Nuestra Historia de Amor</h1>
+            <p style="font-size: 1.3rem; opacity: 0.9;">Cada momento contigo es un capítulo especial</p>
+        </div>
+    </div>
+    
     <div class="back-button">
         <a href="index.html">
-            <i class="fas fa-arrow-left"></i> Volver al inicio
+            <i class="fas fa-arrow-left"></i> Volver al Inicio
         </a>
     </div>
     
+    <!-- Contador de momentos -->
+    <div class="moments-counter">
+        <span class="count">6</span>
+        <span class="label">Momentos Especiales</span>
+    </div>
+    
     <div class="timeline-container">
-        <h1 class="timeline-title">Nuestra Historia de Amor</h1>
-        
         <div class="timeline">
             <!-- Evento 1: Primera Salida -->
             <div class="timeline-item">
@@ -325,11 +683,15 @@
                     <div class="timeline-date">13 Octubre 2025</div>
                     <div class="timeline-icon">💘</div>
                     <h3>El Primer Encuentro</h3>
-                    <p>El día que nuestros caminos se cruzaron por primera vez. Recuerdo perfectamente tu sonrisa y cómo el tiempo pareció detenerse. Fue como si el mundo entero se detuviera solo para que yo pudiera verte.</p>
+                    <p>El día que nuestros caminos se cruzaron por primera vez. Recuerdo perfectamente tu sonrisa y cómo el tiempo pareció detenerse. Fue como si el mundo entero se detuviera solo para que yo pudiera verte. Cada detalle de ese momento está grabado en mi memoria como si fuera ayer.</p>
                     <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primera_salida.jpeg', 'Nuestra primera salida juntos')">
-                        <img src="assets/photos/primera_salida.jpeg" alt="Primera salida juntos" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\"photo-placeholder\"><i class=\"fas fa-heart\"></i><span>Nuestra Primera Salida</span></div>';">
+                        <img src="assets/photos/primera_salida.jpeg" alt="Primera salida juntos" 
+                             onerror="handleImageError(this, 'Primera Salida', 'fas fa-heart')">
                         <div class="photo-overlay">
-                            <i class="fas fa-expand"></i>
+                            <div class="photo-overlay-content">
+                                <i class="fas fa-expand fa-2x"></i>
+                                <p>Haz clic para ampliar</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -341,11 +703,15 @@
                     <div class="timeline-date">2 Noviembre 2025</div>
                     <div class="timeline-icon">🥰</div>
                     <h3>Nuestra Primera Cita</h3>
-                    <p>Esa tarde perfecta donde nos conocimos más. Las risas, las miradas cómplices y la certeza de que algo especial comenzaba. Cada momento fue mágico y supe que quería pasar más tiempo contigo.</p>
+                    <p>Esa tarde perfecta donde nos conocimos más. Las risas, las miradas cómplices y la certeza de que algo especial comenzaba. Cada momento fue mágico y supe que quería pasar más tiempo contigo. La conexión que sentimos desde el primer instante solo se hizo más fuerte.</p>
                     <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primera_cita.jpeg', 'Nuestra primera cita especial')">
-                        <img src="assets/photos/primera_cita.jpeg" alt="Primera cita" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\"photo-placeholder\"><i class=\"fas fa-star\"></i><span>Nuestra Primera Cita</span></div>';">
+                        <img src="assets/photos/primera_cita.jpeg" alt="Primera cita" 
+                             onerror="handleImageError(this, 'Primera Cita', 'fas fa-star')">
                         <div class="photo-overlay">
-                            <i class="fas fa-expand"></i>
+                            <div class="photo-overlay-content">
+                                <i class="fas fa-expand fa-2x"></i>
+                                <p>Haz clic para ampliar</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -357,17 +723,53 @@
                     <div class="timeline-date">19 Octubre 2025</div>
                     <div class="timeline-icon">💕</div>
                     <h3>El Primer "Te Amo"</h3>
-                    <p>Cuando las palabras salieron de mi corazón sin pensarlo. Ese momento mágico donde supimos que esto era real. Fue el momento más honesto y verdadero de mi vida.</p>
+                    <p>Cuando las palabras salieron de mi corazón sin pensarlo. Ese momento mágico donde supimos que esto era real. Fue el momento más honesto y verdadero de mi vida. No eran solo palabras, era la confirmación de todo lo que sentía por ti.</p>
                     <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primer_te_amo.jpeg', 'El momento en que te dije "Te amo" por primera vez')">
-                        <img src="assets/photos/primer_te_amo.jpeg" alt="Primer te amo" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\"photo-placeholder\"><i class=\"fas fa-kiss-wink-heart\"></i><span>Nuestro Primer Te Amo</span></div>';">
+                        <img src="assets/photos/primer_te_amo.jpeg" alt="Primer te amo" 
+                             onerror="handleImageError(this, 'Primer Te Amo', 'fas fa-kiss-wink-heart')">
                         <div class="photo-overlay">
-                            <i class="fas fa-expand"></i>
+                            <div class="photo-overlay-content">
+                                <i class="fas fa-expand fa-2x"></i>
+                                <p>Haz clic para ampliar</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-          
+            <!-- Evento 4: Momentos Especiales -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">Diciembre 2025</div>
+                    <div class="timeline-icon">🎄</div>
+                    <h3>Nuestra Primera Navidad</h3>
+                    <p>Celebrando juntos la magia de la Navidad. El intercambio de regalos, la cena especial y la promesa de muchas más Navidades juntos. La luz de las decoraciones nunca brilló tanto como la luz en tus ojos.</p>
+                    <div class="timeline-photo">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-gift"></i>
+                            <span>Nuestra Primera Navidad</span>
+                            <small>Más recuerdos por crear</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Evento 5: Aventuras Juntos -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">Enero 2026</div>
+                    <div class="timeline-icon">🌄</div>
+                    <h3>Nuestro Primer Viaje</h3>
+                    <p>Explorando nuevos lugares juntos, creando recuerdos inolvidables y descubriendo que la aventura es más divertida cuando estamos los dos. Cada paso que damos juntos es una nueva historia que contar.</p>
+                    <div class="timeline-photo">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-plane"></i>
+                            <span>Nuestro Primer Viaje</span>
+                            <small>Próxima aventura por vivir</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             <!-- Evento futuro -->
             <div class="timeline-item">
@@ -375,11 +777,12 @@
                     <div class="timeline-date">Futuro</div>
                     <div class="timeline-icon">🚀</div>
                     <h3>Nuestros Sueños Juntos</h3>
-                    <p>Todas las aventuras que aún nos esperan, los sueños por cumplir y la vida que construiremos juntos. Un hogar lleno de amor, risas y momentos inolvidables.</p>
+                    <p>Todas las aventuras que aún nos esperan, los sueños por cumplir y la vida que construiremos juntos. Un hogar lleno de amor, risas y momentos inolvidables. Contigo, el futuro es infinitamente brillante.</p>
                     <div class="timeline-photo">
                         <div class="photo-placeholder">
                             <i class="fas fa-infinity"></i>
                             <span>Nuestro Futuro Juntos</span>
+                            <small>El amor es eterno</small>
                         </div>
                     </div>
                 </div>
@@ -420,17 +823,22 @@
             }
         };
         
-        // Inicializar partículas
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 60, density: { enable: true, value_area: 800 } },
-                color: { value: "#ff6b8b" },
-                shape: { type: "heart" },
-                opacity: { value: 0.5, random: true },
-                size: { value: 4, random: true },
-                move: { enable: true, speed: 1, direction: "none", random: true }
+        // Crear corazones flotantes
+        function createFloatingHearts() {
+            const container = document.getElementById('floating-hearts');
+            const hearts = ['💖', '💕', '💘', '💝', '💓', '💗', '💞'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 20 + 's';
+                heart.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+                heart.style.opacity = Math.random() * 0.3 + 0.1;
+                container.appendChild(heart);
             }
-        });
+        }
         
         // Efecto al hacer scroll
         const timelineItems = document.querySelectorAll('.timeline-item');
@@ -438,18 +846,38 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }, { 
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        });
         
         timelineItems.forEach(item => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(50px)';
-            item.style.transition = 'all 0.6s ease';
             observer.observe(item);
         });
+        
+        // Manejo de errores de imagen
+        function handleImageError(img, title, icon) {
+            img.style.display = 'none';
+            const parent = img.parentElement;
+            if (!parent.querySelector('.photo-placeholder')) {
+                parent.innerHTML = `
+                    <div class="photo-placeholder">
+                        <i class="${icon}"></i>
+                        <span>${title}</span>
+                        <small>Haz clic para añadir tu foto</small>
+                    </div>
+                    <div class="photo-overlay">
+                        <div class="photo-overlay-content">
+                            <i class="fas fa-camera fa-2x"></i>
+                            <p>Añade tu foto aquí</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
         
         // Funciones para el modal de fotos
         function openPhotoModal(imageSrc, title) {
@@ -477,8 +905,8 @@
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
             
-            // Efecto de entrada
-            modalImg.style.animation = 'fadeIn 0.5s ease';
+            // Efecto de sonido
+            playPhotoSound();
         }
         
         function closePhotoModal() {
@@ -512,11 +940,10 @@
             imageUrls.forEach(url => {
                 const img = new Image();
                 img.src = url;
+                img.onload = () => console.log(`Imagen cargada: ${url}`);
+                img.onerror = () => console.log(`Error cargando: ${url}`);
             });
         }
-        
-        // Pre-cargar imágenes cuando la página cargue
-        window.addEventListener('load', preloadImages);
         
         // Efecto de sonido al hacer clic en las fotos
         function playPhotoSound() {
@@ -525,51 +952,99 @@
             sound.play().catch(() => {});
         }
         
-        // Añadir efecto de sonido a todas las fotos
-        document.querySelectorAll('.timeline-photo').forEach(photo => {
-            photo.addEventListener('click', playPhotoSound);
-        });
-        
-        // Añadir animación de latido a los iconos del timeline
-        document.querySelectorAll('.timeline-icon').forEach(icon => {
-            setInterval(() => {
-                icon.style.transform = 'translateY(-50%) scale(1.1)';
-                setTimeout(() => {
-                    icon.style.transform = 'translateY(-50%) scale(1)';
-                }, 300);
-            }, 3000);
-        });
-        
-        // Función para verificar si las imágenes existen y mostrar mensaje
-        function checkImages() {
-            const images = document.querySelectorAll('.timeline-photo img');
-            images.forEach(img => {
-                img.onerror = function() {
-                    this.style.display = 'none';
-                    const parent = this.parentElement;
-                    if (!parent.querySelector('.photo-placeholder')) {
-                        parent.innerHTML = `
-                            <div class="photo-placeholder">
-                                <i class="${parent.dataset.icon || 'fas fa-heart'}"></i>
-                                <span>${parent.dataset.title || 'Foto especial'}</span>
-                                <small>Haz clic para añadir tu foto</small>
-                            </div>
-                            <div class="photo-overlay">
-                                <i class="fas fa-camera"></i>
-                            </div>
-                        `;
+        // Inicializar partículas con configuración mejorada
+        function initParticles() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ff6b8b" },
+                    shape: { 
+                        type: ["circle", "heart"],
+                        stroke: { width: 0, color: "#000000" }
+                    },
+                    opacity: { 
+                        value: 0.5, 
+                        random: true,
+                        anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
+                    },
+                    size: { 
+                        value: 5, 
+                        random: true,
+                        anim: { enable: true, speed: 2, size_min: 0.1, sync: false }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#ffa8c2",
+                        opacity: 0.4,
+                        width: 2
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: { enable: false, rotateX: 600, rotateY: 1200 }
                     }
-                };
-                
-                // Si la imagen carga correctamente, añadir clase de cargada
-                img.onload = function() {
-                    this.classList.add('loaded');
-                };
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { 
+                            enable: true, 
+                            mode: "repulse",
+                            distance: 200
+                        },
+                        onclick: { 
+                            enable: true, 
+                            mode: "push",
+                            particles_nb: 4
+                        }
+                    }
+                },
+                retina_detect: true
             });
         }
         
-        // Ejecutar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', checkImages);
+        // Contador de scroll
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = scrollTop / docHeight * 100;
+            
+            // Actualizar título con efecto
+            const title = document.querySelector('.timeline-title');
+            if (scrollPercent > 20) {
+                title.style.transform = `scale(${1 - scrollPercent/500})`;
+                title.style.opacity = 1 - scrollPercent/200;
+            }
+        }
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingHearts();
+            initParticles();
+            preloadImages();
+            window.addEventListener('scroll', updateScrollProgress);
+            
+            // Efecto de entrada para el contador
+            setTimeout(() => {
+                document.querySelector('.moments-counter').style.animation = 'slideInRight 0.6s ease';
+            }, 1000);
+            
+            // Efecto de latido en iconos
+            document.querySelectorAll('.timeline-icon').forEach(icon => {
+                setInterval(() => {
+                    icon.style.transform = 'translateY(-50%) scale(1.2)';
+                    setTimeout(() => {
+                        icon.style.transform = 'translateY(-50%) scale(1)';
+                    }, 300);
+                }, 3000);
+            });
+        });
     </script>
 </body>
 </html>
