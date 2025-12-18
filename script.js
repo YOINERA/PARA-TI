@@ -179,9 +179,143 @@ const messages = [
         day: 36,
         message: "Eres mi eterno y único amor. No imagino mi vida sin ti, no quiero mi vida sin ti. Eres mi todo.",
         icon: "∞"
+    },
+    {
+        day: 37,
+        message: "Tu amor es como el sol que siempre brilla en mi vida. Incluso en días nublados, sé que estás ahí para mí.",
+        icon: "☀️"
+    },
+    {
+        day: 38,
+        message: "Contigo aprendí que el amor verdadero existe. Es paciente, es bondadoso y perdura para siempre.",
+        icon: "💕"
+    },
+    {
+        day: 39,
+        message: "Eres el capítulo más hermoso de mi historia. Cada día contigo es una página que atesoro con todo mi corazón.",
+        icon: "📖"
+    },
+    {
+        day: 40,
+        message: "Tu presencia transforma lo ordinario en extraordinario. Haces que cada instante sea digno de recordar.",
+        icon: "🌈"
+    },
+    {
+        day: 41,
+        message: "Amo la complicidad que compartimos. Esas miradas que dicen más que mil palabras, esos silencios que lo dicen todo.",
+        icon: "🤫"
+    },
+    {
+        day: 42,
+        message: "Eres mi ancla en la tormenta. Cuando todo parece incierto, tú me das estabilidad y seguridad.",
+        icon: "⚓"
+    },
+    {
+        day: 43,
+        message: "Contigo descubro nuevas razones para vivir. Cada día es una aventura que quiero explorar a tu lado.",
+        icon: "🧭"
+    },
+    {
+        day: 44,
+        message: "Tu amor me hace sentir invencible. Con tu apoyo, ningún obstáculo es demasiado grande para superar.",
+        icon: "🛡️"
+    },
+    {
+        day: 45,
+        message: "Eres la melodía perfecta en la sinfonía de mi vida. Cada nota, cada acorde, armoniza contigo.",
+        icon: "🎶"
+    },
+    {
+        day: 46,
+        message: "Amo cómo construimos recuerdos juntos. Cada experiencia compartida es un tesoro que guardo celosamente.",
+        icon: "📸"
+    },
+    {
+        day: 47,
+        message: "Tu ternura es el bálsamo para mi alma. En tus gestos más simples encuentro el amor más profundo.",
+        icon: "🫂"
+    },
+    {
+        day: 48,
+        message: "Contigo el amor crece cada día. Como un árbol fuerte cuyas raíces se hunden más profundo con el tiempo.",
+        icon: "🌳"
+    },
+    {
+        day: 49,
+        message: "Eres mi confidente de sueños locos. Con ti puedo compartir mis ideas más descabelladas sin sentirme juzgado.",
+        icon: "🌠"
+    },
+    {
+        day: 50,
+        message: "Tu amor es el mejor regalo que he recibido. Más valioso que cualquier posesión material.",
+        icon: "🎀"
+    },
+    {
+        day: 51,
+        message: "Amo cómo celebramos las pequeñas victorias. Porque contigo, cada logro, por pequeño que sea, es motivo de alegría.",
+        icon: "🏆"
+    },
+    {
+        day: 52,
+        message: "Eres mi compañera de aventuras. Desde las más simples hasta las más extraordinarias, contigo todo es mejor.",
+        icon: "🗺️"
+    },
+    {
+        day: 53,
+        message: "Tu amor ilumina mis días más oscuros. Como una estrella que brilla en la noche más profunda.",
+        icon: "⭐"
+    },
+    {
+        day: 54,
+        message: "Contigo aprendí el significado de la complicidad. Esa conexión especial que solo nosotros entendemos.",
+        icon: "🔒"
+    },
+    {
+        day: 55,
+        message: "Eres la calma después de la tormenta. En tus brazos encuentro el refugio perfecto para mi corazón.",
+        icon: "⛅"
+    },
+    {
+        day: 56,
+        message: "Amo cómo crecemos juntos. Como dos plantas que se entrelazan y se fortalecen mutuamente.",
+        icon: "🌱"
+    },
+    {
+        day: 57,
+        message: "Tu amor es mi mayor inspiración. Creo en la magia porque tú eres la prueba viviente de que existe.",
+        icon: "🎨"
+    },
+    {
+        day: 58,
+        message: "Eres el hogar al que siempre quiero volver. No importa dónde esté, contigo siempre estoy en casa.",
+        icon: "🏠"
+    },
+    {
+        day: 59,
+        message: "Contigo el presente es un regalo y el futuro una promesa. Cada día a tu lado es una bendición.",
+        icon: "🎁"
+    },
+    {
+        day: 60,
+        message: "Tu amor transformó mi vida por completo. Donde había vacío, ahora hay plenitud gracias a ti.",
+        icon: "🦋"
+    },
+    {
+        day: 61,
+        message: "Eres mi razón para creer en los milagros. Porque encontrarte fue el milagro más hermoso de mi vida.",
+        icon: "🙏"
+    },
+    {
+        day: 62,
+        message: "Amo cómo nuestro amor supera cualquier barrera. Juntos somos más fuertes que cualquier desafío.",
+        icon: "🚧"
+    },
+    {
+        day: 63,
+        message: "Eres mi amor infinito, mi siempre y para siempre. Hoy, mañana y todos los días de mi vida.",
+        icon: "💫"
     }
 ];
-
 // Elementos DOM
 const lettersContainer = document.getElementById('letters-container');
 const modal = document.getElementById('message-modal');
