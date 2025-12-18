@@ -3,55 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KIM</title>
+    <title>Mi Amor - Para KIM</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navegación flotante -->
+    <nav class="floating-nav">
+        <div class="nav-buttons">
+            <button class="nav-btn" id="home-btn" title="Inicio">
+                <i class="fas fa-home"></i>
+            </button>
+            <button class="nav-btn" id="timeline-btn" title="Nuestra Historia">
+                <i class="fas fa-heartbeat"></i>
+            </button>
+            <button class="nav-btn" id="gallery-btn" title="Galería">
+                <i class="fas fa-images"></i>
+            </button>
+            <button class="nav-btn" id="game-btn" title="Juego">
+                <i class="fas fa-gamepad"></i>
+            </button>
+            <button class="nav-btn" id="music-btn" title="Música">
+                <i class="fas fa-music"></i>
+            </button>
+            <button class="nav-btn" id="theme-btn" title="Cambiar tema">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Contador de días especial -->
+    <div class="special-counter">
+        <div class="counter-item">
+            <span class="counter-number" id="days-together">0</span>
+            <span class="counter-label">Días Juntos</span>
+        </div>
+        <div class="counter-item">
+            <span class="counter-number">63</span>
+            <span class="counter-label">Razones de Amor</span>
+        </div>
+        <div class="counter-item">
+            <span class="counter-number" id="love-level">100%</span>
+            <span class="counter-label">Nivel de Amor</span>
+        </div>
+    </div>
+
+    <!-- Efectos de partículas -->
+    <div id="particles-js"></div>
+
     <div class="background-animation"></div>
     
     <div class="container">
         <header class="header">
             <div class="heart-icon">❤️</div>
-            <h1 class="title">36 Días Contigo</h1>
-            <p class="subtitle">Cada día es una nueva razón para amarte</p>
-            <div class="days-counter">Día <span id="current-day">1</span> de 36</div>
+            <h1 class="title">Para Mi Amor, KIM</h1>
+            <p class="subtitle">Cada día es una nueva razón para amarte más</p>
+            <div class="days-counter">Día <span id="current-day">1</span> de 63</div>
+            
+            <!-- Buscador de mensajes -->
+            <div class="search-container">
+                <input type="text" id="search-messages" placeholder="Buscar mensajes especiales...">
+                <i class="fas fa-search"></i>
+            </div>
         </header>
 
         <main class="main-content">
+            <!-- Filtros por categorías -->
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="romantic">Románticos</button>
+                <button class="filter-btn" data-filter="future">Futuro</button>
+                <button class="filter-btn" data-filter="funny">Divertidos</button>
+                <button class="filter-btn" data-filter="deep">Profundos</button>
+            </div>
+
             <div class="letters-grid" id="letters-container">
                 <!-- Las cartitas se generarán con JavaScript -->
+            </div>
+
+            <!-- Barra de progreso -->
+            <div class="progress-container">
+                <div class="progress-bar" id="love-progress"></div>
+                <div class="progress-text">
+                    <span>Progreso del Amor</span>
+                    <span id="progress-percent">0%</span>
+                </div>
             </div>
         </main>
 
         <footer class="footer">
-            <p>Hecho con ❤️ para ti</p>
+            <div class="footer-content">
+                <p>Hecho con <span class="heart-pulse">❤️</span> especialmente para ti, mi amor</p>
+                <div class="footer-buttons">
+                    <button class="secret-btn" id="secret-surprise">
+                        <i class="fas fa-gift"></i> Sorpresa Secreta
+                    </button>
+                    <button class="print-btn" id="print-all">
+                        <i class="fas fa-print"></i> Guardar Todos
+                    </button>
+                </div>
+            </div>
         </footer>
     </div>
 
-    <!-- Modal para mostrar mensajes completos -->
+    <!-- Modal mejorado -->
     <div class="modal" id="message-modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <div class="modal-header">
                 <h2 id="modal-day">Día 1</h2>
                 <div class="heart-decoration">💖</div>
+                <div class="modal-actions">
+                    <button class="action-btn" id="copy-message">
+                        <i class="far fa-copy"></i>
+                    </button>
+                    <button class="action-btn" id="share-message">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                    <button class="action-btn" id="save-favorite">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
             </div>
             <div class="modal-body">
+                <div class="message-icon" id="modal-icon">😊</div>
                 <p id="modal-message"></p>
             </div>
             <div class="modal-footer">
-                <button id="love-btn" class="love-button">TE AMO ❤️</button>
+                <button id="love-btn" class="love-button">
+                    <i class="fas fa-heart"></i> TE AMO INFINITAMENTE ❤️
+                </button>
+                <button id="next-btn" class="next-button">
+                    Siguiente <i class="fas fa-arrow-right"></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Área de fuegos artificiales -->
+    <!-- Notificaciones flotantes -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i class="fas fa-heart"></i>
+            <span id="notification-text"></span>
+        </div>
+    </div>
+
+    <!-- Área de efectos especiales -->
     <canvas id="fireworks-canvas"></canvas>
+    <canvas id="hearts-canvas"></canvas>
 
     <!-- Mensaje de amor flotante -->
     <div id="floating-love" class="floating-love">TE AMO</div>
 
+    <!-- Audio para efectos -->
+    <audio id="heart-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-heartbeat-100.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sparkle-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-300.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="script.js"></script>
+    <script src="js/effects.js"></script>
 </body>
 </html>
