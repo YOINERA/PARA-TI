@@ -751,32 +751,34 @@ function applyTheme() {
     }
 }
 
-// Actualizar contadores
 function updateCounters() {
-    // Fecha de inicio: 16 de octubre 2025
-    const startDate = new Date('2025-10-17');
+    // Fecha de inicio REAL
+    const startDate = new Date('2025-10-16');
     const today = new Date();
-    
-    console.log("=== CÁLCULO EXACTO ===");
-    console.log("Fecha inicio:", startDate.toDateString());
-    console.log("Fecha hoy:", today.toDateString());
-    
-    // Método 1: Usando UTC para evitar problemas de zona horaria
-    const startUTC = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-    const todayUTC = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
-    
-    const diffDaysUTC = Math.floor((todayUTC - startUTC) / (1000 * 60 * 60 * 24));
-    console.log("Método UTC - días diferencia:", diffDaysUTC);
-    console.log("Método UTC - días juntos:", diffDaysUTC + 1);
-    
-    
-    // O si quieres el cálculo real:
-    // elements.daysTogether.textContent = diffDaysUTC + 1;
-    
+
+    // Usar UTC para evitar zonas horarias
+    const startUTC = Date.UTC(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate()
+    );
+
+    const todayUTC = Date.UTC(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+    );
+
+    const diffDays = Math.floor((todayUTC - startUTC) / (1000 * 60 * 60 * 24)) + 1;
+
+    // ✅ ACTUALIZAR CONTADOR
+    elements.daysTogether.textContent = diffDays;
+
     elements.loveLevel.textContent = state.loveLevel + '%';
-    
-    return 63; // Retornamos 63 si así lo prefieres
+
+    return diffDays;
 }
+
 
 // Actualizar barra de progreso
 function updateProgress() {
