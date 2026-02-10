@@ -1,2830 +1,860 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Amor - Para KIM</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Nuevos estilos para efectos especiales */
-        .blackout-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10002;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-        
-        .blackout-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .fireworks-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10003;
-            pointer-events: none;
-        }
-        
-        .firework {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        
-        .firework-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        
-        .spectacular-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 5rem;
-            color: #ffd700;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-            animation: titleGlow 2s infinite alternate;
-            z-index: 10004;
-            display: none;
-        }
-        
-        @keyframes titleGlow {
-            0% {
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-                transform: scale(1);
-            }
-            100% {
-                text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 215, 0, 0.7);
-                transform: scale(1.05);
-            }
-        }
-        
-        .love-messages-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10005;
-            pointer-events: none;
-        }
-        
-        .love-message-big {
-            position: absolute;
-            font-size: 4rem;
-            font-weight: bold;
-            color: #ff6b8b;
-            font-family: 'Dancing Script', cursive;
-            text-shadow: 0 0 20px rgba(255, 107, 139, 0.8);
-            opacity: 0;
-            pointer-events: none;
-            white-space: nowrap;
-        }
-        
-        .music-player-mini {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 10006;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            display: none;
-        }
-        
-        .music-player-mini.active {
-            display: flex;
-            animation: slideUp 0.5s ease;
-        }
-        
-        @keyframes slideUp {
-            from {
-                transform: translate(-50%, 100px);
-                opacity: 0;
-            }
-            to {
-                transform: translate(-50%, 0);
-                opacity: 1;
-            }
-        }
-        
-        .music-info {
-            color: white;
-            text-align: center;
-        }
-        
-        .song-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ffd700;
-        }
-        
-        .song-artist {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        .music-controls {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .music-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            background: transparent;
-            color: #ffd700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .music-btn:hover {
-            background: rgba(255, 215, 0, 0.2);
-            transform: scale(1.1);
-        }
-        
-        .countdown {
-            font-size: 8rem;
-            font-weight: bold;
-            color: #ffd700;
-            font-family: 'Dancing Script', cursive;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
-            margin-bottom: 20px;
-            z-index: 10007;
-        }
-        
-        .return-btn {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #ff6b8b, #ff2e63);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 10008;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-            display: none;
-        }
-        
-        .return-btn.show {
-            opacity: 1;
-            transform: translateY(0);
-            display: flex;
-        }
-        
-        .return-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(255, 107, 139, 0.5);
-        }
-        
-        /* Ajustar el modal para que esté por encima de todo */
-        .modal {
-            z-index: 10009;
-        }
-        
-        /* Estilo para las estrellas */
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: twinkle 2s infinite alternate;
-        }
-        
-        @keyframes twinkle {
-            0% { opacity: 0.2; transform: scale(0.5); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Mi Amor - Para KIM</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#0b0620;
+      --bg2:#22053b;
+      --bg3:#0b243c;
+      --accent:#ff2e63;
+      --gold:#ffd700;
+      --card: rgba(255,255,255,0.10);
+      --border: rgba(255,255,255,0.22);
+      --text: rgba(255,255,255,0.95);
+      --muted: rgba(255,255,255,0.75);
+      --shadow: rgba(0,0,0,0.45);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--text);
+      overflow-x:hidden;
+      background:
+        radial-gradient(circle at 20% 20%, #ff5bbd 0%, transparent 35%),
+        radial-gradient(circle at 80% 30%, #5bd6ff 0%, transparent 35%),
+        radial-gradient(circle at 50% 80%, #7c4dff 0%, transparent 45%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    }
+
+    .container{
+      width:min(980px, 92vw);
+      margin: 0 auto;
+      padding: 26px 0 40px;
+    }
+
+    /* Header */
+    .header{
+      text-align:center;
+      padding: 8px 0 6px;
+    }
+    .heart{
+      font-size: 42px;
+      filter: drop-shadow(0 0 16px rgba(255,105,180,.45));
+      animation: beat 1.4s ease-in-out infinite;
+      display:inline-block;
+    }
+    @keyframes beat{
+      0%{ transform:scale(1); }
+      45%{ transform:scale(1.14); }
+      100%{ transform:scale(1); }
+    }
+
+    .title{
+      font-family:'Dancing Script', cursive;
+      margin: 8px 0 0;
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      color: var(--gold);
+      text-shadow: 0 0 18px rgba(255,216,74,.55), 0 0 38px rgba(255,69,0,.25);
+    }
+    .subtitle{
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    /* Panel */
+    .panel{
+      margin: 18px auto 18px;
+      width:min(820px, 96vw);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 18px 70px var(--shadow);
+      display:flex;
+      gap: 12px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .panel .label{
+      font-weight: 800;
+      color: rgba(255,255,255,0.95);
+    }
+
+    .input-wrap{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+
+    input[type="number"]{
+      width: 170px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      outline: none;
+      font-size: 1rem;
+    }
+    input[type="number"]::placeholder{ color: rgba(255,255,255,0.55); }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(135deg, #ff1493, #8a2be2);
+      box-shadow: 0 12px 30px rgba(255,20,147,0.28);
+      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .btn:active{ transform: translateY(1px); box-shadow: 0 10px 26px rgba(255,20,147,0.22); }
+
+    .btn.secondary{
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.20);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      font-weight: 700;
+    }
+
+    .hint{
+      width: 100%;
+      text-align:center;
+      font-size: .95rem;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* Stage (donde aparece la conejita) */
+    .stage{
+      position: relative;
+      width: min(900px, 96vw);
+      height: 320px;
+      margin: 18px auto 0;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 18px 80px rgba(0,0,0,0.35);
+      overflow:hidden;
+    }
+
+    .stage::before{
+      content:"";
+      position:absolute;
+      inset:-60%;
+      background: conic-gradient(from 180deg,
+        rgba(255,215,0,0.10),
+        rgba(255,20,147,0.08),
+        rgba(0,191,255,0.08),
+        rgba(138,43,226,0.08),
+        rgba(255,215,0,0.10)
+      );
+      filter: blur(14px);
+      animation: shimmer 7s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes shimmer{ to { transform: rotate(360deg); } }
+
+    /* Bunny + Letter props */
+    .bunny-wrap{
+      position:absolute;
+      left:-280px;
+      bottom: 10px;
+      width: 260px;
+      height: 260px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      gap: 10px;
+      z-index: 2;
+      transform: translateX(0);
+    }
+
+    .bunny{
+      position: relative;
+      width: 160px;
+      height: 220px;
+    }
+
+    /* Ears */
+    .ear{
+      position:absolute;
+      top: 8px;
+      width: 44px;
+      height: 98px;
+      border-radius: 60px;
+      background: #fff;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+    }
+    .ear.left{ left: 25px; transform: rotate(-10deg); }
+    .ear.right{ right: 25px; transform: rotate(12deg); }
+
+    .ear::after{
+      content:"";
+      position:absolute;
+      inset: 10px 10px 18px 10px;
+      border-radius: 60px;
+      background: rgba(255,182,193,0.55);
+    }
+
+    /* Head */
+    .head{
+      position:absolute;
+      top: 58px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 150px;
+      background: #fff;
+      border-radius: 999px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.14);
+    }
+
+    /* Face */
+    .eye{
+      position:absolute;
+      top: 60px;
+      width: 14px;
+      height: 16px;
+      border-radius: 999px;
+      background: #1b1b1b;
+    }
+    .eye.left{ left: 48px; }
+    .eye.right{ right: 48px; }
+
+    .cheek{
+      position:absolute;
+      top: 78px;
+      width: 18px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,105,180,0.35);
+      filter: blur(.2px);
+    }
+    .cheek.left{ left: 28px; }
+    .cheek.right{ right: 28px; }
+
+    .nose{
+      position:absolute;
+      top: 76px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,105,180,0.75);
+    }
+
+    .mouth{
+      position:absolute;
+      top: 86px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 26px;
+      height: 14px;
+      border-bottom: 3px solid rgba(0,0,0,0.38);
+      border-radius: 0 0 999px 999px;
+    }
+
+    /* Body */
+    .body{
+      position:absolute;
+      top: 148px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 128px;
+      height: 120px;
+      background: #fff;
+      border-radius: 999px;
+      box-shadow: 0 18px 36px rgba(0,0,0,0.10);
+    }
+
+    /* Arms */
+    .arm{
+      position:absolute;
+      top: 22px;
+      width: 42px;
+      height: 64px;
+      background: #fff;
+      border-radius: 999px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    }
+    .arm.left{
+      left: -6px;
+      transform: rotate(18deg);
+    }
+
+    /* “Manito doblada” (arm right bent) */
+    .arm.right{
+      right: -8px;
+      transform-origin: top center;
+      transform: rotate(-42deg);
+    }
+    .arm.right::after{
+      content:"";
+      position:absolute;
+      bottom: -4px;
+      left: 8px;
+      width: 26px;
+      height: 34px;
+      background: #fff;
+      border-radius: 999px;
+      transform: rotate(38deg);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    }
+
+    /* Tail */
+    .tail{
+      position:absolute;
+      right: -10px;
+      top: 70px;
+      width: 30px;
+      height: 30px;
+      background: #fff;
+      border-radius: 999px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+    }
+
+    /* Bunny bounce */
+    .bunny-bounce{
+      animation: bunnyBounce 1.2s ease-in-out infinite;
+    }
+    @keyframes bunnyBounce{
+      0%{ transform: translateY(0); }
+      50%{ transform: translateY(-8px); }
+      100%{ transform: translateY(0); }
+    }
+
+    /* Letter prop (small envelope) */
+    .envelope{
+      position: relative;
+      width: 90px;
+      height: 66px;
+      margin-bottom: 12px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 14px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 14px 26px rgba(0,0,0,0.25);
+      transform: translateY(-10px);
+    }
+    .envelope::before{
+      content:"";
+      position:absolute;
+      inset: 10px 8px auto 8px;
+      height: 0;
+      border-left: 36px solid transparent;
+      border-right: 36px solid transparent;
+      border-top: 28px solid rgba(255,215,0,0.35);
+      border-radius: 10px;
+      opacity:.9;
+    }
+    .envelope::after{
+      content:"💌";
+      position:absolute;
+      right: 10px;
+      bottom: 8px;
+      font-size: 22px;
+      filter: drop-shadow(0 0 10px rgba(255,215,0,0.35));
+    }
+
+    /* Bunny States */
+    .state-hidden{ display:none; }
+
+    /* Arrive */
+    .arrive{
+      animation: arrive 1.2s cubic-bezier(.2,.9,.2,1) forwards;
+    }
+    @keyframes arrive{
+      from{ left:-280px; }
+      to{ left: 36px; }
+    }
+
+    /* Leave */
+    .leave{
+      animation: leave 1.0s cubic-bezier(.2,.9,.2,1) forwards;
+    }
+    @keyframes leave{
+      from{ left: 36px; }
+      to{ left:-320px; }
+    }
+
+    /* Deliver wiggle */
+    .deliver{
+      animation: deliver 700ms ease-in-out;
+    }
+    @keyframes deliver{
+      0%{ transform: translateX(0); }
+      30%{ transform: translateX(10px); }
+      70%{ transform: translateX(-6px); }
+      100%{ transform: translateX(0); }
+    }
+
+    /* ====== Card Modal ====== */
+    .modal{
+      position: fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index: 9999;
+    }
+    .modal.active{ display:flex; }
+
+    .modal-overlay{
+      position:absolute; inset:0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-card{
+      position:relative;
+      width: min(720px, 92vw);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 22px;
+      box-shadow: 0 24px 90px rgba(0,0,0,0.55);
+      padding: 18px;
+      overflow:hidden;
+      animation: popIn 240ms ease-out;
+    }
+    @keyframes popIn{
+      from{ transform: translateY(10px) scale(.98); opacity: .7; }
+      to{ transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .modal-card::before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: conic-gradient(from 180deg,
+        rgba(255,215,0,0.14),
+        rgba(255,20,147,0.10),
+        rgba(0,191,255,0.10),
+        rgba(138,43,226,0.10),
+        rgba(255,215,0,0.14)
+      );
+      filter: blur(14px);
+      animation: shimmer 6s linear infinite;
+      pointer-events:none;
+    }
+
+    .modal-content{
+      position:relative;
+      z-index:1;
+      padding: 10px 8px 8px;
+    }
+
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 6px 6px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .day-title{
+      margin:0;
+      font-weight: 900;
+      color: rgba(255,255,255,0.96);
+    }
+    .badge{
+      display:flex; align-items:center; gap:8px;
+      color: rgba(255,255,255,0.92);
+      font-weight: 700;
+    }
+    .badge .icon{
+      font-size: 24px;
+      filter: drop-shadow(0 0 12px rgba(255,215,0,0.35));
+    }
+
+    .close-x{
+      border:0;
+      cursor:pointer;
+      width: 44px; height: 44px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      font-size: 18px;
+      transition: transform .15s ease, filter .15s ease;
+    }
+    .close-x:hover{ transform: scale(1.06); filter: brightness(1.06); }
+    .close-x:active{ transform: scale(.98); }
+
+    .modal-body{
+      padding: 16px 6px 8px;
+      text-align:center;
+    }
+    .message{
+      margin: 10px auto 0;
+      font-size: 1.12rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.92);
+      max-width: 60ch;
+    }
+
+    .modal-actions{
+      display:flex;
+      justify-content:center;
+      gap: 10px;
+      flex-wrap:wrap;
+      padding: 12px 6px 6px;
+    }
+
+    .big-btn{
+      border:0;
+      cursor:pointer;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 900;
+      color: #fff;
+      background: linear-gradient(135deg, #ff6b8b, #ff2e63);
+      box-shadow: 0 14px 30px rgba(255, 46, 99, 0.30);
+      transition: transform .18s ease, filter .18s ease;
+    }
+    .big-btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .big-btn:active{ transform: translateY(1px); }
+
+    /* Notification */
+    .toast{
+      position: fixed;
+      left: 50%;
+      top: 18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.20);
+      color:#fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+      z-index: 10000;
+      display:none;
+      gap: 10px;
+      align-items:center;
+      backdrop-filter: blur(8px);
+    }
+    .toast.show{ display:flex; animation: toastIn 220ms ease-out; }
+    @keyframes toastIn{
+      from{ transform: translateX(-50%) translateY(-6px); opacity: .3; }
+      to{ transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .heart, .stage::before, .modal-card::before{ animation:none !important; }
+      .arrive, .leave, .deliver{ animation:none !important; left:36px !important; }
+      .bunny-bounce{ animation:none !important; }
+    }
+  </style>
 </head>
+
 <body>
-    <!-- Navegación flotante -->
-    <nav class="floating-nav">
-        <div class="nav-buttons">
-            <button class="nav-btn" id="home-btn" title="Inicio">
-                <i class="fas fa-home"></i>
-            </button>
-            <a href="timeline.html" class="nav-btn" id="timeline-btn" title="Nuestra Historia">
-                <i class="fas fa-heartbeat"></i>
-            </a>
-            <a href="gallery.html" class="nav-btn" id="gallery-btn" title="Galería">
-                <i class="fas fa-images"></i>
-            </a>
-            <a href="game.html" class="nav-btn" id="game-btn" title="Juego">
-                <i class="fas fa-gamepad"></i>
-            </a>
-            <a href="music.html" class="nav-btn" id="music-btn" title="Música">
-                <i class="fas fa-music"></i>
-            </a>
-            <button class="nav-btn" id="theme-btn" title="Cambiar tema">
-                <i class="fas fa-moon"></i>
-            </button>
-        </div>
-    </nav>
+  <div class="toast" id="toast">💖 <span id="toastText"></span></div>
 
-    <!-- Contador de días especial -->
-    <div class="special-counter">
-        <div class="counter-item">
-            <span class="counter-number" id="days-together">117</span>
-            <span class="counter-label">Días Juntos</span>
+  <div class="container">
+    <header class="header">
+      <div class="heart">❤️</div>
+      <h1 class="title">Para Mi Amor, KIM</h1>
+      <p class="subtitle">Pídele una cartita por número… y la conejita te la trae 🐰💌</p>
+    </header>
+
+    <section class="panel">
+      <div class="label">Número de cartita (1 a 117):</div>
+      <div class="input-wrap">
+        <input id="dayInput" type="number" min="1" max="117" placeholder="Ej: 17" />
+        <button class="btn" id="bringBtn">🐰 Traer cartita</button>
+        <button class="btn secondary" id="randomBtn">🎲 Aleatoria</button>
+      </div>
+      <div class="hint">Tip: presiona Enter para traerla.</div>
+    </section>
+
+    <section class="stage" aria-label="Escenario de entrega">
+      <!-- Bunny + envelope -->
+      <div class="bunny-wrap state-hidden" id="bunnyWrap">
+        <div class="envelope" id="envelope"></div>
+
+        <div class="bunny bunny-bounce" aria-hidden="true">
+          <div class="ear left"></div>
+          <div class="ear right"></div>
+
+          <div class="head">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="cheek left"></div>
+            <div class="cheek right"></div>
+            <div class="nose"></div>
+            <div class="mouth"></div>
+          </div>
+
+          <div class="body">
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="tail"></div>
+          </div>
         </div>
-        <div class="counter-item">
-            <span class="counter-number">117</span>
-            <span class="counter-label">Razones de Amor</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal carta -->
+  <div class="modal" id="modal">
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Carta de amor">
+      <div class="modal-content">
+        <div class="modal-head">
+          <h2 class="day-title" id="modalDay">Día</h2>
+          <div class="badge">
+            <span class="icon" id="modalIcon">💌</span>
+          </div>
+          <button class="close-x" id="closeX" title="Cerrar">✕</button>
         </div>
-        <div class="counter-item">
-            <span class="counter-number" id="love-level">100%</span>
-            <span class="counter-label">Nivel de Amor</span>
+
+        <div class="modal-body">
+          <p class="message" id="modalMessage"></p>
         </div>
+
+        <div class="modal-actions">
+          <button class="big-btn" id="closeBtn">❤️ Cerrar carta</button>
+        </div>
+      </div>
     </div>
-
-    <!-- Efectos de partículas -->
-    <div id="particles-js"></div>
-
-    <div class="background-animation"></div>
-    
-    <div class="container">
-        <header class="header">
-            <div class="heart-icon">❤️</div>
-            <h1 class="title">Para Mi Amor, KIM</h1>
-            <p class="subtitle">Cada día es una nueva razón para amarte más</p>
-            <div class="days-counter">Día <span id="current-day">1</span> de 117</div>
-            
-            <!-- Buscador de mensajes -->
-            <div class="search-container">
-                <input type="text" id="search-messages" placeholder="Buscar mensajes especiales...">
-                <i class="fas fa-search"></i>
-            </div>
-        </header>
-
-        <main class="main-content">
-            <!-- Filtros por categorías -->
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="romantic">Románticos</button>
-                <button class="filter-btn" data-filter="future">Futuro</button>
-                <button class="filter-btn" data-filter="funny">Divertidos</button>
-                <button class="filter-btn" data-filter="deep">Profundos</button>
-            </div>
-
-            <div class="letters-grid" id="letters-container">
-                <!-- Las cartitas se generarán con JavaScript -->
-            </div>
-
-            <!-- Barra de progreso -->
-            <div class="progress-container">
-                <div class="progress-bar" id="love-progress"></div>
-                <div class="progress-text">
-                    <span>Progreso del Amor</span>
-                    <span id="progress-percent">0%</span>
-                </div>
-            </div>
-        </main>
-
-        <footer class="footer">
-            <div class="footer-content">
-                <p>Hecho con <span class="heart-pulse">❤️</span> especialmente para ti, mi amor</p>
-                <div class="footer-buttons">
-                    <button class="secret-btn" id="secret-surprise">
-                        <i class="fas fa-gift"></i> Sorpresa Secreta
-                    </button>
-                    <button class="print-btn" id="print-all">
-                        <i class="fas fa-print"></i> Guardar Todos
-                    </button>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Modal mejorado -->
-    <div class="modal" id="message-modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-day">Día 1</h2>
-                <div class="heart-decoration">💖</div>
-                <div class="modal-actions">
-                    <button class="action-btn" id="copy-message">
-                        <i class="far fa-copy"></i>
-                    </button>
-                    <button class="action-btn" id="share-message">
-                        <i class="fas fa-share-alt"></i>
-                    </button>
-                    <button class="action-btn" id="save-favorite">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <button class="action-btn close-modal" id="close-modal-btn">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="modal-body">
-                <div class="message-icon" id="modal-icon">😊</div>
-                <p id="modal-message"></p>
-            </div>
-            <div class="modal-footer">
-                <button id="love-btn" class="love-button">
-                    <i class="fas fa-heart"></i> TE AMO INFINITAMENTE ❤️
-                </button>
-                <button id="next-btn" class="next-button">
-                    Siguiente <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notificaciones flotantes -->
-    <div id="notification" class="notification">
-        <div class="notification-content">
-            <i class="fas fa-heart"></i>
-            <span id="notification-text"></span>
-        </div>
-    </div>
-
-    <!-- Área de efectos especiales -->
-    <canvas id="fireworks-canvas"></canvas>
-    <canvas id="hearts-canvas"></canvas>
-
-    <!-- Mensaje de amor flotante -->
-    <div id="floating-love" class="floating-love">TE AMO</div>
-
-    <!-- Nuevos elementos para el espectáculo -->
-    <div class="blackout-overlay" id="blackout-overlay">
-        <div class="countdown" id="countdown">3</div>
-        <h1 class="spectacular-title" id="spectacular-title">Para Mi Amor, KIM</h1>
-    </div>
-    
-    <div class="fireworks-container" id="fireworks-container"></div>
-    <div class="love-messages-container" id="love-messages-container"></div>
-    
-    <div class="music-player-mini" id="music-player-mini">
-        <div class="music-info">
-            <div class="song-title">Yellow</div>
-            <div class="song-artist">Coldplay - Para ti, mi amor</div>
-        </div>
-        <div class="music-controls">
-            <button class="music-btn" id="play-music-btn">
-                <i class="fas fa-play"></i>
-            </button>
-            <button class="music-btn" id="pause-music-btn">
-                <i class="fas fa-pause"></i>
-            </button>
-            <button class="music-btn" id="stop-music-btn">
-                <i class="fas fa-stop"></i>
-            </button>
-        </div>
-    </div>
-    
-    <button class="return-btn" id="return-btn">
-        <i class="fas fa-arrow-left"></i> Volver
-    </button>
-
-    <!-- Audio para efectos -->
-    <audio id="heart-sound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-heartbeat-100.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sparkle-sound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-300.mp3" type="audio/mpeg">
-    </audio>
-    
-    <!-- Audio para la canción Yellow -->
-    <audio id="yellow-song" preload="auto">
-        <source src="assets/music/yellow.mp3" type="audio/mpeg">
-        <!-- Si el archivo no existe, usar una versión online como respaldo -->
-        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-day-583.mp3" type="audio/mpeg">
-    </audio>
-
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-        // Datos mejorados con categorías
-        const messages = [
-    {
-        day: 1,
-        message: "Tu sonrisa ilumina mis días más grises. Desde que estás en mi vida, todo tiene más color.",
-        icon: "😊",
-        category: "romantic"
-    },
-    {
-        day: 2,
-        message: "Contigo he descubierto un amor que no conocía. Un amor que sana, que comprende, que perdona.",
-        icon: "❤️",
-        category: "romantic"
-    },
-    {
-        day: 3,
-        message: "Eres la razón por la que creo en el destino. No fue casualidad encontrarte, fue el universo conspirando a nuestro favor.",
-        icon: "✨",
-        category: "romantic"
-    },
-    {
-        day: 4,
-        message: "Mi niño interior revive cuando estoy contigo. Esas ganas de jugar, de reír sin motivo, de soñar despierto.",
-        icon: "👦",
-        category: "funny"
-    },
-    {
-        day: 5,
-        message: "Me haces sentir que puedo conquistar el mundo. Tu fe en mí es mi mayor motivación.",
-        icon: "🌎",
-        category: "deep"
-    },
-    {
-        day: 6,
-        message: "Tu mirada despierta mariposas en mi estómago. Esos nervios que solo tú provocas en mí.",
-        icon: "🦋",
-        category: "romantic"
-    },
-    {
-        day: 7,
-        message: "Cada momento a tu lado es un tesoro. Guardo cada risa, cada abrazo, cada mirada en el cofre de mis mejores recuerdos.",
-        icon: "💎",
-        category: "romantic"
-    },
-    {
-        day: 8,
-        message: "Eres el sueño que nunca quise despertar. Contigo la realidad supera cualquier fantasía.",
-        icon: "💭",
-        category: "romantic"
-    },
-    {
-        day: 9,
-        message: "Tu amor sana las heridas de mi pasado. Donde había dolor, ahora hay esperanza gracias a ti.",
-        icon: "🩹",
-        category: "deep"
-    },
-    {
-        day: 10,
-        message: "Contigo quiero construir un futuro lleno de risas. Un hogar donde el amor sea el cimiento más fuerte.",
-        icon: "🏡",
-        category: "future"
-    },
-    {
-        day: 11,
-        message: "Eres mi refugio en los días difíciles. En tus brazos encuentro la paz que mi alma necesita.",
-        icon: "🛡️",
-        category: "deep"
-    },
-    {
-        day: 12,
-        message: "Tu voz es la melodía que calma mi alma. Podría escucharte hablar por horas sin cansarme.",
-        icon: "🎵",
-        category: "romantic"
-    },
-    {
-        day: 13,
-        message: "Amo la persona que soy cuando estoy contigo. Me inspiras a ser mejor cada día.",
-        icon: "🌟",
-        category: "deep"
-    },
-    {
-        day: 14,
-        message: "Eres la respuesta a todas mis preguntas. En tu amor encontré el sentido que tanto buscaba.",
-        icon: "❓",
-        category: "deep"
-    },
-    {
-        day: 15,
-        message: "Tu amor me da fuerzas para ser mejor cada día. Quiero merecerte, quiero ser tu orgullo.",
-        icon: "💪",
-        category: "deep"
-    },
-    {
-        day: 16,
-        message: "Contigo hasta lo simple se vuelve mágico. Un paseo, una comida, una tarde en casa... todo es especial contigo.",
-        icon: "🔮",
-        category: "romantic"
-    },
-    {
-        day: 17,
-        message: "Eres mi confidente y mi mejor amiga. Puedo contarte mis mayores sueños y mis peores miedos.",
-        icon: "🤝",
-        category: "deep"
-    },
-    {
-        day: 18,
-        message: "Tu risa es mi sonido favorito. Es contagiosa, auténtica, y llena mi corazón de alegría.",
-        icon: "😂",
-        category: "funny"
-    },
-    {
-        day: 19,
-        message: "Amo cómo me miras, como si fuera único. Esa mirada que me hace sentir el hombre más afortunado del mundo.",
-        icon: "👀",
-        category: "romantic"
-    },
-    {
-        day: 20,
-        message: "Eres el regalo que la vida me dio después de tanto esperar. Valió la pena la espera.",
-        icon: "🎁",
-        category: "romantic"
-    },
-    {
-        day: 21,
-        message: "Contigo quiero envejecer riendo. Ver cómo se nos llena el rostro de arrugas, pero el corazón de amor.",
-        icon: "👵👴",
-        category: "future"
-    },
-    {
-        day: 22,
-        message: "Tu amor me hace sentir completo. Esas partes de mí que faltaban, ahora están aquí contigo.",
-        icon: "🧩",
-        category: "deep"
-    },
-    {
-        day: 23,
-        message: "Eres mi paz en medio del caos. Cuando el mundo gira demasiado rápido, tú eres mi centro.",
-        icon: "🕊️",
-        category: "deep"
-    },
-    {
-        day: 24,
-        message: "Amo cada detalle, cada gesto, cada mirada tuya. Me enamoro más de ti cada día.",
-        icon: "📝",
-        category: "romantic"
-    },
-    {
-        day: 25,
-        message: "Contigo el tiempo vuela y se detiene a la vez. Los minutos pasan rápido, pero los momentos quedan para siempre.",
-        icon: "⏳",
-        category: "romantic"
-    },
-    {
-        day: 26,
-        message: "Eres la dueña de mis pensamientos. Me despierto pensando en ti y me duermo soñando contigo.",
-        icon: "🤔",
-        category: "romantic"
-    },
-    {
-        day: 27,
-        message: "Tu amor es el combustible de mis sueños. Contigo a mi lado, siento que puedo lograr cualquier cosa.",
-        icon: "🚀",
-        category: "deep"
-    },
-    {
-        day: 28,
-        message: "Eres mi inspiración para ser mejor. Quiero ser la versión más grandiosa de mí mismo para ti.",
-        icon: "💡",
-        category: "deep"
-    },
-    {
-        day: 29,
-        message: "Amo cómo encajas perfectamente en mi vida. Como si siempre hubieras estado destinada a estar aquí.",
-        icon: "🔑",
-        category: "romantic"
-    },
-    {
-        day: 30,
-        message: "Contigo quiero compartir todos mis días. Los buenos, los malos, los simples, los extraordinarios.",
-        icon: "📅",
-        category: "future"
-    },
-    {
-        day: 31,
-        message: "Eres la luz que guía mi camino. En la oscuridad, tú eres mi faro, mi esperanza.",
-        icon: "💡",
-        category: "deep"
-    },
-    {
-        day: 32,
-        message: "Tu amor es mi mayor fortuna. No cambiaría lo que siento por ti por todo el oro del mundo.",
-        icon: "💰",
-        category: "romantic"
-    },
-    {
-        day: 33,
-        message: "Eres mi razón para sonreír sin motivo. Esa felicidad interna que brota cuando pienso en ti.",
-        icon: "😄",
-        category: "romantic"
-    },
-    {
-        day: 34,
-        message: "Contigo todo tiene más sentido. Los planes, los esfuerzos, las luchas... todo vale la pena por nuestro amor.",
-        icon: "🎯",
-        category: "deep"
-    },
-    {
-        day: 35,
-        message: "Amo cómo me haces sentir amado. Esa seguridad de saber que soy importante para ti.",
-        icon: "💖",
-        category: "romantic"
-    },
-    {
-        day: 36,
-        message: "Eres mi eterno y único amor. No imagino mi vida sin ti, no quiero mi vida sin ti. Eres mi todo.",
-        icon: "∞",
-        category: "romantic"
-    },
-    // Mensajes del 37 al 63 (manteniendo los que ya tenías)
-    {
-        day: 37,
-        message: "Tu amor transforma lo ordinario en extraordinario. Conviertes cada instante en un recuerdo inolvidable.",
-        icon: "✨",
-        category: "romantic"
-    },
-    {
-        day: 38,
-        message: "Contigo aprendí que el amor verdadero existe y que es más hermoso de lo que imaginaba.",
-        icon: "💕",
-        category: "deep"
-    },
-    {
-        day: 39,
-        message: "Eres el capítulo más bello de mi historia. Cada día contigo es una página que atesoro con el alma.",
-        icon: "📖",
-        category: "deep"
-    },
-    {
-        day: 40,
-        message: "Me robaste el corazón y ahora eres mi ladrona favorita. ¡Pero no me lo devuelvas nunca!",
-        icon: "😏",
-        category: "funny"
-    },
-    {
-        day: 41,
-        message: "Tu amor es mi refugio seguro. En tus brazos el mundo desaparece y solo existimos tú y yo.",
-        icon: "🛡️",
-        category: "deep"
-    },
-    {
-        day: 42,
-        message: "Contigo descubro nuevas razones para vivir cada día. Eres mi aventura favorita.",
-        icon: "🧭",
-        category: "romantic"
-    },
-    {
-        day: 43,
-        message: "Eres la melodía perfecta que armoniza mi vida. Sin ti, todo sería silencio.",
-        icon: "🎶",
-        category: "romantic"
-    },
-    {
-        day: 44,
-        message: "Amo cómo construimos recuerdos juntos. Cada experiencia compartida es un tesoro eterno.",
-        icon: "📸",
-        category: "future"
-    },
-    {
-        day: 45,
-        message: "Tu ternura es el bálsamo que cura cualquier herida. En tus gestos encuentro el amor más puro.",
-        icon: "🫂",
-        category: "deep"
-    },
-    {
-        day: 46,
-        message: "Contigo el amor crece cada día como un árbol fuerte que echa raíces profundas.",
-        icon: "🌳",
-        category: "future"
-    },
-    {
-        day: 47,
-        message: "Eres mi confidente de sueños locos. Contigo puedo ser completamente yo sin miedo al juicio.",
-        icon: "🌠",
-        category: "deep"
-    },
-    {
-        day: 48,
-        message: "Tu amor es el mejor regalo que he recibido. Más valioso que cualquier tesoro material.",
-        icon: "🎁",
-        category: "romantic"
-    },
-    {
-        day: 49,
-        message: "Amo cómo celebramos juntos cada pequeña victoria. Contigo hasta lo pequeño se siente enorme.",
-        icon: "🏆",
-        category: "funny"
-    },
-    {
-        day: 50,
-        message: "Eres mi compañera de todas las aventuras. Desde las más simples hasta las más extraordinarias.",
-        icon: "🗺️",
-        category: "future"
-    },
-    {
-        day: 51,
-        message: "Tu amor ilumina mis días más oscuros como una estrella que brilla en la noche.",
-        icon: "⭐",
-        category: "deep"
-    },
-    {
-        day: 52,
-        message: "Contigo aprendí el verdadero significado de la complicidad. Esa conexión que solo nosotros entendemos.",
-        icon: "🔒",
-        category: "deep"
-    },
-    {
-        day: 53,
-        message: "Eres la calma después de cada tormenta. En tu presencia encuentro paz y serenidad.",
-        icon: "⛅",
-        category: "deep"
-    },
-    {
-        day: 54,
-        message: "Amo cómo crecemos juntos, entrelazando nuestras vidas y fortaleciéndonos mutuamente.",
-        icon: "🌱",
-        category: "future"
-    },
-    {
-        day: 55,
-        message: "Tu amor es mi mayor inspiración para crear, soñar y creer en lo imposible.",
-        icon: "🎨",
-        category: "deep"
-    },
-    {
-        day: 56,
-        message: "Eres el hogar al que siempre quiero volver. Donde sea que estemos, contigo estoy en casa.",
-        icon: "🏠",
-        category: "romantic"
-    },
-    {
-        day: 57,
-        message: "Contigo el presente es un regalo y el futuro una promesa llena de esperanza.",
-        icon: "🎁",
-        category: "future"
-    },
-    {
-        day: 58,
-        message: "Tu amor transformó mi vida completamente. Donde había vacío, ahora hay plenitud absoluta.",
-        icon: "🦋",
-        category: "deep"
-    },
-    {
-        day: 59,
-        message: "Eres mi razón para creer en los milagros. Encontrarte fue el más hermoso de todos.",
-        icon: "🙏",
-        category: "romantic"
-    },
-    {
-        day: 60,
-        message: "Amo cómo nuestro amor supera cualquier obstáculo. Juntos somos más fuertes que cualquier desafío.",
-        icon: "🚧",
-        category: "deep"
-    },
-    {
-        day: 61,
-        message: "Eres mi amor infinito, mi siempre y para siempre. Hoy y todos los días de mi vida.",
-        icon: "💫",
-        category: "romantic"
-    },
-    {
-        day: 62,
-        message: "Tu risa es contagiosa y tu alegría es mi combustible. Me haces sentir vivo de una manera única.",
-        icon: "😂",
-        category: "funny"
-    },
-    {
-        day: 63,
-        message: "Eres el sueño que elegí vivir cada día. Mi amor por ti crece con cada amanecer.",
-        icon: "🌅",
-        category: "romantic"
-    },
-    // NUEVOS MENSAJES (Día 64 al 117)
-    {
-        day: 64,
-        message: "Cada latido de mi corazón lleva tu nombre. Es como si mi cuerpo supiera que te pertenece por completo.",
-        icon: "💓",
-        category: "romantic"
-    },
-    {
-        day: 65,
-        message: "Contigo aprendo el significado del amor paciente. Ese que espera, que comprende, que nunca se cansa.",
-        icon: "⏳",
-        category: "deep"
-    },
-    {
-        day: 66,
-        message: "Eres la nota perfecta en la melodía de mi vida. Sin ti, mi canción no tendría sentido.",
-        icon: "🎵",
-        category: "romantic"
-    },
-    {
-        day: 67,
-        message: "Amo cómo incluso en silencio podemos comunicarnos. Nuestras almas conversan sin necesidad de palabras.",
-        icon: "🤫",
-        category: "deep"
-    },
-    {
-        day: 68,
-        message: "Eres mi razón para levantarme con una sonrisa. Saber que puedo verte, hablarte o pensar en ti me llena de alegría.",
-        icon: "☀️",
-        category: "romantic"
-    },
-    {
-        day: 69,
-        message: "Contigo quiero construir castillos en el aire y luego hacerlos realidad, ladrillo por ladrillo.",
-        icon: "🏰",
-        category: "future"
-    },
-    {
-        day: 70,
-        message: "Tu amor es el faro que me guía en la tormenta. No importa lo oscuro que sea el camino, tú me muestras la dirección.",
-        icon: "🚢",
-        category: "deep"
-    },
-    {
-        day: 71,
-        message: "Eres el espejo que muestra la mejor versión de mí mismo. Contigo me veo capaz de cosas extraordinarias.",
-        icon: "🪞",
-        category: "deep"
-    },
-    {
-        day: 72,
-        message: "Amo cómo nuestro amor tiene su propio lenguaje. Esas miradas, esos gestos pequeños que solo nosotros entendemos.",
-        icon: "🗣️",
-        category: "romantic"
-    },
-    {
-        day: 73,
-        message: "Eres mi puerto seguro en este océano de vida. No importa dónde navegue, sé que en ti tengo un lugar al que volver.",
-        icon: "⚓",
-        category: "deep"
-    },
-    {
-        day: 74,
-        message: "Contigo hasta las tareas más mundanas se vuelven divertidas. Lavar platos contigo es mejor que ir a una fiesta sin ti.",
-        icon: "🍽️",
-        category: "funny"
-    },
-    {
-        day: 75,
-        message: "Tu amor es el pegamento que une mis días. Hace que todo cobre sentido y propósito.",
-        icon: "🧴",
-        category: "deep"
-    },
-    {
-        day: 76,
-        message: "Eres la poesía que mi corazón siempre quiso escribir. Cada verso, cada estrofa habla de ti.",
-        icon: "📜",
-        category: "romantic"
-    },
-    {
-        day: 77,
-        message: "Contigo quiero ver todos los amaneceres y atardeceres del mundo. Cada uno será especial porque lo compartiremos juntos.",
-        icon: "🌇",
-        category: "future"
-    },
-    {
-        day: 78,
-        message: "Tu amor es mi vitamina diaria. Me da energía, me fortalece y me mantiene saludable de espíritu.",
-        icon: "💊",
-        category: "funny"
-    },
-    {
-        day: 79,
-        message: "Eres la melodía que no puedo sacar de mi cabeza. Y no quiero que se vaya nunca.",
-        icon: "🎶",
-        category: "romantic"
-    },
-    {
-        day: 80,
-        message: "Contigo el amor no es un sentimiento, es una decisión. Y elijo amarte cada día, cada hora, cada minuto.",
-        icon: "✅",
-        category: "deep"
-    },
-    {
-        day: 81,
-        message: "Eres mi oasis en medio del desierto. Cuando todo parece árido y difícil, tú eres mi fuente de vida.",
-        icon: "🏜️",
-        category: "deep"
-    },
-    {
-        day: 82,
-        message: "Amo cómo creamos nuestra propia burbuja de felicidad. Dentro de ella, el mundo exterior desaparece.",
-        icon: "🫧",
-        category: "romantic"
-    },
-    {
-        day: 83,
-        message: "Eres el regalo que sigue dando. Cada día descubro algo nuevo para amar de ti.",
-        icon: "🎁",
-        category: "romantic"
-    },
-    {
-        day: 84,
-        message: "Contigo quiero llenar álbumes de fotos con nuestros recuerdos. Cada foto será una historia de amor contada en imágenes.",
-        icon: "📷",
-        category: "future"
-    },
-    {
-        day: 85,
-        message: "Tu amor es la brújula que me orienta. Siempre apunta hacia ti, mi verdadero norte.",
-        icon: "🧭",
-        category: "deep"
-    },
-    {
-        day: 86,
-        message: "Eres la pieza que completa mi rompecabezas. No sabía lo que me faltaba hasta que llegaste.",
-        icon: "🧩",
-        category: "romantic"
-    },
-    {
-        day: 87,
-        message: "Contigo hasta los días de lluvia son soleados. Porque tu presencia ilumina todo a mi alrededor.",
-        icon: "🌧️",
-        category: "romantic"
-    },
-    {
-        day: 88,
-        message: "Tu amor es el abrazo más cálido en el día más frío. Me envuelve y me protege del mundo.",
-        icon: "🫂",
-        category: "deep"
-    },
-    {
-        day: 89,
-        message: "Eres mi cómplice en esta aventura llamada vida. No hay mejor compañera de viaje que tú.",
-        icon: "🧳",
-        category: "romantic"
-    },
-    {
-        day: 90,
-        message: "Contigo quiero aprender todos los idiomas del amor. Y hablarte en cada uno de ellos.",
-        icon: "🗣️",
-        category: "future"
-    },
-    {
-        day: 91,
-        message: "Tu amor es la chispa que enciende mi creatividad. Contigo a mi lado, las ideas fluyen sin cesar.",
-        icon: "💡",
-        category: "deep"
-    },
-    {
-        day: 92,
-        message: "Eres la constelación más brillante en mi cielo personal. Siempre puedo encontrarte cuando me pierdo.",
-        icon: "⭐",
-        category: "romantic"
-    },
-    {
-        day: 93,
-        message: "Contigo hasta las matemáticas son románticas: tú + yo = nosotros para siempre.",
-        icon: "➕",
-        category: "funny"
-    },
-    {
-        day: 94,
-        message: "Tu amor es el cimiento sobre el que quiero construir mi vida. Fuerte, seguro y eterno.",
-        icon: "🏗️",
-        category: "future"
-    },
-    {
-        day: 95,
-        message: "Eres el suspiro de alivio después de un día largo. En tus brazos encuentro el descanso perfecto.",
-        icon: "😌",
-        category: "romantic"
-    },
-    {
-        day: 96,
-        message: "Contigo quiero escribir un libro de mil páginas sobre nuestro amor. Y que nunca tenga final.",
-        icon: "📚",
-        category: "future"
-    },
-    {
-        day: 97,
-        message: "Tu amor es la melodía que baila mi corazón. Un ritmo constante que me recuerda que estás aquí.",
-        icon: "💃",
-        category: "romantic"
-    },
-    {
-        day: 98,
-        message: "Eres el eslabón que une todos mis sueños. Conectas todo lo que aspiro ser y lograr.",
-        icon: "⛓️",
-        category: "deep"
-    },
-    {
-        day: 99,
-        message: "Contigo hasta el café sabe mejor por las mañanas. Porque lo tomo sabiendo que el día te incluye a ti.",
-        icon: "☕",
-        category: "romantic"
-    },
-    {
-        day: 100,
-        message: "Cien días diciéndote cuánto te amo y aún me quedan mil cosas por decir. Eres mi amor sin fin.",
-        icon: "💯",
-        category: "romantic"
-    },
-    {
-        day: 101,
-        message: "Eres mi segunda mitad en este baile de la vida. Juntos creamos la coreografía perfecta.",
-        icon: "🕺",
-        category: "romantic"
-    },
-    {
-        day: 102,
-        message: "Contigo el amor no es ciego, todo lo contrario: me hace ver con más claridad que nunca.",
-        icon: "👁️",
-        category: "deep"
-    },
-    {
-        day: 103,
-        message: "Tu amor es el eco que resuena en mi alma. Un sonido dulce que nunca se desvanece.",
-        icon: "📢",
-        category: "romantic"
-    },
-    {
-        day: 104,
-        message: "Eres el jardín donde florecen mis mejores sentimientos. En ti cultivo amor, respeto y admiración.",
-        icon: "🌷",
-        category: "deep"
-    },
-    {
-        day: 105,
-        message: "Contigo quiero coleccionar momentos como quien colecciona estrellas. Cada uno brilla con luz propia.",
-        icon: "🌟",
-        category: "future"
-    },
-    {
-        day: 106,
-        message: "Tu amor es la sombra que me sigue en los días soleados. Siempre presente, siempre protector.",
-        icon: "🌳",
-        category: "deep"
-    },
-    {
-        day: 107,
-        message: "Eres el mapa que me guía hacia la felicidad. Cada camino contigo conduce a la alegría.",
-        icon: "🗺️",
-        category: "romantic"
-    },
-    {
-        day: 108,
-        message: "Contigo hasta las equivocaciones son oportunidades para crecer juntos. Aprendemos incluso de los tropiezos.",
-        icon: "📈",
-        category: "deep"
-    },
-    {
-        day: 109,
-        message: "Tu amor es la canción que mi corazón canta en silencio. Una melodía eterna dedicada solo a ti.",
-        icon: "🎤",
-        category: "romantic"
-    },
-    {
-        day: 110,
-        message: "Eres mi refugio contra la tormenta y mi compañera bajo el sol. Estés donde estés, siempre eres mi lugar.",
-        icon: "⛱️",
-        category: "deep"
-    },
-    {
-        day: 111,
-        message: "Contigo cada día es una página nueva en nuestra historia. Y estoy ansioso por escribir las siguientes.",
-        icon: "📖",
-        category: "future"
-    },
-    {
-        day: 112,
-        message: "Tu amor es el hilo que teje el tapiz de mi vida. Sin ti, el diseño no estaría completo.",
-        icon: "🧵",
-        category: "deep"
-    },
-    {
-        day: 113,
-        message: "Eres el milagro cotidiano que agradezco cada mañana. Despertar sabiendo que existes es mi mayor bendición.",
-        icon: "🙏",
-        category: "romantic"
-    },
-    {
-        day: 114,
-        message: "Contigo quiero construir una biblioteca de recuerdos. Estantes llenos de momentos que atesoraremos por siempre.",
-        icon: "📚",
-        category: "future"
-    },
-    {
-        day: 115,
-        message: "Tu amor es el ingrediente secreto que sazona mi vida. Sin ti, todo tendría menos sabor.",
-        icon: "🧂",
-        category: "funny"
-    },
-    {
-        day: 116,
-        message: "Eres la nota al margen de mi libro favorito. Esos pequeños detalles que hacen toda la diferencia.",
-        icon: "📝",
-        category: "romantic"
-    },
-    {
-        day: 117,
-        message: "Contigo el amor no es un destino, es el viaje. Y no hay mejor compañera de camino que tú, hoy y siempre.",
-        icon: "🚶‍♂️",
-        category: "deep"
-    }
-];
-
-        // Estado de la aplicación
-        let state = {
-            currentDay: 1,
-            favorites: JSON.parse(localStorage.getItem('favorites')) || [],
-            viewedMessages: JSON.parse(localStorage.getItem('viewedMessages')) || [],
-            theme: localStorage.getItem('theme') || 'light',
-            loveLevel: parseInt(localStorage.getItem('loveLevel')) || 100,
-            isSpectacleActive: false
-        };
-
-        // Elementos DOM
-        const elements = {
-            lettersContainer: document.getElementById('letters-container'),
-            modal: document.getElementById('message-modal'),
-            modalOverlay: document.querySelector('.modal-overlay'),
-            modalDay: document.getElementById('modal-day'),
-            modalMessage: document.getElementById('modal-message'),
-            modalIcon: document.getElementById('modal-icon'),
-            closeModalBtn: document.getElementById('close-modal-btn'),
-            loveButton: document.getElementById('love-btn'),
-            currentDayElement: document.getElementById('current-day'),
-            fireworksCanvas: document.getElementById('fireworks-canvas'),
-            heartsCanvas: document.getElementById('hearts-canvas'),
-            floatingLove: document.getElementById('floating-love'),
-            searchInput: document.getElementById('search-messages'),
-            filterButtons: document.querySelectorAll('.filter-btn'),
-            progressBar: document.getElementById('love-progress'),
-            progressPercent: document.getElementById('progress-percent'),
-            daysTogether: document.getElementById('days-together'),
-            loveLevel: document.getElementById('love-level'),
-            secretSurprise: document.getElementById('secret-surprise'),
-            printAll: document.getElementById('print-all'),
-            themeBtn: document.getElementById('theme-btn'),
-            notification: document.getElementById('notification'),
-            notificationText: document.getElementById('notification-text'),
-            heartSound: document.getElementById('heart-sound'),
-            sparkleSound: document.getElementById('sparkle-sound'),
-            copyBtn: document.getElementById('copy-message'),
-            shareBtn: document.getElementById('share-message'),
-            saveFavoriteBtn: document.getElementById('save-favorite'),
-            nextBtn: document.getElementById('next-btn'),
-            // Nuevos elementos
-            blackoutOverlay: document.getElementById('blackout-overlay'),
-            fireworksContainer: document.getElementById('fireworks-container'),
-            loveMessagesContainer: document.getElementById('love-messages-container'),
-            musicPlayerMini: document.getElementById('music-player-mini'),
-            countdown: document.getElementById('countdown'),
-            spectacularTitle: document.getElementById('spectacular-title'),
-            returnBtn: document.getElementById('return-btn'),
-            playMusicBtn: document.getElementById('play-music-btn'),
-            pauseMusicBtn: document.getElementById('pause-music-btn'),
-            stopMusicBtn: document.getElementById('stop-music-btn'),
-            yellowSong: document.getElementById('yellow-song')
-        };
-
-        // Inicialización mejorada
-        document.addEventListener('DOMContentLoaded', () => {
-            init();
-            updateCounters();
-            updateProgress();
-            // Pre-cargar la canción
-            elements.yellowSong.load();
-        });
-
-        function init() {
-            createLetters();
-            setupEventListeners();
-            setupFilters();
-            setupSearch();
-            applyTheme();
-            updateProgress();
-        }
-
-        // Crear cartitas mejoradas
-        function createLetters() {
-            elements.lettersContainer.innerHTML = '';
-            
-            messages.forEach(msg => {
-                const letter = document.createElement('div');
-                letter.className = 'letter';
-                letter.dataset.day = msg.day;
-                letter.dataset.category = msg.category;
-                
-                const isViewed = state.viewedMessages.includes(msg.day);
-                const isFavorite = state.favorites.includes(msg.day);
-                
-                if (isViewed) {
-                    letter.classList.add('viewed');
-                }
-                
-                if (isFavorite) {
-                    letter.classList.add('favorite');
-                    letter.innerHTML += '<div class="favorite-star">⭐</div>';
-                }
-                
-                letter.innerHTML += `
-                    <div class="letter-number">Día ${msg.day}</div>
-                    <div class="letter-icon">${msg.icon}</div>
-                    <div class="letter-content">${truncateText(msg.message, 60)}</div>
-                    <div class="letter-footer">
-                        <span class="letter-category">${msg.category}</span>
-                    </div>
-                `;
-                
-                letter.addEventListener('click', () => openModal(msg.day));
-                
-                elements.lettersContainer.appendChild(letter);
-            });
-        }
-
-        // Configurar event listeners mejorados
-        function setupEventListeners() {
-            elements.closeModalBtn.addEventListener('click', closeMessageModal);
-            elements.modalOverlay.addEventListener('click', closeMessageModal);
-            elements.loveButton.addEventListener('click', showLoveSpectacle);
-            elements.secretSurprise.addEventListener('click', showSecretSurprise);
-            elements.printAll.addEventListener('click', printAllMessages);
-            elements.themeBtn.addEventListener('click', toggleTheme);
-            elements.copyBtn.addEventListener('click', copyMessage);
-            elements.shareBtn.addEventListener('click', shareMessage);
-            elements.saveFavoriteBtn.addEventListener('click', toggleFavorite);
-            elements.nextBtn.addEventListener('click', showNextMessage);
-            
-            // Event listeners para controles de música
-            elements.playMusicBtn.addEventListener('click', () => {
-                elements.yellowSong.play().catch(e => {
-                    console.log("No se pudo reproducir la canción:", e);
-                    showNotification("Reproduciendo música alternativa");
-                    elements.yellowSong.play();
-                });
-            });
-            
-            elements.pauseMusicBtn.addEventListener('click', () => {
-                elements.yellowSong.pause();
-            });
-            
-            elements.stopMusicBtn.addEventListener('click', () => {
-                elements.yellowSong.pause();
-                elements.yellowSong.currentTime = 0;
-            });
-            
-            elements.returnBtn.addEventListener('click', endLoveSpectacle);
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && elements.modal.style.display === 'flex') {
-                    closeMessageModal();
-                }
-                if (e.key === 'ArrowRight' && elements.modal.style.display === 'flex') {
-                    showNextMessage();
-                }
-                // Tecla Espacio para pausar/reanudar música durante el espectáculo
-                if (e.code === 'Space' && state.isSpectacleActive) {
-                    e.preventDefault();
-                    if (elements.yellowSong.paused) {
-                        elements.yellowSong.play();
-                    } else {
-                        elements.yellowSong.pause();
-                    }
-                }
-                // Tecla ESC para salir del espectáculo
-                if (e.key === 'Escape' && state.isSpectacleActive) {
-                    endLoveSpectacle();
-                }
-            });
-            
-            // Cuando termine la canción
-            elements.yellowSong.addEventListener('ended', () => {
-                // Repetir la canción
-                elements.yellowSong.currentTime = 0;
-                elements.yellowSong.play();
-                showNotification("🎵 Reproduciendo de nuevo 🎵");
-            });
-            
-            // Cuando haya un error con el audio
-            elements.yellowSong.addEventListener('error', (e) => {
-                console.log("Error con el audio:", e);
-                showNotification("Usando música alternativa");
-            });
-        }
-
-        // Configurar filtros
-        function setupFilters() {
-            elements.filterButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    elements.filterButtons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    const filter = btn.dataset.filter;
-                    filterLetters(filter);
-                });
-            });
-        }
-
-        // Configurar búsqueda
-        function setupSearch() {
-            elements.searchInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                filterBySearch(searchTerm);
-            });
-        }
-
-        // Filtrar cartitas
-        function filterLetters(category) {
-            const letters = document.querySelectorAll('.letter');
-            
-            letters.forEach(letter => {
-                if (category === 'all' || letter.dataset.category === category) {
-                    letter.style.display = 'flex';
-                } else {
-                    letter.style.display = 'none';
-                }
-            });
-        }
-
-        // Filtrar por búsqueda
-        function filterBySearch(term) {
-            const letters = document.querySelectorAll('.letter');
-            
-            letters.forEach(letter => {
-                const day = letter.dataset.day;
-                const message = messages.find(m => m.day == day);
-                
-                if (message.message.toLowerCase().includes(term) || term === '') {
-                    letter.style.display = 'flex';
-                } else {
-                    letter.style.display = 'none';
-                }
-            });
-        }
-
-        // Abrir modal mejorado
-        function openModal(day) {
-            const messageData = messages.find(msg => msg.day == day);
-            if (messageData) {
-                state.currentDay = day;
-                
-                elements.modalDay.textContent = `Día ${messageData.day}`;
-                elements.modalMessage.textContent = messageData.message;
-                elements.modalIcon.textContent = messageData.icon;
-                
-                // Marcar como visto
-                if (!state.viewedMessages.includes(day)) {
-                    state.viewedMessages.push(day);
-                    localStorage.setItem('viewedMessages', JSON.stringify(state.viewedMessages));
-                    updateProgress();
-                }
-                
-                // Actualizar botón de favorito
-                updateFavoriteButton(day);
-                
-                // Mostrar modal
-                elements.modal.style.display = 'flex';
-                
-                updateCurrentDay(day);
-                
-                // Efecto de entrada
-                playSound(elements.sparkleSound);
-            }
-        }
-
-        // Cerrar modal
-        function closeMessageModal() {
-            elements.modal.style.display = 'none';
-        }
-
-        // Actualizar botón de favorito
-        function updateFavoriteButton(day) {
-            const isFavorite = state.favorites.includes(day);
-            elements.saveFavoriteBtn.innerHTML = isFavorite ? 
-                '<i class="fas fa-heart"></i>' : 
-                '<i class="far fa-heart"></i>';
-            elements.saveFavoriteBtn.style.color = isFavorite ? 'var(--accent-color)' : 'white';
-        }
-
-        // Alternar favorito
-        function toggleFavorite() {
-            const day = state.currentDay;
-            const index = state.favorites.indexOf(day);
-            
-            if (index > -1) {
-                state.favorites.splice(index, 1);
-                showNotification('Eliminado de favoritos 💔');
-            } else {
-                state.favorites.push(day);
-                showNotification('¡Añadido a favoritos! 💖');
-                
-                // Aumentar nivel de amor
-                state.loveLevel = Math.min(state.loveLevel + 5, 200);
-                localStorage.setItem('loveLevel', state.loveLevel);
-                elements.loveLevel.textContent = state.loveLevel + '%';
-            }
-            
-            localStorage.setItem('favorites', JSON.stringify(state.favorites));
-            updateFavoriteButton(day);
-            createLetters(); // Actualizar vista
-        }
-
-        // Copiar mensaje
-        function copyMessage() {
-            const text = `${elements.modalMessage.textContent}\n\nDía ${state.currentDay}`;
-            navigator.clipboard.writeText(text)
-                .then(() => showNotification('¡Mensaje copiado! 📋'))
-                .catch(err => console.error('Error al copiar:', err));
-        }
-
-        // Compartir mensaje
-        function shareMessage() {
-            const text = `Día ${state.currentDay}: ${elements.modalMessage.textContent}`;
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Un mensaje de amor 💌',
-                    text: text,
-                    url: window.location.href
-                });
-            } else {
-                copyMessage();
-            }
-        }
-
-        // Mostrar siguiente mensaje
-        function showNextMessage() {
-            const currentIndex = messages.findIndex(msg => msg.day == state.currentDay);
-            const nextIndex = (currentIndex + 1) % messages.length;
-            openModal(messages[nextIndex].day);
-        }
-
-        // Mostrar espectáculo de amor mejorado
-        function showLoveSpectacle() {
-            if (state.isSpectacleActive) return;
-            
-            state.isSpectacleActive = true;
-            closeMessageModal();
-            
-            // 1. Apagar las luces (pantalla negra)
-            elements.blackoutOverlay.classList.add('active');
-            
-            // 2. Iniciar cuenta regresiva
-            startCountdown();
-        }
-
-        function startCountdown() {
-            let count = 3;
-            elements.countdown.textContent = count;
-            
-            const countdownInterval = setInterval(() => {
-                count--;
-                if (count > 0) {
-                    elements.countdown.textContent = count;
-                    // Efecto de sonido para cuenta regresiva
-                    playSound(elements.heartSound);
-                } else {
-                    clearInterval(countdownInterval);
-                    elements.countdown.textContent = "¡TE AMO!";
-                    
-                    // Esperar un momento y luego comenzar el espectáculo completo
-                    setTimeout(() => {
-                        elements.countdown.style.display = 'none';
-                        beginSpectacle();
-                    }, 1000);
-                }
-            }, 1000);
-        }
-
-        function beginSpectacle() {
-            // 1. Reproducir música automáticamente
-            playYellowSong();
-            
-            // 2. Mostrar controles de música
-            elements.musicPlayerMini.classList.add('active');
-            
-            // 3. Mostrar botón de regreso después de 5 segundos
-            setTimeout(() => {
-                elements.returnBtn.classList.add('show');
-            }, 5000);
-            
-            // 4. Crear fuegos artificiales
-            createFireworks();
-            
-            // 5. Mostrar mensajes de amor grandes
-            showBigLoveMessages();
-            
-            // 6. Mostrar título espectacular
-            elements.spectacularTitle.style.display = 'block';
-            
-            // 7. Crear efecto de estrellas
-            createStars();
-            
-            // 8. Notificación
-            showNotification("🎆 ¡ESPECTÁCULO DE AMOR! 🎆");
-        }
-
-        function playYellowSong() {
-            // Intentar reproducir la canción
-            elements.yellowSong.play().catch(e => {
-                console.log("No se pudo reproducir la canción:", e);
-                showNotification("🎵 Reproduciendo música alternativa 🎵");
-            });
-        }
-
-        function createFireworks() {
-            const colors = ['#ff6b8b', '#ffd700', '#4CAF50', '#2196F3', '#9C27B0', '#FF9800'];
-            const container = elements.fireworksContainer;
-            
-            // Crear múltiples fuegos artificiales en intervalos
-            const fireworksInterval = setInterval(() => {
-                // Crear 3-5 fuegos artificiales a la vez
-                for (let i = 0; i < 3 + Math.random() * 2; i++) {
-                    createSingleFirework(colors);
-                }
-            }, 800);
-            
-            // Guardar el intervalo para limpiarlo después
-            window.fireworksInterval = fireworksInterval;
-        }
-
-        function createSingleFirework(colors) {
-            const container = elements.fireworksContainer;
-            
-            // Posición aleatoria
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * (window.innerHeight / 2) + 100;
-            
-            // Color aleatorio
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            
-            // Crear fuego artificial principal
-            const firework = document.createElement('div');
-            firework.className = 'firework';
-            firework.style.left = `${x}px`;
-            firework.style.top = `${y}px`;
-            firework.style.backgroundColor = color;
-            firework.style.boxShadow = `0 0 20px ${color}`;
-            
-            // Animación de subida
-            const riseAnimation = firework.animate([
-                { transform: 'translateY(100vh)', opacity: 0 },
-                { transform: 'translateY(0)', opacity: 1 }
-            ], {
-                duration: 800,
-                easing: 'ease-out'
-            });
-            
-            riseAnimation.onfinish = () => {
-                // Explotar
-                explodeFirework(x, y, color);
-                firework.remove();
-            };
-            
-            container.appendChild(firework);
-        }
-
-        function explodeFirework(x, y, color) {
-            const container = elements.fireworksContainer;
-            const particles = 50 + Math.random() * 30;
-            
-            for (let i = 0; i < particles; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'firework-particle';
-                particle.style.left = `${x}px`;
-                particle.style.top = `${y}px`;
-                particle.style.backgroundColor = color;
-                particle.style.boxShadow = `0 0 10px ${color}`;
-                
-                // Ángulo aleatorio
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 50 + Math.random() * 150;
-                const duration = 800 + Math.random() * 700;
-                
-                // Animación de explosión
-                particle.animate([
-                    { 
-                        transform: 'translate(0, 0) scale(1)', 
-                        opacity: 1 
-                    },
-                    { 
-                        transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`, 
-                        opacity: 0 
-                    }
-                ], {
-                    duration: duration,
-                    easing: 'ease-out'
-                });
-                
-                // Eliminar después de la animación
-                setTimeout(() => {
-                    if (particle.parentNode) {
-                        particle.remove();
-                    }
-                }, duration);
-                
-                container.appendChild(particle);
-            }
-            
-            // Sonido de explosión
-            playSound(elements.sparkleSound);
-        }
-
-        function showBigLoveMessages() {
-            const messages = [
-                "TE AMO",
-                "ERES MI TODO",
-                "MI CORAZÓN ES TUYO",
-                "PARA SIEMPRE",
-                "MI AMOR ETERNO",
-                "ERES MI SOL",
-                "MI RAZÓN DE VIVIR",
-                "CONTIGO ES PARA SIEMPRE",
-                "AMOR INFINITO",
-                "TE ELEGIRÍA MIL VECES MÁS",
-                "MI VIDA ES MEJOR CONTIGO",
-                "ERES MI FELICIDAD",
-                "TE AMO MÁS QUE AYER",
-                "MI ALMA TE PERTENECE",
-                "JUNTOS PARA SIEMPRE"
-            ];
-            
-            const container = elements.loveMessagesContainer;
-            
-            // Mostrar mensajes en intervalos
-            const messageInterval = setInterval(() => {
-                const message = messages[Math.floor(Math.random() * messages.length)];
-                createBigLoveMessage(message);
-            }, 1500);
-            
-            // Guardar el intervalo para limpiarlo después
-            window.messageInterval = messageInterval;
-        }
-
-        function createBigLoveMessage(text) {
-            const container = elements.loveMessagesContainer;
-            
-            const message = document.createElement('div');
-            message.className = 'love-message-big';
-            message.textContent = text;
-            
-            // Posición aleatoria
-            const x = Math.random() * 70 + 15; // 15% a 85%
-            const y = Math.random() * 70 + 15; // 15% a 85%
-            
-            message.style.left = `${x}%`;
-            message.style.top = `${y}%`;
-            
-            // Color aleatorio
-            const hue = Math.random() * 360;
-            message.style.color = `hsl(${hue}, 100%, 60%)`;
-            message.style.textShadow = `0 0 30px hsl(${hue}, 100%, 60%)`;
-            
-            // Tamaño aleatorio
-            const size = 3 + Math.random() * 2;
-            message.style.fontSize = `${size}rem`;
-            
-            // Animación
-            message.animate([
-                { opacity: 0, transform: 'translate(-50%, -50%) scale(0.5)' },
-                { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
-                { opacity: 0, transform: 'translate(-50%, -50%) scale(1.5)' }
-            ], {
-                duration: 3000,
-                easing: 'ease-in-out'
-            });
-            
-            // Eliminar después de la animación
-            setTimeout(() => {
-                if (message.parentNode) {
-                    message.remove();
-                }
-            }, 3000);
-            
-            container.appendChild(message);
-        }
-
-        function createStars() {
-            const container = elements.fireworksContainer;
-            
-            // Crear estrellas brillantes
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const star = document.createElement('div');
-                    star.className = 'star';
-                    star.style.width = '3px';
-                    star.style.height = '3px';
-                    star.style.backgroundColor = 'white';
-                    star.style.boxShadow = '0 0 10px white, 0 0 20px white';
-                    
-                    // Posición aleatoria
-                    star.style.left = `${Math.random() * 100}%`;
-                    star.style.top = `${Math.random() * 100}%`;
-                    
-                    // Tamaño aleatorio
-                    const size = 0.5 + Math.random() * 1.5;
-                    star.style.width = `${size}px`;
-                    star.style.height = `${size}px`;
-                    
-                    // Opacidad aleatoria
-                    star.style.opacity = 0.3 + Math.random() * 0.7;
-                    
-                    container.appendChild(star);
-                }, i * 100);
-            }
-        }
-
-        function endLoveSpectacle() {
-            if (!state.isSpectacleActive) return;
-            
-            state.isSpectacleActive = false;
-            
-            // 1. Detener música
-            elements.yellowSong.pause();
-            elements.yellowSong.currentTime = 0;
-            
-            // 2. Detener intervalos
-            if (window.fireworksInterval) {
-                clearInterval(window.fireworksInterval);
-            }
-            if (window.messageInterval) {
-                clearInterval(window.messageInterval);
-            }
-            
-            // 3. Ocultar elementos del espectáculo
-            elements.blackoutOverlay.classList.remove('active');
-            elements.musicPlayerMini.classList.remove('active');
-            elements.returnBtn.classList.remove('show');
-            elements.countdown.style.display = 'block';
-            elements.countdown.textContent = "3";
-            elements.spectacularTitle.style.display = 'none';
-            
-            // 4. Limpiar fuegos artificiales
-            elements.fireworksContainer.innerHTML = '';
-            elements.loveMessagesContainer.innerHTML = '';
-            
-            // 5. Mostrar notificación final
-            showNotification("❤️ Eres el amor de mi vida ❤️");
-            
-            // 6. Efecto de salida
-            showFloatingLove("PARA SIEMPRE CONTIGO");
-            playSound(elements.heartSound);
-            
-            // 7. Mostrar mensajes flotantes
-            for (let i = 0; i < 3; i++) {
-                setTimeout(() => {
-                    showFloatingLove();
-                }, i * 500);
-            }
-        }
-
-        // ===============================
-// SORPRESA PRO (mejorada x1000)
-// ===============================
-
-const SurpriseFX = (() => {
-  const FX = {
-    styleId: "surprise-pro-styles",
-    overlayId: "surprise-pro-overlay",
-    running: false,
-    cleanupFns: [],
-    audio: null,
-    reducedMotion: window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false,
-  };
-
-  function onceInjectStyles() {
-    if (document.getElementById(FX.styleId)) return;
-
-    const style = document.createElement("style");
-    style.id = FX.styleId;
-    style.textContent = `
-      .surprise-overlay-pro{
-        position:fixed; inset:0; z-index:10010;
-        display:flex; flex-direction:column; align-items:center; justify-content:center;
-        background: radial-gradient(circle at 20% 20%, #ff5bbd 0%, transparent 35%),
-                    radial-gradient(circle at 80% 30%, #5bd6ff 0%, transparent 35%),
-                    radial-gradient(circle at 50% 80%, #7c4dff 0%, transparent 45%),
-                    linear-gradient(135deg, #0b0620, #22053b, #0b243c);
-        overflow:hidden;
-        animation: surpriseBg 12s infinite alternate ease-in-out;
-        padding: clamp(16px, 4vw, 40px);
-      }
-
-      .surprise-card{
-        width:min(860px, 92vw);
-        border-radius: 24px;
-        padding: clamp(18px, 3.5vw, 40px);
-        background: rgba(255,255,255,0.10);
-        border: 1px solid rgba(255,255,255,0.22);
-        box-shadow: 0 18px 80px rgba(0,0,0,0.40);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        position: relative;
-        overflow:hidden;
-        transform: translateY(10px);
-        animation: cardIn 650ms cubic-bezier(.2,.9,.2,1) forwards;
-      }
-
-      .surprise-card::before{
-        content:"";
-        position:absolute; inset:-40%;
-        background: conic-gradient(from 180deg,
-          rgba(255,215,0,0.18),
-          rgba(255,20,147,0.14),
-          rgba(0,191,255,0.14),
-          rgba(138,43,226,0.14),
-          rgba(255,215,0,0.18)
-        );
-        filter: blur(12px);
-        animation: shimmer 6s linear infinite;
-        pointer-events:none;
-      }
-
-      .surprise-content{
-        position:relative;
-        z-index:1;
-        display:flex;
-        flex-direction:column;
-        gap: 18px;
-        align-items:center;
-        text-align:center;
-      }
-
-      .surprise-title{
-        font-family: 'Dancing Script', cursive, system-ui;
-        font-size: clamp(2.2rem, 5vw, 5rem);
-        line-height: 1.0;
-        color: #ffd84a;
-        text-shadow: 0 0 18px rgba(255,216,74,0.6), 0 0 34px rgba(255,69,0,0.35);
-        animation: titlePulse 2.8s ease-in-out infinite alternate;
-        margin:0;
-      }
-
-      .surprise-heart{
-        font-size: clamp(2.2rem, 4vw, 4rem);
-        filter: drop-shadow(0 0 14px rgba(255,105,180,0.6));
-        animation: beat 1.35s ease-in-out infinite;
-      }
-
-      .surprise-text{
-        margin: 0;
-        font-size: clamp(1.0rem, 1.6vw, 1.25rem);
-        line-height: 1.7;
-        color: rgba(255,255,255,0.92);
-      }
-
-      .surprise-strong{
-        color: #fff;
-        font-weight: 800;
-        letter-spacing: .4px;
-        text-shadow: 0 0 12px rgba(255,215,0,0.35);
-      }
-
-      .surprise-actions{
-        display:flex;
-        gap:12px;
-        flex-wrap:wrap;
-        justify-content:center;
-        margin-top: 8px;
-      }
-
-      .surprise-btn{
-        appearance:none;
-        border:0;
-        cursor:pointer;
-        border-radius: 999px;
-        padding: 14px 22px;
-        font-weight: 800;
-        font-size: 1.05rem;
-        color: #fff;
-        background: linear-gradient(135deg, #ff1493, #8a2be2);
-        box-shadow: 0 12px 30px rgba(255,20,147,0.30);
-        transform: translateZ(0);
-        transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-      }
-
-      .surprise-btn:hover{
-        transform: translateY(-1px);
-        box-shadow: 0 16px 42px rgba(255,20,147,0.42);
-        filter: brightness(1.06);
-      }
-
-      .surprise-btn:active{
-        transform: translateY(1px);
-        box-shadow: 0 10px 26px rgba(255,20,147,0.28);
-      }
-
-      .surprise-btn.secondary{
-        background: linear-gradient(135deg, rgba(255,255,255,0.20), rgba(255,255,255,0.10));
-        border: 1px solid rgba(255,255,255,0.22);
-        box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-        font-weight: 700;
-      }
-
-      .fx-layer{
-        position:absolute; inset:0;
-        pointer-events:none;
-        z-index:0;
-      }
-
-      .fx-particle{
-        position:absolute;
-        width:10px; height:10px;
-        border-radius:50%;
-        opacity:.95;
-        will-change: transform, opacity;
-        filter: drop-shadow(0 0 8px rgba(255,215,0,0.6));
-      }
-
-      .fx-heart{
-        position:absolute;
-        opacity:0;
-        will-change: transform, opacity;
-        filter: drop-shadow(0 0 10px rgba(255,105,180,0.55));
-      }
-
-      .fx-confetti{
-        position:absolute;
-        width: 12px;
-        height: 12px;
-        opacity:0.9;
-        will-change: transform, opacity;
-      }
-
-      @keyframes surpriseBg{
-        0%{ filter: hue-rotate(0deg) saturate(1.1); transform: scale(1); }
-        100%{ filter: hue-rotate(25deg) saturate(1.3); transform: scale(1.02); }
-      }
-
-      @keyframes cardIn{
-        to{ transform: translateY(0px); }
-      }
-
-      @keyframes shimmer{
-        to{ transform: rotate(360deg); }
-      }
-
-      @keyframes titlePulse{
-        0%{ transform: scale(1); }
-        100%{ transform: scale(1.03); }
-      }
-
-      @keyframes beat{
-        0%{ transform: scale(1); }
-        45%{ transform: scale(1.18); }
-        100%{ transform: scale(1); }
-      }
-
-      /* Reduced motion */
-      @media (prefers-reduced-motion: reduce){
-        .surprise-overlay-pro, .surprise-card, .surprise-card::before, .surprise-title, .surprise-heart{
-          animation:none !important;
+  </div>
+
+  <script>
+    // ============================================
+    // 1) MENSAJES (REEMPLAZA AQUÍ CON TUS 117)
+    // ============================================
+    // Formato requerido:
+    // { day: 1, message: "texto...", icon:"😊", category:"romantic" }
+
+    // 👉 Si pegas tus 117 aquí, funciona perfecto.
+    let messages = [
+      { day: 1, message: "Tu sonrisa ilumina mis días más grises. Desde que estás en mi vida, todo tiene más color.", icon:"😊", category:"romantic" },
+      { day: 2, message: "Contigo he descubierto un amor que no conocía. Un amor que sana, que comprende, que perdona.", icon:"❤️", category:"romantic" },
+      { day: 3, message: "Eres la razón por la que creo en el destino. No fue casualidad encontrarte, fue el universo conspirando a nuestro favor.", icon:"✨", category:"romantic" },
+      // ... puedes pegar TODOS tus mensajes aquí ...
+    ];
+
+    // Si no hay 117 pegados, completamos automático para que el demo funcione:
+    // (Cuando pegues los 117 reales, puedes borrar este bloque si quieres)
+    if (messages.length < 117) {
+      const existing = new Set(messages.map(m => m.day));
+      for (let d = 1; d <= 117; d++) {
+        if (!existing.has(d)) {
+          messages.push({
+            day: d,
+            message: `Cartita ${d}: Eres mi razón bonita de cada día. (Reemplaza este mensaje por el real 💖)`,
+            icon: "💌",
+            category: "romantic"
+          });
         }
       }
-    `;
-    document.head.appendChild(style);
-  }
-
-  function addCleanup(fn) {
-    FX.cleanupFns.push(fn);
-  }
-
-  function cleanupAll() {
-    // Stop audio
-    try {
-      if (FX.audio) {
-        FX.audio.pause();
-        FX.audio.currentTime = 0;
-        FX.audio = null;
-      }
-    } catch {}
-
-    // Run cleanup callbacks (intervals/timeouts/listeners etc.)
-    for (const fn of FX.cleanupFns.splice(0)) {
-      try { fn(); } catch {}
+      messages.sort((a,b)=>a.day-b.day);
     }
 
-    FX.running = false;
-  }
-
-  function createOverlay() {
-    const overlay = document.createElement("div");
-    overlay.id = FX.overlayId;
-    overlay.className = "surprise-overlay-pro";
-    overlay.setAttribute("role", "dialog");
-    overlay.setAttribute("aria-modal", "true");
-    overlay.setAttribute("aria-label", "Sorpresa especial");
-
-    // Escape key to close
-    const onKey = (e) => {
-      if (e.key === "Escape") closeOverlay();
+    // ============================================
+    // 2) ESTADO Y ELEMENTOS
+    // ============================================
+    const state = {
+      busy: false,
+      requestedDay: null,
+      bunnyVisible: false
     };
-    document.addEventListener("keydown", onKey);
-    addCleanup(() => document.removeEventListener("keydown", onKey));
 
-    // FX layer
-    const fxLayer = document.createElement("div");
-    fxLayer.className = "fx-layer";
-
-    // Card
-    const card = document.createElement("div");
-    card.className = "surprise-card";
-
-    const content = document.createElement("div");
-    content.className = "surprise-content";
-
-    const title = document.createElement("h1");
-    title.className = "surprise-title";
-    title.textContent = "PARA TI, MI KIM";
-
-    const heart = document.createElement("div");
-    heart.className = "surprise-heart";
-    heart.textContent = "💖";
-
-    // Message (más pulido)
-    const p1 = document.createElement("p");
-    p1.className = "surprise-text";
-    p1.textContent = "Eres el milagro más hermoso que llegó a mi vida.";
-
-    const p2 = document.createElement("p");
-    p2.className = "surprise-text";
-    p2.textContent = "Cada día contigo es un regalo que atesoro en mi corazón.";
-
-    const p3 = document.createElement("p");
-    p3.className = "surprise-text";
-    p3.textContent = "No hay palabras suficientes para expresar lo que siento por ti.";
-
-    const p4 = document.createElement("p");
-    p4.className = "surprise-text";
-    p4.textContent = "Por eso, cada uno de estos 117 mensajes es solo una pequeña parte de todo el amor que siento.";
-
-    const p5 = document.createElement("p");
-    p5.className = "surprise-text surprise-strong";
-    p5.textContent = "¡TE AMO CON TODO MI SER!";
-
-    // Actions
-    const actions = document.createElement("div");
-    actions.className = "surprise-actions";
-
-    const muteBtn = document.createElement("button");
-    muteBtn.className = "surprise-btn secondary";
-    muteBtn.type = "button";
-    muteBtn.textContent = "🔇 Silenciar música";
-    muteBtn.onclick = () => toggleAudio(muteBtn);
-
-    const closeBtn = document.createElement("button");
-    closeBtn.className = "surprise-btn";
-    closeBtn.type = "button";
-    closeBtn.textContent = "❤️ Cerrar sorpresa ❤️";
-    closeBtn.onclick = () => closeOverlay(true);
-
-    actions.appendChild(muteBtn);
-    actions.appendChild(closeBtn);
-
-    content.appendChild(title);
-    content.appendChild(heart);
-    content.appendChild(p1);
-    content.appendChild(p2);
-    content.appendChild(p3);
-    content.appendChild(p4);
-    content.appendChild(p5);
-    content.appendChild(actions);
-
-    card.appendChild(content);
-
-    overlay.appendChild(fxLayer);
-    overlay.appendChild(card);
-
-    // Prevent scroll
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    addCleanup(() => (document.body.style.overflow = prevOverflow));
-
-    document.body.appendChild(overlay);
-    return { overlay, fxLayer };
-  }
-
-  function closeOverlay(withExplosion = false) {
-    const overlay = document.getElementById(FX.overlayId);
-    if (!overlay) return;
-
-    overlay.remove();
-    cleanupAll();
-
-    if (withExplosion && !FX.reducedMotion) {
-      // Si tienes tu showNotification, úsalo. Si no, no pasa nada.
-      try { showNotification?.("🎀 Siempre tendrás sorpresas especiales, mi amor 🎀"); } catch {}
-      createLoveExplosion();
-    }
-  }
-
-  function playMusic(url = "https://assets.mixkit.co/music/preview/mixkit-happy-day-583.mp3") {
-    try {
-      const audio = new Audio(url);
-      audio.loop = true;
-      audio.volume = 0.45;
-      FX.audio = audio;
-
-      // Intentar reproducir (requiere interacción del usuario)
-      audio.play().catch(() => {
-        // Si falla, no rompemos nada.
-        try { console.log("La música requiere interacción del usuario"); } catch {}
-      });
-
-      addCleanup(() => {
-        try {
-          audio.pause();
-          audio.currentTime = 0;
-        } catch {}
-      });
-    } catch {}
-  }
-
-  function toggleAudio(btn) {
-    if (!FX.audio) return;
-
-    const isPaused = FX.audio.paused;
-    if (isPaused) {
-      FX.audio.play().catch(() => {});
-      btn.textContent = "🔇 Silenciar música";
-    } else {
-      FX.audio.pause();
-      btn.textContent = "🔊 Activar música";
-    }
-  }
-
-  // -----------------------------
-  // FX: Partículas / Confetti / Hearts
-  // -----------------------------
-
-  function rand(min, max) { return Math.random() * (max - min) + min; }
-  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-  function spawnParticles(fxLayer) {
-    if (FX.reducedMotion) return;
-
-    const colors = ["#FFD700", "#FFA500", "#FFEC8B", "#FFFACD"];
-    const count = 120;
-
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < count; i++) {
-      const el = document.createElement("div");
-      el.className = "fx-particle";
-      el.style.background = pick(colors);
-      el.style.left = rand(0, 100) + "%";
-      el.style.top = rand(0, 100) + "%";
-      el.style.width = el.style.height = rand(6, 12) + "px";
-      frag.appendChild(el);
-
-      // Animate outward
-      const duration = rand(1600, 3200);
-      const angle = rand(0, Math.PI * 2);
-      const distance = rand(140, 420);
-      const dx = Math.cos(angle) * distance;
-      const dy = Math.sin(angle) * distance;
-
-      const anim = el.animate(
-        [
-          { transform: "translate(0,0) scale(1)", opacity: 1 },
-          { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 }
-        ],
-        { duration, easing: "ease-out", fill: "forwards" }
-      );
-
-      addCleanup(() => { try { anim.cancel(); } catch {} });
-      setTimeout(() => el.remove(), duration + 50);
-    }
-
-    fxLayer.appendChild(frag);
-  }
-
-  function spawnConfetti(fxLayer) {
-    if (FX.reducedMotion) return;
-
-    const colors = ["#FF1493", "#00BFFF", "#32CD32", "#FFD700", "#8A2BE2", "#FF4500"];
-    const shapes = ["circle", "square", "triangle"];
-    const count = 220;
-
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < count; i++) {
-      const el = document.createElement("div");
-      el.className = "fx-confetti";
-
-      const shape = pick(shapes);
-      const color = pick(colors);
-
-      el.style.background = color;
-      el.style.left = rand(0, 100) + "%";
-      el.style.top = "-20px";
-      el.style.width = el.style.height = rand(8, 14) + "px";
-      el.style.borderRadius = shape === "circle" ? "50%" : "2px";
-      if (shape === "triangle") {
-        el.style.clipPath = "polygon(50% 0%, 0% 100%, 100% 100%)";
-      }
-
-      frag.appendChild(el);
-
-      const duration = rand(2400, 4400);
-      const drift = rand(-180, 180);
-      const rot = rand(360, 980);
-
-      const anim = el.animate(
-        [
-          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
-          { transform: `translate(${drift}px, 110vh) rotate(${rot}deg)`, opacity: 0 }
-        ],
-        { duration, easing: "cubic-bezier(0.215, 0.610, 0.355, 1)", fill: "forwards", delay: i * 6 }
-      );
-
-      addCleanup(() => { try { anim.cancel(); } catch {} });
-      setTimeout(() => el.remove(), duration + i * 6 + 50);
-    }
-
-    fxLayer.appendChild(frag);
-  }
-
-  function spawnHearts(fxLayer) {
-    if (FX.reducedMotion) return;
-
-    const hearts = ["❤️", "💖", "💕", "💗", "💓", "💞", "💘", "💝"];
-    const count = 60;
-
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < count; i++) {
-      const el = document.createElement("div");
-      el.className = "fx-heart";
-      el.textContent = pick(hearts);
-      el.style.left = rand(0, 100) + "%";
-      el.style.top = "105%";
-      el.style.fontSize = rand(18, 46) + "px";
-      frag.appendChild(el);
-
-      const duration = rand(2600, 5200);
-      const drift = rand(-120, 120);
-
-      const anim = el.animate(
-        [
-          { transform: "translate(0, 0) scale(0.6)", opacity: 0 },
-          { transform: "translate(0, -120px) scale(1)", opacity: 1, offset: 0.25 },
-          { transform: `translate(${drift}px, -120vh) scale(0.7)`, opacity: 0 }
-        ],
-        { duration, easing: "cubic-bezier(0.215, 0.610, 0.355, 1)", fill: "forwards", delay: i * 70 }
-      );
-
-      addCleanup(() => { try { anim.cancel(); } catch {} });
-      setTimeout(() => el.remove(), duration + i * 70 + 50);
-    }
-
-    fxLayer.appendChild(frag);
-  }
-
-  function createLoveExplosion() {
-    if (FX.reducedMotion) return;
-
-    const count = 110;
-    const colors = ["#FF1493", "#FF69B4", "#FFB6C1", "#FFC0CB"];
-
-    const layer = document.createElement("div");
-    layer.className = "fx-layer";
-    layer.style.zIndex = "10012";
-    document.body.appendChild(layer);
-
-    const cleanupLayer = () => { try { layer.remove(); } catch {} };
-    addCleanup(cleanupLayer);
-
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < count; i++) {
-      const el = document.createElement("div");
-      el.textContent = "❤️";
-      el.style.position = "absolute";
-      el.style.left = "50%";
-      el.style.top = "50%";
-      el.style.fontSize = rand(18, 38) + "px";
-      el.style.color = pick(colors);
-      el.style.opacity = "1";
-      el.style.textShadow = "0 0 18px currentColor";
-      frag.appendChild(el);
-
-      const angle = rand(0, Math.PI * 2);
-      const distance = rand(140, 360);
-      const dx = Math.cos(angle) * distance;
-      const dy = Math.sin(angle) * distance;
-      const duration = rand(900, 1700);
-
-      const anim = el.animate(
-        [
-          { transform: "translate(-50%, -50%) scale(0)", opacity: 1 },
-          { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1)`, opacity: 0 }
-        ],
-        { duration, easing: "ease-out", fill: "forwards", delay: i * 10 }
-      );
-
-      setTimeout(() => el.remove(), duration + i * 10 + 50);
-      addCleanup(() => { try { anim.cancel(); } catch {} });
-    }
-
-    layer.appendChild(frag);
-    setTimeout(cleanupLayer, 2200);
-  }
-
-  // -----------------------------
-  // Public API
-  // -----------------------------
-  function show() {
-    if (FX.running) return;
-    FX.running = true;
-
-    try { showNotification?.("✨ ¡SORPRESA ESPECIAL PARA TI, MI AMOR! ✨"); } catch {}
-
-    onceInjectStyles();
-
-    const { overlay, fxLayer } = createOverlay();
-
-    // Auto-close safety (optional)
-    // const t = setTimeout(() => closeOverlay(false), 60000);
-    // addCleanup(() => clearTimeout(t));
-
-    // FX
-    spawnParticles(fxLayer);
-    spawnConfetti(fxLayer);
-    spawnHearts(fxLayer);
-
-    // Music
-    playMusic();
-
-    // If user clicks outside card -> optional close
-    const onClickOutside = (e) => {
-      const card = overlay.querySelector(".surprise-card");
-      if (card && !card.contains(e.target)) {
-        // closeOverlay(true); // si quieres cerrar tocando afuera, descomenta
-      }
+    const el = {
+      dayInput: document.getElementById("dayInput"),
+      bringBtn: document.getElementById("bringBtn"),
+      randomBtn: document.getElementById("randomBtn"),
+
+      bunnyWrap: document.getElementById("bunnyWrap"),
+      envelope: document.getElementById("envelope"),
+
+      modal: document.getElementById("modal"),
+      modalOverlay: document.getElementById("modalOverlay"),
+      modalDay: document.getElementById("modalDay"),
+      modalIcon: document.getElementById("modalIcon"),
+      modalMessage: document.getElementById("modalMessage"),
+      closeBtn: document.getElementById("closeBtn"),
+      closeX: document.getElementById("closeX"),
+
+      toast: document.getElementById("toast"),
+      toastText: document.getElementById("toastText"),
     };
-    overlay.addEventListener("mousedown", onClickOutside);
-    addCleanup(() => overlay.removeEventListener("mousedown", onClickOutside));
 
-    setTimeout(() => {
-      try { showNotification?.("💝 Esta sorpresa es solo para ti, mi amor 💝"); } catch {}
-    }, 900);
-  }
-
-  return { show, close: closeOverlay };
-})();
-
-// ===============================
-// Reemplazo directo de tu función
-// ===============================
-function showSecretSurprise() {
-  // Si ya usas state.isSpectacleActive, lo respetamos:
-  if (typeof state !== "undefined") {
-    if (state.isSpectacleActive) return;
-    state.isSpectacleActive = true;
-  }
-
-  SurpriseFX.show();
-
-  // Cuando se cierre, libera state.isSpectacleActive
-  // (Interceptamos el close para setearlo correctamente)
-  const originalClose = SurpriseFX.close;
-  SurpriseFX.close = function(withExplosion = false) {
-    originalClose(withExplosion);
-    if (typeof state !== "undefined") state.isSpectacleActive = false;
-    // Restaurar por si llamas varias veces
-    SurpriseFX.close = originalClose;
-  };
-}
-
-
-// Funciones auxiliares para la sorpresa
-function createGoldenParticles() {
-    const particleCount = 100;
-    const colors = ['#FFD700', '#FFA500', '#FFEC8B', '#FFFACD'];
-    
-    for (let i = 0; i < particleCount; i++) {
-        setTimeout(() => {
-            const particle = document.createElement('div');
-            particle.style.cssText = `
-                position: fixed;
-                width: 10px;
-                height: 10px;
-                background: ${colors[Math.floor(Math.random() * colors.length)]};
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 10011;
-                box-shadow: 0 0 20px #FFD700;
-            `;
-            
-            // Posición inicial aleatoria
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.top = `${Math.random() * 100}%`;
-            
-            // Animación
-            const duration = 2000 + Math.random() * 3000;
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 200 + Math.random() * 300;
-            
-            particle.animate([
-                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-                { 
-                    transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`, 
-                    opacity: 0 
-                }
-            ], {
-                duration: duration,
-                easing: 'ease-out'
-            });
-            
-            // Agregar y eliminar después
-            document.body.appendChild(particle);
-            setTimeout(() => particle.remove(), duration);
-        }, i * 30);
+    // ============================================
+    // 3) HELPERS
+    // ============================================
+    function toast(msg) {
+      el.toastText.textContent = msg;
+      el.toast.classList.add("show");
+      clearTimeout(window.__toastT);
+      window.__toastT = setTimeout(()=> el.toast.classList.remove("show"), 2400);
     }
-}
 
-function createConfetti() {
-    const confettiCount = 200;
-    const shapes = ['circle', 'square', 'triangle'];
-    const colors = ['#FF1493', '#00BFFF', '#32CD32', '#FFD700', '#8A2BE2', '#FF4500'];
-    
-    for (let i = 0; i < confettiCount; i++) {
-        setTimeout(() => {
-            const confetti = document.createElement('div');
-            const shape = shapes[Math.floor(Math.random() * shapes.length)];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            
-            let shapeStyle = '';
-            if (shape === 'circle') {
-                shapeStyle = 'border-radius: 50%';
-            } else if (shape === 'triangle') {
-                shapeStyle = 'clip-path: polygon(50% 0%, 0% 100%, 100% 100%)';
-            }
-            
-            confetti.style.cssText = `
-                position: fixed;
-                width: 15px;
-                height: 15px;
-                background: ${color};
-                ${shapeStyle}
-                pointer-events: none;
-                z-index: 10011;
-                top: -20px;
-                left: ${Math.random() * 100}%;
-                opacity: 0.8;
-            `;
-            
-            // Animación de caída
-            const duration = 3000 + Math.random() * 2000;
-            const endX = (Math.random() - 0.5) * 200;
-            
-            confetti.animate([
-                { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
-                { transform: `translate(${endX}px, 100vh) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-            ], {
-                duration: duration,
-                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
-            });
-            
-            // Agregar y eliminar
-            document.body.appendChild(confetti);
-            setTimeout(() => confetti.remove(), duration);
-        }, i * 10);
+    function clampDay(n){
+      const d = Number(n);
+      if (!Number.isFinite(d)) return null;
+      if (d < 1) return 1;
+      if (d > 117) return 117;
+      return Math.floor(d);
     }
-}
 
-function playSpecialMusic() {
-    // Crear audio especial (puedes reemplazar con tu canción favorita)
-    const specialAudio = new Audio('https://assets.mixkit.co/music/preview/mixkit-happy-day-583.mp3');
-    specialAudio.volume = 0.5;
-    
-    // Intentar reproducir (solo funcionará con interacción del usuario)
-    specialAudio.play().catch(e => {
-        console.log("La música especial requiere interacción del usuario");
+    function getMessage(day){
+      return messages.find(m => m.day === day) || null;
+    }
+
+    function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+    // Animación: esperamos a que termine la animación CSS
+    function waitAnimationEnd(node, fallbackMs = 1300){
+      return new Promise(resolve=>{
+        let done = false;
+        const onEnd = () => {
+          if (done) return;
+          done = true;
+          node.removeEventListener("animationend", onEnd);
+          resolve();
+        };
+        node.addEventListener("animationend", onEnd, { once:true });
+        setTimeout(onEnd, fallbackMs);
+      });
+    }
+
+    // ============================================
+    // 4) BUNNY FLOW
+    // ============================================
+    async function bunnyArrive() {
+      el.bunnyWrap.classList.remove("state-hidden","leave","deliver");
+      el.bunnyWrap.classList.add("arrive");
+      state.bunnyVisible = true;
+      await waitAnimationEnd(el.bunnyWrap, 1300);
+      el.bunnyWrap.classList.remove("arrive");
+    }
+
+    async function bunnyDeliverWiggle() {
+      el.bunnyWrap.classList.add("deliver");
+      await waitAnimationEnd(el.bunnyWrap, 800);
+      el.bunnyWrap.classList.remove("deliver");
+    }
+
+    async function bunnyLeave() {
+      el.bunnyWrap.classList.remove("arrive","deliver");
+      el.bunnyWrap.classList.add("leave");
+      await waitAnimationEnd(el.bunnyWrap, 1100);
+      el.bunnyWrap.classList.remove("leave");
+      el.bunnyWrap.classList.add("state-hidden");
+      state.bunnyVisible = false;
+    }
+
+    function openCard(day) {
+      const data = getMessage(day);
+      if (!data) {
+        toast("No encontré esa cartita 😢");
+        return;
+      }
+      el.modalDay.textContent = `Día ${data.day}`;
+      el.modalIcon.textContent = data.icon || "💌";
+      el.modalMessage.textContent = data.message;
+
+      el.modal.classList.add("active");
+      // Bloquear scroll
+      document.body.style.overflow = "hidden";
+    }
+
+    async function closeCardAndBunnyExit() {
+      // Cerrar modal primero
+      el.modal.classList.remove("active");
+      document.body.style.overflow = "";
+
+      // Bunny recoge y se va
+      await bunnyDeliverWiggle();
+      await bunnyLeave();
+
+      state.busy = false;
+      state.requestedDay = null;
+      toast("Listo 💖 Pídeme otra cartita cuando quieras.");
+    }
+
+    async function bringCard(day){
+      if (state.busy) return;
+      const d = clampDay(day);
+      if (d == null) { toast("Escribe un número del 1 al 117"); return; }
+
+      const data = getMessage(d);
+      if (!data) { toast("Ese día no existe 😅"); return; }
+
+      state.busy = true;
+      state.requestedDay = d;
+
+      toast(`La conejita va por la cartita ${d}... 🐰`);
+
+      // Si estaba fuera, llega. Si ya está, solo hace entrega.
+      if (!state.bunnyVisible) {
+        await bunnyArrive();
+      }
+
+      // pequeña pausa para que se sienta natural
+      await sleep(200);
+
+      // hace “entrega”
+      await bunnyDeliverWiggle();
+
+      // abrir modal
+      openCard(d);
+
+      // Nota: el cierre controla el “recoger y salir”
+      // state.busy se libera al cerrar carta
+    }
+
+    // ============================================
+    // 5) EVENTS
+    // ============================================
+    el.bringBtn.addEventListener("click", () => bringCard(el.dayInput.value));
+    el.randomBtn.addEventListener("click", () => {
+      const d = Math.floor(Math.random()*117) + 1;
+      el.dayInput.value = d;
+      bringCard(d);
     });
-    
-    // Guardar referencia para detenerla después
-    window.specialAudio = specialAudio;
-}
 
-function createFloatingHearts() {
-    const heartCount = 50;
-    const heartEmojis = ['❤️', '💖', '💕', '💗', '💓', '💞', '💘', '💝'];
-    
-    for (let i = 0; i < heartCount; i++) {
-        setTimeout(() => {
-            const heart = document.createElement('div');
-            heart.style.cssText = `
-                position: fixed;
-                font-size: ${Math.random() * 30 + 20}px;
-                pointer-events: none;
-                z-index: 10011;
-                opacity: 0;
-            `;
-            
-            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-            
-            // Posición inicial (abajo)
-            heart.style.left = `${Math.random() * 100}%`;
-            heart.style.top = `100%`;
-            
-            // Animación de flotación
-            const duration = 3000 + Math.random() * 3000;
-            const endX = (Math.random() - 0.5) * 100;
-            
-            heart.animate([
-                { 
-                    transform: 'translateY(0) scale(0.5)', 
-                    opacity: 0 
-                },
-                { 
-                    transform: 'translateY(-100px) scale(1)', 
-                    opacity: 1 
-                },
-                { 
-                    transform: `translate(${endX}px, -100vh) scale(0.5)`, 
-                    opacity: 0 
-                }
-            ], {
-                duration: duration,
-                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
-            });
-            
-            // Agregar y eliminar
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), duration);
-        }, i * 100);
-    }
-}
+    el.dayInput.addEventListener("keydown", (e)=>{
+      if (e.key === "Enter") bringCard(el.dayInput.value);
+    });
 
-function createSpecialLoveExplosion() {
-    // Crear explosión final de corazones
-    const explosionSize = 100;
-    const explosionColors = ['#FF1493', '#FF69B4', '#FFB6C1', '#FFC0CB'];
-    
-    for (let i = 0; i < explosionSize; i++) {
-        setTimeout(() => {
-            const heart = document.createElement('div');
-            heart.style.cssText = `
-                position: fixed;
-                font-size: 30px;
-                pointer-events: none;
-                z-index: 10012;
-                opacity: 1;
-                text-shadow: 0 0 20px currentColor;
-            `;
-            
-            heart.textContent = '❤️';
-            heart.style.color = explosionColors[Math.floor(Math.random() * explosionColors.length)];
-            
-            // Posición central
-            const centerX = 50;
-            const centerY = 50;
-            
-            // Animación de explosión
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 300 + Math.random() * 200;
-            const duration = 1500 + Math.random() * 1000;
-            
-            heart.animate([
-                { 
-                    transform: `translate(${centerX}vw, ${centerY}vh) scale(0)`, 
-                    opacity: 1 
-                },
-                { 
-                    transform: `translate(${centerX + Math.cos(angle) * distance}vw, ${centerY + Math.sin(angle) * distance}vh) scale(1)`, 
-                    opacity: 0 
-                }
-            ], {
-                duration: duration,
-                easing: 'ease-out'
-            });
-            
-            // Agregar y eliminar
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), duration);
-        }, i * 20);
-    }
-    
-    // Mostrar mensaje final
-    setTimeout(() => {
-        showNotification('🎀 Siempre tendrás sorpresas especiales, mi amor 🎀');
-    }, 1000);
-}
+    // Cerrar carta (botón y X)
+    el.closeBtn.addEventListener("click", () => closeCardAndBunnyExit());
+    el.closeX.addEventListener("click", () => closeCardAndBunnyExit());
 
-// Y también agrega este CSS adicional a los estilos:
-const additionalStyles = document.createElement('style');
-additionalStyles.textContent = `
-    /* Efectos para la sorpresa secreta */
-    .surprise-overlay {
-        animation: surpriseEntrance 1s ease-out;
-    }
-    
-    @keyframes surpriseEntrance {
-        0% { opacity: 0; transform: scale(0.8); }
-        100% { opacity: 1; transform: scale(1); }
-    }
-    
-    .secret-message {
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .secret-message::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(
-            45deg,
-            transparent 30%,
-            rgba(255, 215, 0, 0.1) 50%,
-            transparent 70%
-        );
-        animation: sparkle 3s infinite linear;
-        pointer-events: none;
-    }
-    
-    @keyframes sparkle {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-`;
-document.head.appendChild(additionalStyles);
+    // Cerrar click afuera
+    el.modalOverlay.addEventListener("click", () => closeCardAndBunnyExit());
 
-        // Imprimir todos los mensajes
-        function printAllMessages() {
-            const printWindow = window.open('', '_blank');
-            const printContent = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Mis Mensajes de Amor - Para KIM</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; padding: 20px; }
-                        h1 { color: #ff2e63; text-align: center; }
-                        .message { margin: 20px 0; padding: 15px; border-left: 5px solid #ff6b8b; }
-                        .day { font-weight: bold; color: #ff2e63; }
-                    </style>
-                </head>
-                <body>
-                    <h1>💌 Mensajes de Amor para KIM 💌</h1>
-                    ${messages.map(msg => `
-                        <div class="message">
-                            <div class="day">Día ${msg.day}</div>
-                            <div>${msg.icon} ${msg.message}</div>
-                        </div>
-                    `).join('')}
-                </body>
-                </html>
-            `;
-            
-            printWindow.document.write(printContent);
-            printWindow.document.close();
-            printWindow.print();
-        }
+    // Escape
+    document.addEventListener("keydown", (e)=>{
+      if (e.key === "Escape" && el.modal.classList.contains("active")) {
+        closeCardAndBunnyExit();
+      }
+    });
 
-        // Alternar tema claro/oscuro
-        function toggleTheme() {
-            state.theme = state.theme === 'light' ? 'dark' : 'light';
-            localStorage.setItem('theme', state.theme);
-            applyTheme();
-            
-            const icon = elements.themeBtn.querySelector('i');
-            icon.className = state.theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-            
-            showNotification(state.theme === 'light' ? 'Modo claro ☀️' : 'Modo romántico 🌙');
-        }
-
-        // Aplicar tema
-        function applyTheme() {
-            if (state.theme === 'dark') {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
-        }
-
-        // Actualizar contadores
-        function updateCounters() {
-            elements.daysTogether.textContent = '117';
-            elements.loveLevel.textContent = state.loveLevel + '%';
-        }
-
-        // Actualizar barra de progreso
-        function updateProgress() {
-            const totalMessages = messages.length;
-            const viewedCount = state.viewedMessages.length;
-            const percentage = Math.round((viewedCount / totalMessages) * 100);
-            
-            elements.progressBar.style.setProperty('--progress', `${percentage}%`);
-            elements.progressBar.style.width = `${percentage}%`;
-            elements.progressPercent.textContent = `${percentage}%`;
-        }
-
-        // Mostrar notificación
-        function showNotification(text) {
-            elements.notificationText.textContent = text;
-            elements.notification.classList.add('show');
-            
-            setTimeout(() => {
-                elements.notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Reproducir sonido
-        function playSound(audioElement) {
-            audioElement.currentTime = 0;
-            audioElement.play().catch(e => console.log("Audio no pudo reproducirse:", e));
-        }
-
-        // Truncar texto
-        function truncateText(text, maxLength) {
-            return text.length <= maxLength ? text : text.substring(0, maxLength) + '...';
-        }
-
-        // Actualizar día actual
-        function updateCurrentDay(day = 1) {
-            elements.currentDayElement.textContent = day;
-            state.currentDay = day;
-        }
-
-        // Mostrar mensaje flotante mejorado
-        function showFloatingLove(text = "TE AMO") {
-            const love = elements.floatingLove.cloneNode(true);
-            love.textContent = text;
-            love.style.position = 'fixed';
-            love.style.left = Math.random() * 80 + 10 + '%';
-            love.style.top = Math.random() * 80 + 10 + '%';
-            love.style.fontSize = Math.random() * 4 + 3 + 'rem';
-            love.style.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
-            love.style.opacity = '1';
-            love.style.zIndex = '1001';
-            
-            document.body.appendChild(love);
-            
-            // Animación
-            const duration = 2000 + Math.random() * 1000;
-            const animation = love.animate([
-                { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
-                { transform: 'translate(-50%, -150%) scale(1.5)', opacity: 0 }
-            ], {
-                duration: duration,
-                easing: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-            });
-            
-            animation.onfinish = () => {
-                if (love.parentNode) {
-                    love.remove();
-                }
-            };
-        }
-
-        // Inicializar partículas
-        if (typeof particlesJS !== 'undefined') {
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 80, density: { enable: true, value_area: 800 } },
-                    color: { value: "#ff6b8b" },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.5, random: true },
-                    size: { value: 3, random: true },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#ffa8c2",
-                        opacity: 0.4,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: 2,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "repulse" },
-                        onclick: { enable: true, mode: "push" }
-                    }
-                }
-            });
-        }
-    </script>
+    // Mensaje inicial
+    toast("Escribe un número y llama a la conejita 🐰💌");
+  </script>
 </body>
 </html>
