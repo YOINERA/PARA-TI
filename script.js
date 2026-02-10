@@ -216,7 +216,7 @@ const messages = [
         icon: "∞",
         category: "romantic"
     },
-    // Nuevos mensajes del 37 al 63
+    // Mensajes del 37 al 63 (manteniendo los que ya tenías)
     {
         day: 37,
         message: "Tu amor transforma lo ordinario en extraordinario. Conviertes cada instante en un recuerdo inolvidable.",
@@ -378,6 +378,331 @@ const messages = [
         message: "Eres el sueño que elegí vivir cada día. Mi amor por ti crece con cada amanecer.",
         icon: "🌅",
         category: "romantic"
+    },
+    // NUEVOS MENSAJES (Día 64 al 117)
+    {
+        day: 64,
+        message: "Cada latido de mi corazón lleva tu nombre. Es como si mi cuerpo supiera que te pertenece por completo.",
+        icon: "💓",
+        category: "romantic"
+    },
+    {
+        day: 65,
+        message: "Contigo aprendo el significado del amor paciente. Ese que espera, que comprende, que nunca se cansa.",
+        icon: "⏳",
+        category: "deep"
+    },
+    {
+        day: 66,
+        message: "Eres la nota perfecta en la melodía de mi vida. Sin ti, mi canción no tendría sentido.",
+        icon: "🎵",
+        category: "romantic"
+    },
+    {
+        day: 67,
+        message: "Amo cómo incluso en silencio podemos comunicarnos. Nuestras almas conversan sin necesidad de palabras.",
+        icon: "🤫",
+        category: "deep"
+    },
+    {
+        day: 68,
+        message: "Eres mi razón para levantarme con una sonrisa. Saber que puedo verte, hablarte o pensar en ti me llena de alegría.",
+        icon: "☀️",
+        category: "romantic"
+    },
+    {
+        day: 69,
+        message: "Contigo quiero construir castillos en el aire y luego hacerlos realidad, ladrillo por ladrillo.",
+        icon: "🏰",
+        category: "future"
+    },
+    {
+        day: 70,
+        message: "Tu amor es el faro que me guía en la tormenta. No importa lo oscuro que sea el camino, tú me muestras la dirección.",
+        icon: "🚢",
+        category: "deep"
+    },
+    {
+        day: 71,
+        message: "Eres el espejo que muestra la mejor versión de mí mismo. Contigo me veo capaz de cosas extraordinarias.",
+        icon: "🪞",
+        category: "deep"
+    },
+    {
+        day: 72,
+        message: "Amo cómo nuestro amor tiene su propio lenguaje. Esas miradas, esos gestos pequeños que solo nosotros entendemos.",
+        icon: "🗣️",
+        category: "romantic"
+    },
+    {
+        day: 73,
+        message: "Eres mi puerto seguro en este océano de vida. No importa dónde navegue, sé que en ti tengo un lugar al que volver.",
+        icon: "⚓",
+        category: "deep"
+    },
+    {
+        day: 74,
+        message: "Contigo hasta las tareas más mundanas se vuelven divertidas. Lavar platos contigo es mejor que ir a una fiesta sin ti.",
+        icon: "🍽️",
+        category: "funny"
+    },
+    {
+        day: 75,
+        message: "Tu amor es el pegamento que une mis días. Hace que todo cobre sentido y propósito.",
+        icon: "🧴",
+        category: "deep"
+    },
+    {
+        day: 76,
+        message: "Eres la poesía que mi corazón siempre quiso escribir. Cada verso, cada estrofa habla de ti.",
+        icon: "📜",
+        category: "romantic"
+    },
+    {
+        day: 77,
+        message: "Contigo quiero ver todos los amaneceres y atardeceres del mundo. Cada uno será especial porque lo compartiremos juntos.",
+        icon: "🌇",
+        category: "future"
+    },
+    {
+        day: 78,
+        message: "Tu amor es mi vitamina diaria. Me da energía, me fortalece y me mantiene saludable de espíritu.",
+        icon: "💊",
+        category: "funny"
+    },
+    {
+        day: 79,
+        message: "Eres la melodía que no puedo sacar de mi cabeza. Y no quiero que se vaya nunca.",
+        icon: "🎶",
+        category: "romantic"
+    },
+    {
+        day: 80,
+        message: "Contigo el amor no es un sentimiento, es una decisión. Y elijo amarte cada día, cada hora, cada minuto.",
+        icon: "✅",
+        category: "deep"
+    },
+    {
+        day: 81,
+        message: "Eres mi oasis en medio del desierto. Cuando todo parece árido y difícil, tú eres mi fuente de vida.",
+        icon: "🏜️",
+        category: "deep"
+    },
+    {
+        day: 82,
+        message: "Amo cómo creamos nuestra propia burbuja de felicidad. Dentro de ella, el mundo exterior desaparece.",
+        icon: "🫧",
+        category: "romantic"
+    },
+    {
+        day: 83,
+        message: "Eres el regalo que sigue dando. Cada día descubro algo nuevo para amar de ti.",
+        icon: "🎁",
+        category: "romantic"
+    },
+    {
+        day: 84,
+        message: "Contigo quiero llenar álbumes de fotos con nuestros recuerdos. Cada foto será una historia de amor contada en imágenes.",
+        icon: "📷",
+        category: "future"
+    },
+    {
+        day: 85,
+        message: "Tu amor es la brújula que me orienta. Siempre apunta hacia ti, mi verdadero norte.",
+        icon: "🧭",
+        category: "deep"
+    },
+    {
+        day: 86,
+        message: "Eres la pieza que completa mi rompecabezas. No sabía lo que me faltaba hasta que llegaste.",
+        icon: "🧩",
+        category: "romantic"
+    },
+    {
+        day: 87,
+        message: "Contigo hasta los días de lluvia son soleados. Porque tu presencia ilumina todo a mi alrededor.",
+        icon: "🌧️",
+        category: "romantic"
+    },
+    {
+        day: 88,
+        message: "Tu amor es el abrazo más cálido en el día más frío. Me envuelve y me protege del mundo.",
+        icon: "🫂",
+        category: "deep"
+    },
+    {
+        day: 89,
+        message: "Eres mi cómplice en esta aventura llamada vida. No hay mejor compañera de viaje que tú.",
+        icon: "🧳",
+        category: "romantic"
+    },
+    {
+        day: 90,
+        message: "Contigo quiero aprender todos los idiomas del amor. Y hablarte en cada uno de ellos.",
+        icon: "🗣️",
+        category: "future"
+    },
+    {
+        day: 91,
+        message: "Tu amor es la chispa que enciende mi creatividad. Contigo a mi lado, las ideas fluyen sin cesar.",
+        icon: "💡",
+        category: "deep"
+    },
+    {
+        day: 92,
+        message: "Eres la constelación más brillante en mi cielo personal. Siempre puedo encontrarte cuando me pierdo.",
+        icon: "⭐",
+        category: "romantic"
+    },
+    {
+        day: 93,
+        message: "Contigo hasta las matemáticas son románticas: tú + yo = nosotros para siempre.",
+        icon: "➕",
+        category: "funny"
+    },
+    {
+        day: 94,
+        message: "Tu amor es el cimiento sobre el que quiero construir mi vida. Fuerte, seguro y eterno.",
+        icon: "🏗️",
+        category: "future"
+    },
+    {
+        day: 95,
+        message: "Eres el suspiro de alivio después de un día largo. En tus brazos encuentro el descanso perfecto.",
+        icon: "😌",
+        category: "romantic"
+    },
+    {
+        day: 96,
+        message: "Contigo quiero escribir un libro de mil páginas sobre nuestro amor. Y que nunca tenga final.",
+        icon: "📚",
+        category: "future"
+    },
+    {
+        day: 97,
+        message: "Tu amor es la melodía que baila mi corazón. Un ritmo constante que me recuerda que estás aquí.",
+        icon: "💃",
+        category: "romantic"
+    },
+    {
+        day: 98,
+        message: "Eres el eslabón que une todos mis sueños. Conectas todo lo que aspiro ser y lograr.",
+        icon: "⛓️",
+        category: "deep"
+    },
+    {
+        day: 99,
+        message: "Contigo hasta el café sabe mejor por las mañanas. Porque lo tomo sabiendo que el día te incluye a ti.",
+        icon: "☕",
+        category: "romantic"
+    },
+    {
+        day: 100,
+        message: "Cien días diciéndote cuánto te amo y aún me quedan mil cosas por decir. Eres mi amor sin fin.",
+        icon: "💯",
+        category: "romantic"
+    },
+    {
+        day: 101,
+        message: "Eres mi segunda mitad en este baile de la vida. Juntos creamos la coreografía perfecta.",
+        icon: "🕺",
+        category: "romantic"
+    },
+    {
+        day: 102,
+        message: "Contigo el amor no es ciego, todo lo contrario: me hace ver con más claridad que nunca.",
+        icon: "👁️",
+        category: "deep"
+    },
+    {
+        day: 103,
+        message: "Tu amor es el eco que resuena en mi alma. Un sonido dulce que nunca se desvanece.",
+        icon: "📢",
+        category: "romantic"
+    },
+    {
+        day: 104,
+        message: "Eres el jardín donde florecen mis mejores sentimientos. En ti cultivo amor, respeto y admiración.",
+        icon: "🌷",
+        category: "deep"
+    },
+    {
+        day: 105,
+        message: "Contigo quiero coleccionar momentos como quien colecciona estrellas. Cada uno brilla con luz propia.",
+        icon: "🌟",
+        category: "future"
+    },
+    {
+        day: 106,
+        message: "Tu amor es la sombra que me sigue en los días soleados. Siempre presente, siempre protector.",
+        icon: "🌳",
+        category: "deep"
+    },
+    {
+        day: 107,
+        message: "Eres el mapa que me guía hacia la felicidad. Cada camino contigo conduce a la alegría.",
+        icon: "🗺️",
+        category: "romantic"
+    },
+    {
+        day: 108,
+        message: "Contigo hasta las equivocaciones son oportunidades para crecer juntos. Aprendemos incluso de los tropiezos.",
+        icon: "📈",
+        category: "deep"
+    },
+    {
+        day: 109,
+        message: "Tu amor es la canción que mi corazón canta en silencio. Una melodía eterna dedicada solo a ti.",
+        icon: "🎤",
+        category: "romantic"
+    },
+    {
+        day: 110,
+        message: "Eres mi refugio contra la tormenta y mi compañera bajo el sol. Estés donde estés, siempre eres mi lugar.",
+        icon: "⛱️",
+        category: "deep"
+    },
+    {
+        day: 111,
+        message: "Contigo cada día es una página nueva en nuestra historia. Y estoy ansioso por escribir las siguientes.",
+        icon: "📖",
+        category: "future"
+    },
+    {
+        day: 112,
+        message: "Tu amor es el hilo que teje el tapiz de mi vida. Sin ti, el diseño no estaría completo.",
+        icon: "🧵",
+        category: "deep"
+    },
+    {
+        day: 113,
+        message: "Eres el milagro cotidiano que agradezco cada mañana. Despertar sabiendo que existes es mi mayor bendición.",
+        icon: "🙏",
+        category: "romantic"
+    },
+    {
+        day: 114,
+        message: "Contigo quiero construir una biblioteca de recuerdos. Estantes llenos de momentos que atesoraremos por siempre.",
+        icon: "📚",
+        category: "future"
+    },
+    {
+        day: 115,
+        message: "Tu amor es el ingrediente secreto que sazona mi vida. Sin ti, todo tendría menos sabor.",
+        icon: "🧂",
+        category: "funny"
+    },
+    {
+        day: 116,
+        message: "Eres la nota al margen de mi libro favorito. Esos pequeños detalles que hacen toda la diferencia.",
+        icon: "📝",
+        category: "romantic"
+    },
+    {
+        day: 117,
+        message: "Contigo el amor no es un destino, es el viaje. Y no hay mejor compañera de camino que tú, hoy y siempre.",
+        icon: "🚶‍♂️",
+        category: "deep"
     }
 ];
 // Estado de la aplicación
