@@ -1789,24 +1789,430 @@
             }
         }
 
-        // Mostrar sorpresa secreta
-        function showSecretSurprise() {
-            // Mostrar mensaje especial
-            showNotification('¡SORPRESA! Eres el mejor regalo de mi vida 🎁💝');
-            
-            // Reproducir sonido especial
-            playSound(elements.sparkleSound);
-            
-            // Cambiar fondo temporalmente
-            document.body.style.background = 'linear-gradient(135deg, #ff0080, #ff8c00, #40e0d0)';
-            document.body.style.backgroundSize = '400% 400%';
-            document.body.style.animation = 'gradient 10s ease infinite';
-            
-            setTimeout(() => {
-                document.body.style.background = '';
-                document.body.style.animation = '';
-            }, 5000);
+        // Reemplaza la función showSecretSurprise() existente con esta versión mejorada
+function showSecretSurprise() {
+    if (state.isSpectacleActive) return;
+    
+    showNotification('✨ ¡SORPRESA ESPECIAL PARA TI, MI AMOR! ✨');
+    
+    // 1. Activar modo sorpresa
+    state.isSpectacleActive = true;
+    
+    // 2. Crear pantalla especial
+    const surpriseOverlay = document.createElement('div');
+    surpriseOverlay.className = 'surprise-overlay';
+    surpriseOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #8A2BE2, #FF1493, #00BFFF);
+        z-index: 10010;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        animation: surpriseBackground 10s infinite alternate;
+    `;
+    
+    // 3. Título especial
+    const surpriseTitle = document.createElement('h1');
+    surpriseTitle.textContent = "PARA TI, MI KIM";
+    surpriseTitle.style.cssText = `
+        font-family: 'Dancing Script', cursive;
+        font-size: 5rem;
+        color: #FFD700;
+        text-shadow: 0 0 30px #FFD700, 0 0 60px #FF4500;
+        text-align: center;
+        animation: surpriseTitle 3s infinite alternate;
+        margin-bottom: 30px;
+    `;
+    
+    // 4. Mensaje especial
+    const secretMessage = document.createElement('div');
+    secretMessage.className = 'secret-message';
+    secretMessage.innerHTML = `
+        <div class="secret-heart">💖</div>
+        <p class="secret-text">Eres el milagro más hermoso que llegó a mi vida.</p>
+        <p class="secret-text">Cada día contigo es un regalo que atesoro en mi corazón.</p>
+        <p class="secret-text">No hay palabras suficientes para expresar lo que siento por ti.</p>
+        <p class="secret-text">Por eso, cada uno de estos 117 mensajes es solo una pequeña parte de todo el amor que siento.</p>
+        <p class="secret-text"><strong>¡TE AMO CON TODO MI SER!</strong></p>
+    `;
+    secretMessage.style.cssText = `
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 40px;
+        border-radius: 20px;
+        max-width: 600px;
+        text-align: center;
+        color: white;
+        font-size: 1.3rem;
+        line-height: 1.8;
+        box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+        border: 3px solid rgba(255, 215, 0, 0.5);
+        animation: secretMessageFloat 4s infinite alternate;
+    `;
+    
+    // 5. Botón de cerrar
+    const closeSurpriseBtn = document.createElement('button');
+    closeSurpriseBtn.textContent = "❤️ Cerrar esta sorpresa especial ❤️";
+    closeSurpriseBtn.style.cssText = `
+        margin-top: 40px;
+        padding: 15px 40px;
+        background: linear-gradient(135deg, #FF1493, #8A2BE2);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+        animation: buttonGlow 2s infinite alternate;
+    `;
+    closeSurpriseBtn.onclick = () => {
+        surpriseOverlay.remove();
+        createSpecialLoveExplosion();
+        state.isSpectacleActive = false;
+    };
+    
+    // 6. Efectos de partículas doradas
+    createGoldenParticles();
+    
+    // 7. Efectos de confeti
+    createConfetti();
+    
+    // 8. Música especial
+    playSpecialMusic();
+    
+    // 9. Animaciones de corazones flotantes
+    createFloatingHearts();
+    
+    // 10. Agregar todo al DOM
+    surpriseOverlay.appendChild(surpriseTitle);
+    surpriseOverlay.appendChild(secretMessage);
+    surpriseOverlay.appendChild(closeSurpriseBtn);
+    document.body.appendChild(surpriseOverlay);
+    
+    // 11. Agregar estilos CSS dinámicamente
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes surpriseBackground {
+            0% { background: linear-gradient(135deg, #8A2BE2, #FF1493, #00BFFF); }
+            25% { background: linear-gradient(135deg, #FF1493, #00BFFF, #8A2BE2); }
+            50% { background: linear-gradient(135deg, #00BFFF, #8A2BE2, #FF1493); }
+            75% { background: linear-gradient(135deg, #32CD32, #FFD700, #FF1493); }
+            100% { background: linear-gradient(135deg, #FFD700, #8A2BE2, #00BFFF); }
         }
+        
+        @keyframes surpriseTitle {
+            0% { transform: scale(1); text-shadow: 0 0 30px #FFD700; }
+            100% { transform: scale(1.05); text-shadow: 0 0 50px #FFD700, 0 0 80px #FF4500; }
+        }
+        
+        @keyframes secretMessageFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-20px); }
+        }
+        
+        @keyframes buttonGlow {
+            0% { box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4); }
+            100% { box-shadow: 0 15px 40px rgba(255, 20, 147, 0.8), 0 0 30px rgba(255, 215, 0, 0.6); }
+        }
+        
+        .secret-heart {
+            font-size: 4rem;
+            animation: heartbeat 1.5s infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .secret-text {
+            margin: 15px 0;
+            opacity: 0;
+            animation: fadeInText 0.5s forwards;
+        }
+        
+        .secret-text:nth-child(2) { animation-delay: 0.5s; }
+        .secret-text:nth-child(3) { animation-delay: 1s; }
+        .secret-text:nth-child(4) { animation-delay: 1.5s; }
+        .secret-text:nth-child(5) { animation-delay: 2s; }
+        
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // 12. Notificación final
+    setTimeout(() => {
+        showNotification('💝 Esta sorpresa es solo para ti, mi amor 💝');
+    }, 1000);
+}
+
+// Funciones auxiliares para la sorpresa
+function createGoldenParticles() {
+    const particleCount = 100;
+    const colors = ['#FFD700', '#FFA500', '#FFEC8B', '#FFFACD'];
+    
+    for (let i = 0; i < particleCount; i++) {
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                width: 10px;
+                height: 10px;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 10011;
+                box-shadow: 0 0 20px #FFD700;
+            `;
+            
+            // Posición inicial aleatoria
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            
+            // Animación
+            const duration = 2000 + Math.random() * 3000;
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 200 + Math.random() * 300;
+            
+            particle.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                { 
+                    transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`, 
+                    opacity: 0 
+                }
+            ], {
+                duration: duration,
+                easing: 'ease-out'
+            });
+            
+            // Agregar y eliminar después
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), duration);
+        }, i * 30);
+    }
+}
+
+function createConfetti() {
+    const confettiCount = 200;
+    const shapes = ['circle', 'square', 'triangle'];
+    const colors = ['#FF1493', '#00BFFF', '#32CD32', '#FFD700', '#8A2BE2', '#FF4500'];
+    
+    for (let i = 0; i < confettiCount; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            let shapeStyle = '';
+            if (shape === 'circle') {
+                shapeStyle = 'border-radius: 50%';
+            } else if (shape === 'triangle') {
+                shapeStyle = 'clip-path: polygon(50% 0%, 0% 100%, 100% 100%)';
+            }
+            
+            confetti.style.cssText = `
+                position: fixed;
+                width: 15px;
+                height: 15px;
+                background: ${color};
+                ${shapeStyle}
+                pointer-events: none;
+                z-index: 10011;
+                top: -20px;
+                left: ${Math.random() * 100}%;
+                opacity: 0.8;
+            `;
+            
+            // Animación de caída
+            const duration = 3000 + Math.random() * 2000;
+            const endX = (Math.random() - 0.5) * 200;
+            
+            confetti.animate([
+                { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+                { transform: `translate(${endX}px, 100vh) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+            });
+            
+            // Agregar y eliminar
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), duration);
+        }, i * 10);
+    }
+}
+
+function playSpecialMusic() {
+    // Crear audio especial (puedes reemplazar con tu canción favorita)
+    const specialAudio = new Audio('https://assets.mixkit.co/music/preview/mixkit-happy-day-583.mp3');
+    specialAudio.volume = 0.5;
+    
+    // Intentar reproducir (solo funcionará con interacción del usuario)
+    specialAudio.play().catch(e => {
+        console.log("La música especial requiere interacción del usuario");
+    });
+    
+    // Guardar referencia para detenerla después
+    window.specialAudio = specialAudio;
+}
+
+function createFloatingHearts() {
+    const heartCount = 50;
+    const heartEmojis = ['❤️', '💖', '💕', '💗', '💓', '💞', '💘', '💝'];
+    
+    for (let i = 0; i < heartCount; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.style.cssText = `
+                position: fixed;
+                font-size: ${Math.random() * 30 + 20}px;
+                pointer-events: none;
+                z-index: 10011;
+                opacity: 0;
+            `;
+            
+            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            
+            // Posición inicial (abajo)
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.top = `100%`;
+            
+            // Animación de flotación
+            const duration = 3000 + Math.random() * 3000;
+            const endX = (Math.random() - 0.5) * 100;
+            
+            heart.animate([
+                { 
+                    transform: 'translateY(0) scale(0.5)', 
+                    opacity: 0 
+                },
+                { 
+                    transform: 'translateY(-100px) scale(1)', 
+                    opacity: 1 
+                },
+                { 
+                    transform: `translate(${endX}px, -100vh) scale(0.5)`, 
+                    opacity: 0 
+                }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+            });
+            
+            // Agregar y eliminar
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), duration);
+        }, i * 100);
+    }
+}
+
+function createSpecialLoveExplosion() {
+    // Crear explosión final de corazones
+    const explosionSize = 100;
+    const explosionColors = ['#FF1493', '#FF69B4', '#FFB6C1', '#FFC0CB'];
+    
+    for (let i = 0; i < explosionSize; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.style.cssText = `
+                position: fixed;
+                font-size: 30px;
+                pointer-events: none;
+                z-index: 10012;
+                opacity: 1;
+                text-shadow: 0 0 20px currentColor;
+            `;
+            
+            heart.textContent = '❤️';
+            heart.style.color = explosionColors[Math.floor(Math.random() * explosionColors.length)];
+            
+            // Posición central
+            const centerX = 50;
+            const centerY = 50;
+            
+            // Animación de explosión
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 300 + Math.random() * 200;
+            const duration = 1500 + Math.random() * 1000;
+            
+            heart.animate([
+                { 
+                    transform: `translate(${centerX}vw, ${centerY}vh) scale(0)`, 
+                    opacity: 1 
+                },
+                { 
+                    transform: `translate(${centerX + Math.cos(angle) * distance}vw, ${centerY + Math.sin(angle) * distance}vh) scale(1)`, 
+                    opacity: 0 
+                }
+            ], {
+                duration: duration,
+                easing: 'ease-out'
+            });
+            
+            // Agregar y eliminar
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), duration);
+        }, i * 20);
+    }
+    
+    // Mostrar mensaje final
+    setTimeout(() => {
+        showNotification('🎀 Siempre tendrás sorpresas especiales, mi amor 🎀');
+    }, 1000);
+}
+
+// Y también agrega este CSS adicional a los estilos:
+const additionalStyles = document.createElement('style');
+additionalStyles.textContent = `
+    /* Efectos para la sorpresa secreta */
+    .surprise-overlay {
+        animation: surpriseEntrance 1s ease-out;
+    }
+    
+    @keyframes surpriseEntrance {
+        0% { opacity: 0; transform: scale(0.8); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+    
+    .secret-message {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .secret-message::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent 30%,
+            rgba(255, 215, 0, 0.1) 50%,
+            transparent 70%
+        );
+        animation: sparkle 3s infinite linear;
+        pointer-events: none;
+    }
+    
+    @keyframes sparkle {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(additionalStyles);
 
         // Imprimir todos los mensajes
         function printAllMessages() {
