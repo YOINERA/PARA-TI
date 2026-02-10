@@ -1789,173 +1789,621 @@
             }
         }
 
-        // Reemplaza la función showSecretSurprise() existente con esta versión mejorada
-function showSecretSurprise() {
-    if (state.isSpectacleActive) return;
-    
-    showNotification('✨ ¡SORPRESA ESPECIAL PARA TI, MI AMOR! ✨');
-    
-    // 1. Activar modo sorpresa
-    state.isSpectacleActive = true;
-    
-    // 2. Crear pantalla especial
-    const surpriseOverlay = document.createElement('div');
-    surpriseOverlay.className = 'surprise-overlay';
-    surpriseOverlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #8A2BE2, #FF1493, #00BFFF);
-        z-index: 10010;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        animation: surpriseBackground 10s infinite alternate;
-    `;
-    
-    // 3. Título especial
-    const surpriseTitle = document.createElement('h1');
-    surpriseTitle.textContent = "PARA TI, MI KIM";
-    surpriseTitle.style.cssText = `
-        font-family: 'Dancing Script', cursive;
-        font-size: 5rem;
-        color: #FFD700;
-        text-shadow: 0 0 30px #FFD700, 0 0 60px #FF4500;
-        text-align: center;
-        animation: surpriseTitle 3s infinite alternate;
-        margin-bottom: 30px;
-    `;
-    
-    // 4. Mensaje especial
-    const secretMessage = document.createElement('div');
-    secretMessage.className = 'secret-message';
-    secretMessage.innerHTML = `
-        <div class="secret-heart">💖</div>
-        <p class="secret-text">Eres el milagro más hermoso que llegó a mi vida.</p>
-        <p class="secret-text">Cada día contigo es un regalo que atesoro en mi corazón.</p>
-        <p class="secret-text">No hay palabras suficientes para expresar lo que siento por ti.</p>
-        <p class="secret-text">Por eso, cada uno de estos 117 mensajes es solo una pequeña parte de todo el amor que siento.</p>
-        <p class="secret-text"><strong>¡TE AMO CON TODO MI SER!</strong></p>
-    `;
-    secretMessage.style.cssText = `
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        padding: 40px;
-        border-radius: 20px;
-        max-width: 600px;
-        text-align: center;
-        color: white;
-        font-size: 1.3rem;
-        line-height: 1.8;
-        box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
-        border: 3px solid rgba(255, 215, 0, 0.5);
-        animation: secretMessageFloat 4s infinite alternate;
-    `;
-    
-    // 5. Botón de cerrar
-    const closeSurpriseBtn = document.createElement('button');
-    closeSurpriseBtn.textContent = "❤️ Cerrar esta sorpresa especial ❤️";
-    closeSurpriseBtn.style.cssText = `
-        margin-top: 40px;
-        padding: 15px 40px;
-        background: linear-gradient(135deg, #FF1493, #8A2BE2);
-        color: white;
-        border: none;
-        border-radius: 50px;
-        font-size: 1.2rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
-        animation: buttonGlow 2s infinite alternate;
-    `;
-    closeSurpriseBtn.onclick = () => {
-        surpriseOverlay.remove();
-        createSpecialLoveExplosion();
-        state.isSpectacleActive = false;
-    };
-    
-    // 6. Efectos de partículas doradas
-    createGoldenParticles();
-    
-    // 7. Efectos de confeti
-    createConfetti();
-    
-    // 8. Música especial
-    playSpecialMusic();
-    
-    // 9. Animaciones de corazones flotantes
-    createFloatingHearts();
-    
-    // 10. Agregar todo al DOM
-    surpriseOverlay.appendChild(surpriseTitle);
-    surpriseOverlay.appendChild(secretMessage);
-    surpriseOverlay.appendChild(closeSurpriseBtn);
-    document.body.appendChild(surpriseOverlay);
-    
-    // 11. Agregar estilos CSS dinámicamente
-    const style = document.createElement('style');
+        // ===============================
+// SORPRESA PRO (mejorada x1000)
+// ===============================
+
+const SurpriseFX = (() => {
+  const FX = {
+    styleId: "surprise-pro-styles",
+    overlayId: "surprise-pro-overlay",
+    running: false,
+    cleanupFns: [],
+    audio: null,
+    reducedMotion: window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false,
+  };
+
+  function onceInjectStyles() {
+    if (document.getElementById(FX.styleId)) return;
+
+    const style = document.createElement("style");
+    style.id = FX.styleId;
     style.textContent = `
-        @keyframes surpriseBackground {
-            0% { background: linear-gradient(135deg, #8A2BE2, #FF1493, #00BFFF); }
-            25% { background: linear-gradient(135deg, #FF1493, #00BFFF, #8A2BE2); }
-            50% { background: linear-gradient(135deg, #00BFFF, #8A2BE2, #FF1493); }
-            75% { background: linear-gradient(135deg, #32CD32, #FFD700, #FF1493); }
-            100% { background: linear-gradient(135deg, #FFD700, #8A2BE2, #00BFFF); }
+      .surprise-overlay-pro{
+        position:fixed; inset:0; z-index:10010;
+        display:flex; flex-direction:column; align-items:center; justify-content:center;
+        background: radial-gradient(circle at 20% 20%, #ff5bbd 0%, transparent 35%),
+                    radial-gradient(circle at 80% 30%, #5bd6ff 0%, transparent 35%),
+                    radial-gradient(circle at 50% 80%, #7c4dff 0%, transparent 45%),
+                    linear-gradient(135deg, #0b0620, #22053b, #0b243c);
+        overflow:hidden;
+        animation: surpriseBg 12s infinite alternate ease-in-out;
+        padding: clamp(16px, 4vw, 40px);
+      }
+
+      .surprise-card{
+        width:min(860px, 92vw);
+        border-radius: 24px;
+        padding: clamp(18px, 3.5vw, 40px);
+        background: rgba(255,255,255,0.10);
+        border: 1px solid rgba(255,255,255,0.22);
+        box-shadow: 0 18px 80px rgba(0,0,0,0.40);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        position: relative;
+        overflow:hidden;
+        transform: translateY(10px);
+        animation: cardIn 650ms cubic-bezier(.2,.9,.2,1) forwards;
+      }
+
+      .surprise-card::before{
+        content:"";
+        position:absolute; inset:-40%;
+        background: conic-gradient(from 180deg,
+          rgba(255,215,0,0.18),
+          rgba(255,20,147,0.14),
+          rgba(0,191,255,0.14),
+          rgba(138,43,226,0.14),
+          rgba(255,215,0,0.18)
+        );
+        filter: blur(12px);
+        animation: shimmer 6s linear infinite;
+        pointer-events:none;
+      }
+
+      .surprise-content{
+        position:relative;
+        z-index:1;
+        display:flex;
+        flex-direction:column;
+        gap: 18px;
+        align-items:center;
+        text-align:center;
+      }
+
+      .surprise-title{
+        font-family: 'Dancing Script', cursive, system-ui;
+        font-size: clamp(2.2rem, 5vw, 5rem);
+        line-height: 1.0;
+        color: #ffd84a;
+        text-shadow: 0 0 18px rgba(255,216,74,0.6), 0 0 34px rgba(255,69,0,0.35);
+        animation: titlePulse 2.8s ease-in-out infinite alternate;
+        margin:0;
+      }
+
+      .surprise-heart{
+        font-size: clamp(2.2rem, 4vw, 4rem);
+        filter: drop-shadow(0 0 14px rgba(255,105,180,0.6));
+        animation: beat 1.35s ease-in-out infinite;
+      }
+
+      .surprise-text{
+        margin: 0;
+        font-size: clamp(1.0rem, 1.6vw, 1.25rem);
+        line-height: 1.7;
+        color: rgba(255,255,255,0.92);
+      }
+
+      .surprise-strong{
+        color: #fff;
+        font-weight: 800;
+        letter-spacing: .4px;
+        text-shadow: 0 0 12px rgba(255,215,0,0.35);
+      }
+
+      .surprise-actions{
+        display:flex;
+        gap:12px;
+        flex-wrap:wrap;
+        justify-content:center;
+        margin-top: 8px;
+      }
+
+      .surprise-btn{
+        appearance:none;
+        border:0;
+        cursor:pointer;
+        border-radius: 999px;
+        padding: 14px 22px;
+        font-weight: 800;
+        font-size: 1.05rem;
+        color: #fff;
+        background: linear-gradient(135deg, #ff1493, #8a2be2);
+        box-shadow: 0 12px 30px rgba(255,20,147,0.30);
+        transform: translateZ(0);
+        transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+      }
+
+      .surprise-btn:hover{
+        transform: translateY(-1px);
+        box-shadow: 0 16px 42px rgba(255,20,147,0.42);
+        filter: brightness(1.06);
+      }
+
+      .surprise-btn:active{
+        transform: translateY(1px);
+        box-shadow: 0 10px 26px rgba(255,20,147,0.28);
+      }
+
+      .surprise-btn.secondary{
+        background: linear-gradient(135deg, rgba(255,255,255,0.20), rgba(255,255,255,0.10));
+        border: 1px solid rgba(255,255,255,0.22);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        font-weight: 700;
+      }
+
+      .fx-layer{
+        position:absolute; inset:0;
+        pointer-events:none;
+        z-index:0;
+      }
+
+      .fx-particle{
+        position:absolute;
+        width:10px; height:10px;
+        border-radius:50%;
+        opacity:.95;
+        will-change: transform, opacity;
+        filter: drop-shadow(0 0 8px rgba(255,215,0,0.6));
+      }
+
+      .fx-heart{
+        position:absolute;
+        opacity:0;
+        will-change: transform, opacity;
+        filter: drop-shadow(0 0 10px rgba(255,105,180,0.55));
+      }
+
+      .fx-confetti{
+        position:absolute;
+        width: 12px;
+        height: 12px;
+        opacity:0.9;
+        will-change: transform, opacity;
+      }
+
+      @keyframes surpriseBg{
+        0%{ filter: hue-rotate(0deg) saturate(1.1); transform: scale(1); }
+        100%{ filter: hue-rotate(25deg) saturate(1.3); transform: scale(1.02); }
+      }
+
+      @keyframes cardIn{
+        to{ transform: translateY(0px); }
+      }
+
+      @keyframes shimmer{
+        to{ transform: rotate(360deg); }
+      }
+
+      @keyframes titlePulse{
+        0%{ transform: scale(1); }
+        100%{ transform: scale(1.03); }
+      }
+
+      @keyframes beat{
+        0%{ transform: scale(1); }
+        45%{ transform: scale(1.18); }
+        100%{ transform: scale(1); }
+      }
+
+      /* Reduced motion */
+      @media (prefers-reduced-motion: reduce){
+        .surprise-overlay-pro, .surprise-card, .surprise-card::before, .surprise-title, .surprise-heart{
+          animation:none !important;
         }
-        
-        @keyframes surpriseTitle {
-            0% { transform: scale(1); text-shadow: 0 0 30px #FFD700; }
-            100% { transform: scale(1.05); text-shadow: 0 0 50px #FFD700, 0 0 80px #FF4500; }
-        }
-        
-        @keyframes secretMessageFloat {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-20px); }
-        }
-        
-        @keyframes buttonGlow {
-            0% { box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4); }
-            100% { box-shadow: 0 15px 40px rgba(255, 20, 147, 0.8), 0 0 30px rgba(255, 215, 0, 0.6); }
-        }
-        
-        .secret-heart {
-            font-size: 4rem;
-            animation: heartbeat 1.5s infinite;
-            margin-bottom: 20px;
-        }
-        
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        
-        .secret-text {
-            margin: 15px 0;
-            opacity: 0;
-            animation: fadeInText 0.5s forwards;
-        }
-        
-        .secret-text:nth-child(2) { animation-delay: 0.5s; }
-        .secret-text:nth-child(3) { animation-delay: 1s; }
-        .secret-text:nth-child(4) { animation-delay: 1.5s; }
-        .secret-text:nth-child(5) { animation-delay: 2s; }
-        
-        @keyframes fadeInText {
-            to { opacity: 1; }
-        }
+      }
     `;
     document.head.appendChild(style);
-    
-    // 12. Notificación final
+  }
+
+  function addCleanup(fn) {
+    FX.cleanupFns.push(fn);
+  }
+
+  function cleanupAll() {
+    // Stop audio
+    try {
+      if (FX.audio) {
+        FX.audio.pause();
+        FX.audio.currentTime = 0;
+        FX.audio = null;
+      }
+    } catch {}
+
+    // Run cleanup callbacks (intervals/timeouts/listeners etc.)
+    for (const fn of FX.cleanupFns.splice(0)) {
+      try { fn(); } catch {}
+    }
+
+    FX.running = false;
+  }
+
+  function createOverlay() {
+    const overlay = document.createElement("div");
+    overlay.id = FX.overlayId;
+    overlay.className = "surprise-overlay-pro";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-label", "Sorpresa especial");
+
+    // Escape key to close
+    const onKey = (e) => {
+      if (e.key === "Escape") closeOverlay();
+    };
+    document.addEventListener("keydown", onKey);
+    addCleanup(() => document.removeEventListener("keydown", onKey));
+
+    // FX layer
+    const fxLayer = document.createElement("div");
+    fxLayer.className = "fx-layer";
+
+    // Card
+    const card = document.createElement("div");
+    card.className = "surprise-card";
+
+    const content = document.createElement("div");
+    content.className = "surprise-content";
+
+    const title = document.createElement("h1");
+    title.className = "surprise-title";
+    title.textContent = "PARA TI, MI KIM";
+
+    const heart = document.createElement("div");
+    heart.className = "surprise-heart";
+    heart.textContent = "💖";
+
+    // Message (más pulido)
+    const p1 = document.createElement("p");
+    p1.className = "surprise-text";
+    p1.textContent = "Eres el milagro más hermoso que llegó a mi vida.";
+
+    const p2 = document.createElement("p");
+    p2.className = "surprise-text";
+    p2.textContent = "Cada día contigo es un regalo que atesoro en mi corazón.";
+
+    const p3 = document.createElement("p");
+    p3.className = "surprise-text";
+    p3.textContent = "No hay palabras suficientes para expresar lo que siento por ti.";
+
+    const p4 = document.createElement("p");
+    p4.className = "surprise-text";
+    p4.textContent = "Por eso, cada uno de estos 117 mensajes es solo una pequeña parte de todo el amor que siento.";
+
+    const p5 = document.createElement("p");
+    p5.className = "surprise-text surprise-strong";
+    p5.textContent = "¡TE AMO CON TODO MI SER!";
+
+    // Actions
+    const actions = document.createElement("div");
+    actions.className = "surprise-actions";
+
+    const muteBtn = document.createElement("button");
+    muteBtn.className = "surprise-btn secondary";
+    muteBtn.type = "button";
+    muteBtn.textContent = "🔇 Silenciar música";
+    muteBtn.onclick = () => toggleAudio(muteBtn);
+
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "surprise-btn";
+    closeBtn.type = "button";
+    closeBtn.textContent = "❤️ Cerrar sorpresa ❤️";
+    closeBtn.onclick = () => closeOverlay(true);
+
+    actions.appendChild(muteBtn);
+    actions.appendChild(closeBtn);
+
+    content.appendChild(title);
+    content.appendChild(heart);
+    content.appendChild(p1);
+    content.appendChild(p2);
+    content.appendChild(p3);
+    content.appendChild(p4);
+    content.appendChild(p5);
+    content.appendChild(actions);
+
+    card.appendChild(content);
+
+    overlay.appendChild(fxLayer);
+    overlay.appendChild(card);
+
+    // Prevent scroll
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    addCleanup(() => (document.body.style.overflow = prevOverflow));
+
+    document.body.appendChild(overlay);
+    return { overlay, fxLayer };
+  }
+
+  function closeOverlay(withExplosion = false) {
+    const overlay = document.getElementById(FX.overlayId);
+    if (!overlay) return;
+
+    overlay.remove();
+    cleanupAll();
+
+    if (withExplosion && !FX.reducedMotion) {
+      // Si tienes tu showNotification, úsalo. Si no, no pasa nada.
+      try { showNotification?.("🎀 Siempre tendrás sorpresas especiales, mi amor 🎀"); } catch {}
+      createLoveExplosion();
+    }
+  }
+
+  function playMusic(url = "https://assets.mixkit.co/music/preview/mixkit-happy-day-583.mp3") {
+    try {
+      const audio = new Audio(url);
+      audio.loop = true;
+      audio.volume = 0.45;
+      FX.audio = audio;
+
+      // Intentar reproducir (requiere interacción del usuario)
+      audio.play().catch(() => {
+        // Si falla, no rompemos nada.
+        try { console.log("La música requiere interacción del usuario"); } catch {}
+      });
+
+      addCleanup(() => {
+        try {
+          audio.pause();
+          audio.currentTime = 0;
+        } catch {}
+      });
+    } catch {}
+  }
+
+  function toggleAudio(btn) {
+    if (!FX.audio) return;
+
+    const isPaused = FX.audio.paused;
+    if (isPaused) {
+      FX.audio.play().catch(() => {});
+      btn.textContent = "🔇 Silenciar música";
+    } else {
+      FX.audio.pause();
+      btn.textContent = "🔊 Activar música";
+    }
+  }
+
+  // -----------------------------
+  // FX: Partículas / Confetti / Hearts
+  // -----------------------------
+
+  function rand(min, max) { return Math.random() * (max - min) + min; }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+  function spawnParticles(fxLayer) {
+    if (FX.reducedMotion) return;
+
+    const colors = ["#FFD700", "#FFA500", "#FFEC8B", "#FFFACD"];
+    const count = 120;
+
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement("div");
+      el.className = "fx-particle";
+      el.style.background = pick(colors);
+      el.style.left = rand(0, 100) + "%";
+      el.style.top = rand(0, 100) + "%";
+      el.style.width = el.style.height = rand(6, 12) + "px";
+      frag.appendChild(el);
+
+      // Animate outward
+      const duration = rand(1600, 3200);
+      const angle = rand(0, Math.PI * 2);
+      const distance = rand(140, 420);
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance;
+
+      const anim = el.animate(
+        [
+          { transform: "translate(0,0) scale(1)", opacity: 1 },
+          { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0 }
+        ],
+        { duration, easing: "ease-out", fill: "forwards" }
+      );
+
+      addCleanup(() => { try { anim.cancel(); } catch {} });
+      setTimeout(() => el.remove(), duration + 50);
+    }
+
+    fxLayer.appendChild(frag);
+  }
+
+  function spawnConfetti(fxLayer) {
+    if (FX.reducedMotion) return;
+
+    const colors = ["#FF1493", "#00BFFF", "#32CD32", "#FFD700", "#8A2BE2", "#FF4500"];
+    const shapes = ["circle", "square", "triangle"];
+    const count = 220;
+
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement("div");
+      el.className = "fx-confetti";
+
+      const shape = pick(shapes);
+      const color = pick(colors);
+
+      el.style.background = color;
+      el.style.left = rand(0, 100) + "%";
+      el.style.top = "-20px";
+      el.style.width = el.style.height = rand(8, 14) + "px";
+      el.style.borderRadius = shape === "circle" ? "50%" : "2px";
+      if (shape === "triangle") {
+        el.style.clipPath = "polygon(50% 0%, 0% 100%, 100% 100%)";
+      }
+
+      frag.appendChild(el);
+
+      const duration = rand(2400, 4400);
+      const drift = rand(-180, 180);
+      const rot = rand(360, 980);
+
+      const anim = el.animate(
+        [
+          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+          { transform: `translate(${drift}px, 110vh) rotate(${rot}deg)`, opacity: 0 }
+        ],
+        { duration, easing: "cubic-bezier(0.215, 0.610, 0.355, 1)", fill: "forwards", delay: i * 6 }
+      );
+
+      addCleanup(() => { try { anim.cancel(); } catch {} });
+      setTimeout(() => el.remove(), duration + i * 6 + 50);
+    }
+
+    fxLayer.appendChild(frag);
+  }
+
+  function spawnHearts(fxLayer) {
+    if (FX.reducedMotion) return;
+
+    const hearts = ["❤️", "💖", "💕", "💗", "💓", "💞", "💘", "💝"];
+    const count = 60;
+
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement("div");
+      el.className = "fx-heart";
+      el.textContent = pick(hearts);
+      el.style.left = rand(0, 100) + "%";
+      el.style.top = "105%";
+      el.style.fontSize = rand(18, 46) + "px";
+      frag.appendChild(el);
+
+      const duration = rand(2600, 5200);
+      const drift = rand(-120, 120);
+
+      const anim = el.animate(
+        [
+          { transform: "translate(0, 0) scale(0.6)", opacity: 0 },
+          { transform: "translate(0, -120px) scale(1)", opacity: 1, offset: 0.25 },
+          { transform: `translate(${drift}px, -120vh) scale(0.7)`, opacity: 0 }
+        ],
+        { duration, easing: "cubic-bezier(0.215, 0.610, 0.355, 1)", fill: "forwards", delay: i * 70 }
+      );
+
+      addCleanup(() => { try { anim.cancel(); } catch {} });
+      setTimeout(() => el.remove(), duration + i * 70 + 50);
+    }
+
+    fxLayer.appendChild(frag);
+  }
+
+  function createLoveExplosion() {
+    if (FX.reducedMotion) return;
+
+    const count = 110;
+    const colors = ["#FF1493", "#FF69B4", "#FFB6C1", "#FFC0CB"];
+
+    const layer = document.createElement("div");
+    layer.className = "fx-layer";
+    layer.style.zIndex = "10012";
+    document.body.appendChild(layer);
+
+    const cleanupLayer = () => { try { layer.remove(); } catch {} };
+    addCleanup(cleanupLayer);
+
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement("div");
+      el.textContent = "❤️";
+      el.style.position = "absolute";
+      el.style.left = "50%";
+      el.style.top = "50%";
+      el.style.fontSize = rand(18, 38) + "px";
+      el.style.color = pick(colors);
+      el.style.opacity = "1";
+      el.style.textShadow = "0 0 18px currentColor";
+      frag.appendChild(el);
+
+      const angle = rand(0, Math.PI * 2);
+      const distance = rand(140, 360);
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance;
+      const duration = rand(900, 1700);
+
+      const anim = el.animate(
+        [
+          { transform: "translate(-50%, -50%) scale(0)", opacity: 1 },
+          { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1)`, opacity: 0 }
+        ],
+        { duration, easing: "ease-out", fill: "forwards", delay: i * 10 }
+      );
+
+      setTimeout(() => el.remove(), duration + i * 10 + 50);
+      addCleanup(() => { try { anim.cancel(); } catch {} });
+    }
+
+    layer.appendChild(frag);
+    setTimeout(cleanupLayer, 2200);
+  }
+
+  // -----------------------------
+  // Public API
+  // -----------------------------
+  function show() {
+    if (FX.running) return;
+    FX.running = true;
+
+    try { showNotification?.("✨ ¡SORPRESA ESPECIAL PARA TI, MI AMOR! ✨"); } catch {}
+
+    onceInjectStyles();
+
+    const { overlay, fxLayer } = createOverlay();
+
+    // Auto-close safety (optional)
+    // const t = setTimeout(() => closeOverlay(false), 60000);
+    // addCleanup(() => clearTimeout(t));
+
+    // FX
+    spawnParticles(fxLayer);
+    spawnConfetti(fxLayer);
+    spawnHearts(fxLayer);
+
+    // Music
+    playMusic();
+
+    // If user clicks outside card -> optional close
+    const onClickOutside = (e) => {
+      const card = overlay.querySelector(".surprise-card");
+      if (card && !card.contains(e.target)) {
+        // closeOverlay(true); // si quieres cerrar tocando afuera, descomenta
+      }
+    };
+    overlay.addEventListener("mousedown", onClickOutside);
+    addCleanup(() => overlay.removeEventListener("mousedown", onClickOutside));
+
     setTimeout(() => {
-        showNotification('💝 Esta sorpresa es solo para ti, mi amor 💝');
-    }, 1000);
+      try { showNotification?.("💝 Esta sorpresa es solo para ti, mi amor 💝"); } catch {}
+    }, 900);
+  }
+
+  return { show, close: closeOverlay };
+})();
+
+// ===============================
+// Reemplazo directo de tu función
+// ===============================
+function showSecretSurprise() {
+  // Si ya usas state.isSpectacleActive, lo respetamos:
+  if (typeof state !== "undefined") {
+    if (state.isSpectacleActive) return;
+    state.isSpectacleActive = true;
+  }
+
+  SurpriseFX.show();
+
+  // Cuando se cierre, libera state.isSpectacleActive
+  // (Interceptamos el close para setearlo correctamente)
+  const originalClose = SurpriseFX.close;
+  SurpriseFX.close = function(withExplosion = false) {
+    originalClose(withExplosion);
+    if (typeof state !== "undefined") state.isSpectacleActive = false;
+    // Restaurar por si llamas varias veces
+    SurpriseFX.close = originalClose;
+  };
 }
+
 
 // Funciones auxiliares para la sorpresa
 function createGoldenParticles() {
