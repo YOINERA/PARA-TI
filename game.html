@@ -2,796 +2,784 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego del Amor - Para KIM</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Desafío del Amor - Para KIM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .game-container {
-            max-width: 800px;
-            margin: 100px auto 50px;
-            padding: 20px;
-            text-align: center;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
         }
-        
+
+        :root {
+            --primary: #ff6b8b;
+            --secondary: #ff2e63;
+            --gold: #ffd966;
+            --light: #fff5f8;
+            --dark: #1e1e2f;
+            --shadow: 0 12px 28px rgba(0,0,0,0.15);
+            --gradient: linear-gradient(135deg, #ff6b8b, #ff2e63);
+            --radius: 24px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(145deg, #ffeef4 0%, #ffe0ea 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* Fondo animado */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(-45deg, #ff6b8b, #ffb6c1, #ffd966, #ff6b8b);
+            background-size: 400% 400%;
+            animation: gradientShift 18s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Contenedor principal */
+        .game-wrapper {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
         .game-title {
             font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            margin-bottom: 30px;
-            color: var(--dark-color);
+            font-size: 3rem;
             background: var(--gradient);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 10px rgba(255,107,139,0.3);
         }
-        
-        .game-stats {
+
+        .subtitle {
+            color: #5a2a3a;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        /* Panel de estadísticas */
+        .stats-panel {
             display: flex;
-            justify-content: space-around;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 20px;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 12px 25px;
             margin-bottom: 30px;
             box-shadow: var(--shadow);
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
         }
-        
+
         .stat {
             text-align: center;
+            background: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-        
+
         .stat-value {
-            display: block;
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--accent-color);
-            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: monospace;
+            letter-spacing: 2px;
         }
-        
+
         .stat-label {
-            font-size: 0.9rem;
-            color: var(--dark-color);
-            opacity: 0.8;
+            font-size: 0.75rem;
+            color: #666;
+            margin-left: 5px;
         }
-        
-        .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+
+        /* Botones de acción */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
             gap: 15px;
-            margin-bottom: 30px;
-            min-height: 450px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
-        
-        .memory-card {
-            aspect-ratio: 1;
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background: white;
+            color: var(--secondary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
             background: var(--gradient);
-            border-radius: 15px;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255,107,139,0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            background: white;
+        }
+
+        /* Grid de cartas */
+        .memory-board {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            background: rgba(255,255,240,0.4);
+            padding: 20px;
+            border-radius: 48px;
+            backdrop-filter: blur(4px);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            aspect-ratio: 1 / 1;
+            background: var(--gradient);
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            cursor: pointer;
+            font-size: 2.2rem;
             transform-style: preserve-3d;
-            transition: transform 0.6s ease;
+            transition: transform 0.4s, box-shadow 0.2s;
             position: relative;
-            user-select: none;
-            perspective: 1000px;
         }
-        
-        .memory-card.flipped {
+
+        .card.flipped, .card.matched {
             transform: rotateY(180deg);
         }
-        
-        .memory-card.matched {
-            transform: rotateY(180deg);
-            cursor: default;
-        }
-        
-        .memory-card .front,
-        .memory-card .back {
+
+        .card .front, .card .back {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 15px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            top: 0;
-            left: 0;
         }
-        
-        .memory-card .front {
-            background: var(--light-color);
+
+        .card .front {
+            background: linear-gradient(145deg, #fff5f0, #ffe6f0);
             transform: rotateY(180deg);
-            color: var(--accent-color);
+            color: var(--secondary);
+            font-size: 2.2rem;
         }
-        
-        .memory-card .back {
+
+        .card .back {
             background: var(--gradient);
             color: white;
+            font-size: 2rem;
             transform: rotateY(0deg);
         }
-        
-        .memory-card.matched .front {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+
+        .card.matched .front {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
             color: white;
-            animation: pulse 1s infinite;
+            animation: gentlePulse 0.5s;
         }
-        
-        @keyframes pulse {
-            0%, 100% { transform: rotateY(180deg) scale(1); }
+
+        @keyframes gentlePulse {
+            0% { transform: rotateY(180deg) scale(1); }
             50% { transform: rotateY(180deg) scale(1.05); }
+            100% { transform: rotateY(180deg) scale(1); }
         }
-        
-        .game-controls {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        
-        .game-btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 30px;
-            background: var(--gradient);
+
+        /* Mensaje de game over */
+        .game-message {
+            text-align: center;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 50px;
+            background: rgba(0,0,0,0.7);
             color: white;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            width: fit-content;
+            margin: 0 auto 15px auto;
+            display: none;
         }
-        
-        .game-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 107, 139, 0.4);
-        }
-        
-        .game-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-        }
-        
-        .back-button a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
-            background: var(--gradient);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            transition: var(--transition);
-        }
-        
-        .back-button a:hover {
-            transform: translateX(-5px);
-        }
-        
-        .victory-message {
+
+        /* Modal de victoria con conejita */
+        .victory-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
             align-items: center;
             justify-content: center;
-            z-index: 10000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s;
+            animation: fadeWin 0.5s;
         }
-        
-        .victory-message.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .victory-content {
-            background: white;
-            padding: 50px;
-            border-radius: 30px;
-            text-align: center;
-            transform: scale(0.8);
-            transition: transform 0.5s;
-            max-width: 90%;
-            width: 500px;
-        }
-        
-        .victory-message.show .victory-content {
-            transform: scale(1);
-        }
-        
-        .victory-content h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            color: var(--accent-color);
-            margin-bottom: 20px;
-        }
-        
-        .score-message {
-            font-size: 1.2rem;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 10px;
-            background: var(--light-color);
-        }
-        
-        .game-difficulty {
+
+        .victory-modal.active {
             display: flex;
-            gap: 10px;
-            justify-content: center;
+        }
+
+        .victory-card {
+            max-width: 500px;
+            width: 90%;
+            background: white;
+            border-radius: 60px;
+            padding: 30px 20px;
+            text-align: center;
+            animation: slideUp 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+        }
+
+        .bunny-winner {
+            font-size: 6rem;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-15px); }
+        }
+
+        .love-note {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--secondary);
+            margin: 15px 0;
+        }
+
+        .romantic-message {
+            background: #ffeef4;
+            padding: 20px;
+            border-radius: 40px;
             margin: 20px 0;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #3a2a2a;
         }
-        
-        .difficulty-btn {
-            padding: 8px 20px;
-            border: 2px solid var(--secondary-color);
-            background: transparent;
-            color: var(--dark-color);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .difficulty-btn.active {
+
+        .close-victory {
             background: var(--gradient);
             color: white;
-            border-color: transparent;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        
-        @media (max-width: 768px) {
-            .memory-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
-                min-height: 400px;
+
+        /* Botón volver */
+        .back-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .back-home a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gradient);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .memory-board {
+                gap: 8px;
+                padding: 12px;
             }
-            
+            .card {
+                font-size: 1.5rem;
+            }
+            .card .front {
+                font-size: 1.5rem;
+            }
             .game-title {
-                font-size: 2.5rem;
-            }
-            
-            .game-stats {
-                flex-direction: row;
-                gap: 15px;
-                padding: 15px;
-            }
-            
-            .memory-card {
                 font-size: 2rem;
             }
-            
-            .victory-content {
-                padding: 30px;
-                width: 90%;
-            }
-            
-            .victory-content h2 {
-                font-size: 2.2rem;
+            .stat-value {
+                font-size: 1.2rem;
             }
         }
-        
-        @media (max-width: 480px) {
-            .memory-grid {
-                grid-template-columns: repeat(3, 1fr);
-                min-height: 350px;
-            }
-            
-            .game-stats {
-                flex-direction: column;
+
+        @media (max-width: 550px) {
+            .memory-board {
+                grid-template-columns: repeat(4, 1fr);
                 gap: 10px;
             }
-            
-            .stat-value {
-                font-size: 1.5rem;
+            .stats-panel {
+                gap: 8px;
+            }
+            .stat {
+                padding: 5px 12px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .memory-board {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Para orientación horizontal */
+        @media (max-width: 800px) and (orientation: landscape) {
+            .memory-board {
+                gap: 8px;
+            }
+            .card {
+                font-size: 1.3rem;
+            }
+            .game-wrapper {
+                margin-top: 20px;
+            }
+        }
+
+        /* Ocultar hover en táctil */
+        @media (hover: none) {
+            .card:hover {
+                transform: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="background-animation"></div>
+    <div class="bg-animation"></div>
     <div id="particles-js"></div>
-    
-    <div class="back-button">
-        <a href="index.html">
-            <i class="fas fa-arrow-left"></i> Volver al inicio
-        </a>
+
+    <div class="back-home">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Volver</a>
     </div>
-    
-    <div class="game-container">
-        <h1 class="game-title">Juego de la Memoria del Amor</h1>
-        
-        <div class="game-difficulty">
-            <button class="difficulty-btn active" data-difficulty="easy">Fácil (4x4)</button>
-            <button class="difficulty-btn" data-difficulty="medium">Medio (4x5)</button>
-            <button class="difficulty-btn" data-difficulty="hard">Difícil (5x6)</button>
+
+    <div class="game-wrapper">
+        <div class="game-header">
+            <h1 class="game-title">💘 Desafío del Corazón 💘</h1>
+            <p class="subtitle">Memoriza las parejas antes de que el tiempo se acabe ⏳</p>
         </div>
-        
-        <div class="game-stats">
-            <div class="stat">
-                <span class="stat-value" id="moves">0</span>
-                <span class="stat-label">Movimientos</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value" id="timer">00:00</span>
-                <span class="stat-label">Tiempo</span>
-            </div>
-            <div class="stat">
-                <span class="stat-value" id="pairs">0/8</span>
-                <span class="stat-label">Parejas</span>
-            </div>
+
+        <div class="stats-panel">
+            <div class="stat"><span class="stat-value" id="timeDisplay">01:30</span><span class="stat-label">⏱️ Tiempo</span></div>
+            <div class="stat"><span class="stat-value" id="moveCounter">0</span><span class="stat-label">🎯 Movimientos</span></div>
+            <div class="stat"><span class="stat-value" id="pairsMatched">0</span><span class="stat-label">❤️ Parejas</span></div>
         </div>
-        
-        <div class="memory-grid" id="memory-grid">
-            <!-- Las cartas se generarán con JavaScript -->
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="newGameBtn"><i class="fas fa-play"></i> Nueva partida</button>
+            <button class="btn btn-outline" id="hintBtn"><i class="fas fa-lightbulb"></i> Pista (3)</button>
         </div>
-        
-        <div class="game-controls">
-            <button class="game-btn" id="start-game">
-                <i class="fas fa-play"></i> Comenzar Juego
-            </button>
-            <button class="game-btn" id="reset-game">
-                <i class="fas fa-redo"></i> Reiniciar
-            </button>
-            <button class="game-btn" id="hint-btn">
-                <i class="fas fa-lightbulb"></i> Pista
-            </button>
+
+        <div id="gameMessage" class="game-message"></div>
+
+        <div class="memory-board" id="gameBoard"></div>
+    </div>
+
+    <!-- Modal de victoria con conejita -->
+    <div id="victoryModal" class="victory-modal">
+        <div class="victory-card">
+            <div class="bunny-winner">🐇✨</div>
+            <div class="love-note">¡LO LOGRASTE, MI AMOR!</div>
+            <div class="romantic-message" id="specialNote">
+                💖 Eres increíble, has conquistado el desafío.<br>
+                Como cada día contigo, nunca es fácil pero siempre vale la pena.<br>
+                <strong>Te amo más allá de los juegos. 💕</strong>
+            </div>
+            <button class="close-victory" id="closeVictoryBtn"><i class="fas fa-heart"></i> Seguir soñando</button>
         </div>
     </div>
-    
-    <div class="victory-message" id="victory-message">
-        <div class="victory-content">
-            <h2>¡Felicidades mi amor! 🎉</h2>
-            <p>Has encontrado todas las parejas de nuestro amor</p>
-            <div id="final-stats"></div>
-            <button class="game-btn" id="play-again">
-                <i class="fas fa-heart"></i> Jugar Otra Vez
-            </button>
-        </div>
-    </div>
-    
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Emojis de amor para el juego
-        const cardSets = {
-            easy: [
-                '❤️', '💕', '💘', '💝', '💖', '💗', '💓', '💞'
-            ],
-            medium: [
-                '❤️', '💕', '💘', '💝', '💖', '💗', '💓', '💞',
-                '😍', '🥰', '😘', '💋', '👩‍❤️‍👨', '💑', '💏', '💒',
-                '🎁', '💍', '💌', '💐'
-            ],
-            hard: [
-                '❤️', '💕', '💘', '💝', '💖', '💗', '💓', '💞',
-                '😍', '🥰', '😘', '💋', '👩‍❤️‍👨', '💑', '💏', '💒',
-                '🎁', '💍', '💌', '💐', '🌹', '⭐', '✨', '🎶',
-                '💫', '🌙', '☀️', '🌈', '🦋', '🐬'
-            ]
-        };
-        
-        // Configuración de dificultad
-        const difficultyConfig = {
-            easy: { gridSize: 4, pairs: 8 },
-            medium: { gridSize: 5, pairs: 10 },
-            hard: { gridSize: 6, pairs: 15 }
-        };
-        
-        let gameState = {
-            moves: 0,
-            pairsFound: 0,
-            totalPairs: 8,
-            timer: 0,
-            timerInterval: null,
-            flippedCards: [],
-            canFlip: true,
-            gameStarted: false,
-            difficulty: 'easy',
-            cards: [],
-            gridSize: 4,
-            hintUsed: 0
-        };
-        
-        const elements = {
-            memoryGrid: document.getElementById('memory-grid'),
-            moves: document.getElementById('moves'),
-            timer: document.getElementById('timer'),
-            pairs: document.getElementById('pairs'),
-            startBtn: document.getElementById('start-game'),
-            resetBtn: document.getElementById('reset-game'),
-            hintBtn: document.getElementById('hint-btn'),
-            victoryMessage: document.getElementById('victory-message'),
-            finalStats: document.getElementById('final-stats'),
-            playAgainBtn: document.getElementById('play-again'),
-            difficultyBtns: document.querySelectorAll('.difficulty-btn')
-        };
-        
-        function initGame() {
-            setupEventListeners();
-            setupDifficultyButtons();
-            createCards();
-            updateStats();
-            updateGridLayout();
+        // ---------- CONFIGURACIÓN DEL JUEGO ----------
+        // Parejas de emojis románticos (12 parejas = 24 cartas)
+        const EMOJI_PAIRS = [
+            '💖', '💕', '💘', '💝', '💓', '💗', 
+            '💞', '💟', '❣️', '💋', '💌', '🌹'
+        ];
+        // Total de cartas: 24 (12 parejas)
+        const TOTAL_PAIRS = EMOJI_PAIRS.length;      // 12
+        const TOTAL_CARDS = TOTAL_PAIRS * 2;          // 24
+
+        // Estado del juego
+        let cardsArray = [];           // array de objetos { emoji, matched, flipped, id }
+        let moves = 0;
+        let matchedCount = 0;
+        let timeLeft = 90;             // 90 segundos
+        let timerInterval = null;
+        let gameActive = false;         // si el juego está en curso
+        let allowClick = true;          // para evitar clicks durante animaciones
+        let firstCard = null;
+        let secondCard = null;
+        let lockBoard = false;           // bloqueo durante comparación
+        let hintsRemaining = 3;
+        let previewTimeout = null;       // para ocultar cartas tras preview
+
+        // Elementos DOM
+        const board = document.getElementById('gameBoard');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const moveCounterSpan = document.getElementById('moveCounter');
+        const pairsMatchedSpan = document.getElementById('pairsMatched');
+        const newGameBtn = document.getElementById('newGameBtn');
+        const hintBtn = document.getElementById('hintBtn');
+        const gameMessageDiv = document.getElementById('gameMessage');
+        const victoryModal = document.getElementById('victoryModal');
+        const closeVictoryBtn = document.getElementById('closeVictoryBtn');
+
+        // ---------- FUNCIONES AUXILIARES ----------
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
-        
-        function setupDifficultyButtons() {
-            elements.difficultyBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if (gameState.gameStarted) return;
-                    
-                    elements.difficultyBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    gameState.difficulty = btn.dataset.difficulty;
-                    const config = difficultyConfig[gameState.difficulty];
-                    gameState.totalPairs = config.pairs;
-                    gameState.gridSize = config.gridSize;
-                    
-                    resetGame();
-                });
-            });
+
+        function updateUI() {
+            moveCounterSpan.textContent = moves;
+            pairsMatchedSpan.textContent = `${matchedCount}/${TOTAL_PAIRS}`;
+            timeDisplay.textContent = formatTime(timeLeft);
         }
-        
-        function createCards() {
-            elements.memoryGrid.innerHTML = '';
-            
-            // Seleccionar cartas según la dificultad
-            const cardSet = cardSets[gameState.difficulty];
-            const cardsNeeded = gameState.totalPairs * 2;
-            
-            // Seleccionar cartas aleatorias del set
-            const selectedCards = [...cardSet]
-                .sort(() => Math.random() - 0.5)
-                .slice(0, gameState.totalPairs);
-            
-            // Duplicar y mezclar
-            let gameCards = [...selectedCards, ...selectedCards]
-                .sort(() => Math.random() - 0.5)
-                .slice(0, cardsNeeded);
-            
-            gameState.cards = gameCards;
-            
-            // Crear la cuadrícula según el tamaño
-            const totalCards = gameCards.length;
-            const gridTemplate = `repeat(${gameState.gridSize}, 1fr)`;
-            elements.memoryGrid.style.gridTemplateColumns = gridTemplate;
-            
-            gameCards.forEach((emoji, index) => {
-                const card = document.createElement('div');
-                card.className = 'memory-card';
-                card.dataset.index = index;
-                card.dataset.emoji = emoji;
-                
-                card.innerHTML = `
-                    <div class="front">${emoji}</div>
-                    <div class="back">❤️</div>
-                `;
-                
-                card.addEventListener('click', () => handleCardClick(card));
-                elements.memoryGrid.appendChild(card);
-            });
-        }
-        
-        function setupEventListeners() {
-            elements.startBtn.addEventListener('click', startGame);
-            elements.resetBtn.addEventListener('click', resetGame);
-            elements.hintBtn.addEventListener('click', giveHint);
-            elements.playAgainBtn.addEventListener('click', resetGame);
-        }
-        
-        function startGame() {
-            if (gameState.gameStarted) return;
-            
-            gameState.gameStarted = true;
-            gameState.timerInterval = setInterval(() => {
-                gameState.timer++;
-                updateTimer();
-            }, 1000);
-            
-            elements.startBtn.disabled = true;
-            elements.hintBtn.disabled = false;
-            
-            // Mostrar todas las cartas brevemente al inicio
-            showAllCardsTemporarily();
-        }
-        
-        function showAllCardsTemporarily() {
-            const allCards = document.querySelectorAll('.memory-card');
-            allCards.forEach(card => {
-                card.classList.add('flipped');
-            });
-            
+
+        function showMessage(msg, isError = false) {
+            gameMessageDiv.textContent = msg;
+            gameMessageDiv.style.display = 'block';
+            gameMessageDiv.style.background = isError ? 'rgba(220,53,69,0.9)' : 'rgba(0,0,0,0.7)';
             setTimeout(() => {
-                allCards.forEach(card => {
+                gameMessageDiv.style.display = 'none';
+            }, 2000);
+        }
+
+        // Finalizar juego (derrota por tiempo)
+        function gameOver() {
+            if (!gameActive) return;
+            gameActive = false;
+            if (timerInterval) clearInterval(timerInterval);
+            showMessage("⏰ Se acabó el tiempo... ¡Inténtalo de nuevo! ❤️", true);
+            disableAllCards(true);
+        }
+
+        // Victoria
+        function winGame() {
+            if (!gameActive) return;
+            gameActive = false;
+            if (timerInterval) clearInterval(timerInterval);
+            // Mostrar modal con conejita y nota personalizada
+            victoryModal.classList.add('active');
+            // Podemos añadir frases aleatorias de amor
+            const romanticMessages = [
+                "💖 ¡Eres una campeona del amor! Tu memoria y corazón son invencibles. 💖",
+                "🐰 La conejita está orgullosa de ti. Cada pareja encontrada es como cada latido que me regalas. 🐰",
+                "✨ Ganaste el desafío, pero el verdadero premio es tenerte a mi lado. Te amo. ✨",
+                "🌸 No es solo un juego, es la prueba de que juntos podemos superar cualquier reto. 🌸",
+                "⭐ Has desbloqueado el nivel: 'AMOR INFINITO'. Eres mi mayor tesoro. ⭐"
+            ];
+            const randomMsg = romanticMessages[Math.floor(Math.random() * romanticMessages.length)];
+            document.getElementById('specialNote').innerHTML = `🐇✨<br>${randomMsg}<br><strong>Te amo, KIM 💕</strong>`;
+        }
+
+        // Deshabilitar/habilitar clicks en todas las cartas
+        function disableAllCards(disabled) {
+            const allCards = document.querySelectorAll('.card');
+            allCards.forEach(card => {
+                if (disabled) {
+                    card.style.pointerEvents = 'none';
+                } else {
+                    if (!card.classList.contains('matched')) {
+                        card.style.pointerEvents = 'auto';
+                    }
+                }
+            });
+        }
+
+        // Reiniciar juego completamente
+        function resetAndStart() {
+            if (timerInterval) clearInterval(timerInterval);
+            // Resetear estado
+            moves = 0;
+            matchedCount = 0;
+            timeLeft = 90;
+            gameActive = true;
+            allowClick = true;
+            lockBoard = false;
+            firstCard = null;
+            secondCard = null;
+            hintsRemaining = 3;
+            hintBtn.innerHTML = '<i class="fas fa-lightbulb"></i> Pista (3)';
+            hintBtn.disabled = false;
+            updateUI();
+
+            // Mezclar cartas
+            const shuffledEmojis = [];
+            for (let i = 0; i < TOTAL_PAIRS; i++) {
+                shuffledEmojis.push(EMOJI_PAIRS[i]);
+                shuffledEmojis.push(EMOJI_PAIRS[i]);
+            }
+            for (let i = shuffledEmojis.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledEmojis[i], shuffledEmojis[j]] = [shuffledEmojis[j], shuffledEmojis[i]];
+            }
+            cardsArray = shuffledEmojis.map((emoji, idx) => ({
+                id: idx,
+                emoji: emoji,
+                matched: false,
+                flipped: false
+            }));
+
+            renderBoard();
+
+            // FASE DE PREVIEW: mostrar todas las cartas durante 5 segundos
+            // Bloquear clicks durante preview
+            gameActive = false;  // temporalmente inactivo
+            disableAllCards(true);
+            // Voltear todas las cartas
+            const allCardsDom = document.querySelectorAll('.card');
+            allCardsDom.forEach(card => card.classList.add('flipped'));
+            showMessage("🔍 Memoriza las parejas... se mostrarán 5 segundos", false);
+
+            // Después de 5 segundos, ocultar todas y activar juego
+            if (previewTimeout) clearTimeout(previewTimeout);
+            previewTimeout = setTimeout(() => {
+                // Ocultar cartas no emparejadas
+                const cardsDom = document.querySelectorAll('.card');
+                cardsDom.forEach(card => {
                     if (!card.classList.contains('matched')) {
                         card.classList.remove('flipped');
                     }
                 });
-            }, 1500); // Mostrar por 1.5 segundos
-        }
-        
-        function handleCardClick(card) {
-            if (!gameState.gameStarted || !gameState.canFlip || 
-                gameState.flippedCards.length >= 2 || 
-                card.classList.contains('flipped') ||
-                card.classList.contains('matched')) {
-                return;
-            }
-            
-            flipCard(card);
-            gameState.flippedCards.push(card);
-            
-            if (gameState.flippedCards.length === 2) {
-                gameState.moves++;
-                updateStats();
-                checkForMatch();
-            }
-        }
-        
-        function flipCard(card) {
-            card.classList.add('flipped');
-            playFlipSound();
-        }
-        
-        function checkForMatch() {
-            gameState.canFlip = false;
-            
-            const [card1, card2] = gameState.flippedCards;
-            const isMatch = card1.dataset.emoji === card2.dataset.emoji;
-            
-            setTimeout(() => {
-                if (isMatch) {
-                    // Marcarlas como emparejadas
-                    card1.classList.add('matched');
-                    card2.classList.add('matched');
-                    gameState.pairsFound++;
-                    
-                    // Efecto especial
-                    playMatchSound();
-                    createHeartsEffect(card1);
-                    
-                    if (gameState.pairsFound === gameState.totalPairs) {
-                        setTimeout(endGame, 500);
-                    }
-                } else {
-                    // Voltearlas de nuevo
-                    card1.classList.remove('flipped');
-                    card2.classList.remove('flipped');
-                }
-                
-                // Limpiar y permitir nuevos movimientos
-                gameState.flippedCards = [];
-                gameState.canFlip = true;
-            }, 800); // Tiempo suficiente para ver las cartas
-        }
-        
-        function giveHint() {
-            if (!gameState.gameStarted || gameState.hintUsed >= 3) return;
-            
-            // Encontrar cartas no emparejadas
-            const unflippedCards = Array.from(document.querySelectorAll('.memory-card:not(.flipped):not(.matched)'));
-            
-            if (unflippedCards.length >= 2) {
-                // Elegir una carta al azar
-                const randomCard = unflippedCards[Math.floor(Math.random() * unflippedCards.length)];
-                
-                // Encontrar su pareja
-                const emoji = randomCard.dataset.emoji;
-                const matchingCard = unflippedCards.find(card => 
-                    card !== randomCard && 
-                    card.dataset.emoji === emoji && 
-                    !card.classList.contains('flipped') && 
-                    !card.classList.contains('matched')
-                );
-                
-                if (matchingCard) {
-                    // Mostrar ambas cartas brevemente
-                    randomCard.classList.add('flipped');
-                    matchingCard.classList.add('flipped');
-                    
-                    setTimeout(() => {
-                        if (!randomCard.classList.contains('matched')) {
-                            randomCard.classList.remove('flipped');
+                gameActive = true;
+                disableAllCards(false);
+                // Iniciar temporizador
+                timerInterval = setInterval(() => {
+                    if (gameActive && timeLeft > 0) {
+                        timeLeft--;
+                        updateUI();
+                        if (timeLeft <= 0) {
+                            clearInterval(timerInterval);
+                            gameOver();
                         }
-                        if (!matchingCard.classList.contains('matched')) {
-                            matchingCard.classList.remove('flipped');
-                        }
-                    }, 1500);
-                    
-                    gameState.hintUsed++;
-                    elements.hintBtn.innerHTML = `<i class="fas fa-lightbulb"></i> Pista (${3 - gameState.hintUsed})`;
-                    
-                    if (gameState.hintUsed >= 3) {
-                        elements.hintBtn.disabled = true;
+                    } else if (!gameActive) {
+                        clearInterval(timerInterval);
                     }
-                }
+                }, 1000);
+            }, 5000);
+        }
+
+        // Renderizar tablero
+        function renderBoard() {
+            board.innerHTML = '';
+            cardsArray.forEach((card, idx) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                if (card.matched) cardDiv.classList.add('matched');
+                if (card.flipped) cardDiv.classList.add('flipped');
+                cardDiv.innerHTML = `
+                    <div class="front">${card.emoji}</div>
+                    <div class="back"><i class="fas fa-heart"></i></div>
+                `;
+                cardDiv.addEventListener('click', () => onCardClick(idx));
+                board.appendChild(cardDiv);
+            });
+        }
+
+        // Lógica de click
+        function onCardClick(index) {
+            if (!gameActive) return;
+            if (lockBoard) return;
+            if (cardsArray[index].matched) return;
+            if (cardsArray[index].flipped) return;
+            if (firstCard !== null && secondCard !== null) return;
+
+            // Voltear carta
+            cardsArray[index].flipped = true;
+            updateCardDisplay(index);
+
+            if (firstCard === null) {
+                firstCard = index;
+            } else if (secondCard === null && firstCard !== index) {
+                secondCard = index;
+                moves++;
+                updateUI();
+                lockBoard = true;
+                checkMatch();
             }
         }
-        
-        function endGame() {
-            clearInterval(gameState.timerInterval);
-            
-            const minutes = Math.floor(gameState.timer / 60);
-            const seconds = gameState.timer % 60;
-            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Calcular puntuación
-            const maxScore = 1000;
-            const timePenalty = Math.min(gameState.timer * 5, 500);
-            const movePenalty = Math.min(gameState.moves * 2, 300);
-            const hintPenalty = gameState.hintUsed * 50;
-            const score = Math.max(maxScore - timePenalty - movePenalty - hintPenalty, 100);
-            
-            let message = '';
-            if (score >= 800) message = "¡Eres increíble! 💖";
-            else if (score >= 600) message = "¡Muy bien hecho! 💕";
-            else if (score >= 400) message = "¡Buen trabajo! 💝";
-            else message = "¡Sigue practicando! 💘";
-            
-            elements.finalStats.innerHTML = `
-                <div class="score-message">${message}</div>
-                <p>⏱️ Tiempo: ${timeString}</p>
-                <p>🔄 Movimientos: ${gameState.moves}</p>
-                <p>⭐ Puntuación: ${score} puntos</p>
-                <p>💡 Pistas usadas: ${gameState.hintUsed}</p>
-            `;
-            
-            setTimeout(() => {
-                elements.victoryMessage.classList.add('show');
-                createFireworksEffect();
-            }, 1000);
+
+        function updateCardDisplay(index) {
+            const cardsDom = document.querySelectorAll('.card');
+            if (cardsArray[index].flipped && !cardsArray[index].matched) {
+                cardsDom[index].classList.add('flipped');
+            } else if (!cardsArray[index].flipped && !cardsArray[index].matched) {
+                cardsDom[index].classList.remove('flipped');
+            }
         }
-        
-        function resetGame() {
-            clearInterval(gameState.timerInterval);
-            
-            const config = difficultyConfig[gameState.difficulty];
-            
-            gameState = {
-                moves: 0,
-                pairsFound: 0,
-                totalPairs: config.pairs,
-                timer: 0,
-                timerInterval: null,
-                flippedCards: [],
-                canFlip: true,
-                gameStarted: false,
-                difficulty: gameState.difficulty,
-                cards: [],
-                gridSize: config.gridSize,
-                hintUsed: 0
-            };
-            
-            elements.victoryMessage.classList.remove('show');
-            elements.startBtn.disabled = false;
-            elements.hintBtn.disabled = true;
-            elements.hintBtn.innerHTML = `<i class="fas fa-lightbulb"></i> Pista (3)`;
-            
-            createCards();
-            updateStats();
-            updateGridLayout();
+
+        function checkMatch() {
+            const card1 = cardsArray[firstCard];
+            const card2 = cardsArray[secondCard];
+            const isMatch = (card1.emoji === card2.emoji);
+
+            if (isMatch) {
+                // Emparejadas correctamente
+                card1.matched = true;
+                card2.matched = true;
+                card1.flipped = true;
+                card2.flipped = true;
+                matchedCount++;
+                updateUI();
+                // Actualizar visual
+                const allCardsDom = document.querySelectorAll('.card');
+                allCardsDom[firstCard].classList.add('matched');
+                allCardsDom[secondCard].classList.add('matched');
+                // Efecto visual de corazón
+                createHeartBurst(allCardsDom[firstCard]);
+                createHeartBurst(allCardsDom[secondCard]);
+
+                firstCard = null;
+                secondCard = null;
+                lockBoard = false;
+
+                if (matchedCount === TOTAL_PAIRS) {
+                    winGame();
+                }
+            } else {
+                // No coinciden, voltear tras breve pausa
+                setTimeout(() => {
+                    card1.flipped = false;
+                    card2.flipped = false;
+                    updateCardDisplay(firstCard);
+                    updateCardDisplay(secondCard);
+                    firstCard = null;
+                    secondCard = null;
+                    lockBoard = false;
+                }, 700);
+            }
         }
-        
-        function updateStats() {
-            elements.moves.textContent = gameState.moves;
-            elements.pairs.textContent = `${gameState.pairsFound}/${gameState.totalPairs}`;
-        }
-        
-        function updateTimer() {
-            const minutes = Math.floor(gameState.timer / 60);
-            const seconds = gameState.timer % 60;
-            elements.timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-        
-        function updateGridLayout() {
-            elements.memoryGrid.style.gridTemplateColumns = `repeat(${gameState.gridSize}, 1fr)`;
-        }
-        
-        // Efectos de sonido
-        function playFlipSound() {
-            const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ');
-            audio.volume = 0.3;
-            audio.play().catch(() => {});
-        }
-        
-        function playMatchSound() {
-            const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ');
-            audio.volume = 0.5;
-            audio.play().catch(() => {});
-        }
-        
-        // Efectos visuales
-        function createHeartsEffect(card) {
-            const rect = card.getBoundingClientRect();
+
+        // Efecto de corazones alrededor de la carta
+        function createHeartBurst(cardElement) {
+            const rect = cardElement.getBoundingClientRect();
             const x = rect.left + rect.width / 2;
             const y = rect.top + rect.height / 2;
-            
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 6; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.innerHTML = '💖';
                     heart.style.position = 'fixed';
                     heart.style.left = `${x}px`;
                     heart.style.top = `${y}px`;
-                    heart.style.fontSize = '2rem';
-                    heart.style.zIndex = '1000';
+                    heart.style.fontSize = '1.8rem';
+                    heart.style.zIndex = '9999';
                     heart.style.pointerEvents = 'none';
                     heart.style.transform = 'translate(-50%, -50%)';
-                    
                     document.body.appendChild(heart);
-                    
-                    const animation = heart.animate([
-                        { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
-                        { transform: 'translate(-50%, -100px) scale(1.5)', opacity: 0 }
-                    ], {
-                        duration: 1000,
-                        easing: 'ease-out'
-                    });
-                    
-                    animation.onfinish = () => heart.remove();
-                }, i * 100);
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 50 + Math.random() * 70;
+                    heart.animate([
+                        { transform: `translate(-50%, -50%) scale(0.2)`, opacity: 1 },
+                        { transform: `translate(${Math.cos(angle) * distance - 50}%, ${Math.sin(angle) * distance - 50}%) scale(1)`, opacity: 0 }
+                    ], { duration: 800, easing: 'ease-out' }).onfinish = () => heart.remove();
+                }, i * 60);
             }
         }
-        
-        function createFireworksEffect() {
-            // Crear efecto de fuegos artificiales en el centro
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const particles = 30;
-                    for (let j = 0; j < particles; j++) {
-                        const particle = document.createElement('div');
-                        particle.innerHTML = '💖';
-                        particle.style.position = 'fixed';
-                        particle.style.left = '50%';
-                        particle.style.top = '50%';
-                        particle.style.fontSize = '1.5rem';
-                        particle.style.zIndex = '9999';
-                        particle.style.pointerEvents = 'none';
-                        particle.style.transform = 'translate(-50%, -50%)';
-                        
-                        document.body.appendChild(particle);
-                        
-                        const angle = (j / particles) * Math.PI * 2;
-                        const distance = 100 + Math.random() * 150;
-                        
-                        const animation = particle.animate([
-                            { 
-                                transform: 'translate(-50%, -50%) scale(0)', 
-                                opacity: 1 
-                            },
-                            { 
-                                transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(1)`, 
-                                opacity: 0 
-                            }
-                        ], {
-                            duration: 1500,
-                            easing: 'ease-out'
-                        });
-                        
-                        animation.onfinish = () => particle.remove();
-                    }
-                }, i * 200);
+
+        // Pista: muestra una pareja sin voltear por 1 segundo
+        function giveHint() {
+            if (!gameActive) return;
+            if (hintsRemaining <= 0) {
+                showMessage("Ya no te quedan pistas, ¡usa tu memoria! 💪", true);
+                return;
             }
+            // Buscar pareja que aún no esté emparejada ni volteada
+            const unmatchedIndices = cardsArray.reduce((arr, card, idx) => {
+                if (!card.matched && !card.flipped) arr.push(idx);
+                return arr;
+            }, []);
+            if (unmatchedIndices.length < 2) return;
+
+            // Agrupar por emoji para encontrar una pareja completa sin voltear
+            let hintPair = null;
+            for (let i = 0; i < unmatchedIndices.length && !hintPair; i++) {
+                const emoji = cardsArray[unmatchedIndices[i]].emoji;
+                const partner = unmatchedIndices.find(idx => idx !== unmatchedIndices[i] && cardsArray[idx].emoji === emoji);
+                if (partner !== undefined) {
+                    hintPair = [unmatchedIndices[i], partner];
+                }
+            }
+            if (!hintPair) return;
+
+            const [idxA, idxB] = hintPair;
+            const domCards = document.querySelectorAll('.card');
+            // Mostrar temporalmente
+            domCards[idxA].classList.add('flipped');
+            domCards[idxB].classList.add('flipped');
+            setTimeout(() => {
+                if (!cardsArray[idxA].matched && !cardsArray[idxA].flipped) domCards[idxA].classList.remove('flipped');
+                if (!cardsArray[idxB].matched && !cardsArray[idxB].flipped) domCards[idxB].classList.remove('flipped');
+            }, 1200);
+            hintsRemaining--;
+            hintBtn.innerHTML = `<i class="fas fa-lightbulb"></i> Pista (${hintsRemaining})`;
+            if (hintsRemaining === 0) hintBtn.disabled = true;
         }
-        
-        // Inicializar partículas de fondo
-        document.addEventListener('DOMContentLoaded', () => {
-            initGame();
-            
-            // Partículas de fondo
+
+        // Inicializar partículas
+        function initParticles() {
             if (typeof particlesJS !== 'undefined') {
                 particlesJS('particles-js', {
                     particles: {
@@ -800,24 +788,30 @@
                         shape: { type: "circle" },
                         opacity: { value: 0.5, random: true },
                         size: { value: 3, random: true },
-                        move: { enable: true, speed: 1 }
+                        move: { enable: true, speed: 0.8, direction: "none", random: true }
                     }
                 });
             }
-            
-            // Agregar animación de fondo al juego
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes bounce {
-                    0%, 100% { transform: scale(1); }
-                    50% { transform: scale(1.1); }
-                }
-                
-                .memory-card.matched .front {
-                    animation: bounce 0.5s ease;
-                }
-            `;
-            document.head.appendChild(style);
+        }
+
+        // Eventos
+        newGameBtn.addEventListener('click', () => {
+            if (timerInterval) clearInterval(timerInterval);
+            if (previewTimeout) clearTimeout(previewTimeout);
+            resetAndStart();
+        });
+
+        hintBtn.addEventListener('click', giveHint);
+
+        closeVictoryBtn.addEventListener('click', () => {
+            victoryModal.classList.remove('active');
+            resetAndStart();
+        });
+
+        // Arrancar juego automáticamente
+        window.addEventListener('load', () => {
+            initParticles();
+            resetAndStart();
         });
     </script>
 </body>
