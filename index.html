@@ -5,715 +5,776 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Mi Amor - Para KIM</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    /* ===== RESPONSIVE DESIGN - PARA CELULAR, TABLET Y PC ===== */
-/* Base: mobile-first (para celulares pequeños) */
-
-/* Ajustes generales */
-@media (max-width: 768px) {
-    body {
-        font-size: 14px;
-        overflow-x: hidden;
-    }
-
-    .container {
-        padding: 15px;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    /* Navegación flotante - se mueve abajo en móvil */
-    .floating-nav {
-        top: auto;
-        bottom: 15px;
-        right: 15px;
-        left: auto;
-        transform: none;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 50px;
-        padding: 10px;
-        z-index: 1000;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    }
-
-    .nav-buttons {
-        flex-direction: row;
-        gap: 10px;
-    }
-
-    .nav-btn {
-        width: 42px;
-        height: 42px;
-        font-size: 1rem;
-    }
-
-    /* Contador especial - más pequeño y centrado */
-    .special-counter {
-        position: relative;
-        top: 0;
-        margin: 20px auto 20px;
-        width: 90%;
-        padding: 12px 20px;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .counter-number {
-        font-size: 1.8rem;
-    }
-
-    .counter-label {
-        font-size: 0.8rem;
-    }
-
-    /* Header */
-    .header {
-        margin: 20px auto 30px;
-        padding: 25px 15px;
-    }
-
-    .title {
-        font-size: 2.2rem;
-        word-wrap: break-word;
-    }
-
-    .subtitle {
-        font-size: 1rem;
-    }
-
-    /* Grid de cartas - una columna en móvil */
-    .letters-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-
-    .letter {
-        padding: 20px;
-    }
-
-    .letter-number {
-        font-size: 1.4rem;
-    }
-
-    .letter-content {
-        font-size: 0.95rem;
-    }
-
-    /* Filtros - se ajustan */
-    .filters {
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .filter-btn {
-        padding: 8px 16px;
-        font-size: 0.85rem;
-    }
-
-    /* Barra de progreso */
-    .progress-container {
-        padding: 20px;
-    }
-
-    /* Footer */
-    .footer {
-        padding: 20px;
-        margin-top: 30px;
-    }
-
-    .footer-buttons {
-        flex-direction: column;
-        gap: 12px;
-        width: 100%;
-    }
-
-    .secret-btn, .print-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 12px 20px;
-    }
-
-    /* Buscador */
-    .search-container input {
-        padding: 12px 45px 12px 15px;
-        font-size: 0.9rem;
-    }
-
-    /* Notificaciones */
-    .notification {
-        bottom: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        text-align: center;
-    }
-
-    .notification.show {
-        transform: translateX(-50%) translateY(0);
-    }
-}
-
-/* Tablets (entre 769px y 1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .container {
-        max-width: 95%;
-        padding: 20px;
-    }
-
-    .letters-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-
-    .special-counter {
-        width: 80%;
-        left: 10%;
-        transform: none;
-    }
-
-    .title {
-        font-size: 3rem;
-    }
-
-    .floating-nav {
-        right: 15px;
-    }
-}
-
-/* Pantallas grandes (PC) */
-@media (min-width: 1025px) {
-    .container {
-        max-width: 1200px;
-    }
-
-    .letters-grid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    }
-}
-
-/* Ajustes específicos para orientación horizontal en móvil */
-@media (max-width: 768px) and (orientation: landscape) {
-    .special-counter {
-        flex-direction: row;
-        gap: 25px;
-        padding: 10px 20px;
-    }
-
-    .counter-number {
-        font-size: 1.5rem;
-    }
-
-    .letters-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .floating-nav {
-        bottom: 10px;
-        right: 10px;
-    }
-}
-
-/* Para pantallas muy pequeñas (menos de 380px) */
-@media (max-width: 380px) {
-    .title {
-        font-size: 1.8rem;
-    }
-
-    .special-counter {
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
-    }
-
-    .counter-item {
-        flex-direction: row;
-        gap: 10px;
-        align-items: baseline;
-    }
-
-    .counter-label {
-        margin-top: 0;
-    }
-
-    .filter-btn {
-        padding: 6px 12px;
-        font-size: 0.75rem;
-    }
-
-    .letter-icon {
-        font-size: 2.5rem;
-    }
-}
-
-/* Ajustes para el modo conejita en móvil */
-@media (max-width: 768px) {
-    .bunny-presentation {
-        padding: 10px;
-    }
-
-    .bunny-container {
-        transform: scale(0.7);
-        margin: -20px 0;
-    }
-
-    .bunny-controls {
-        flex-direction: column;
-        gap: 12px;
-        width: 100%;
-        max-width: 250px;
-    }
-
-    .bunny-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .bunny-day-input {
-        width: 90%;
-    }
-
-    .bunny-input-label {
-        font-size: 1.2rem;
-        text-align: center;
-    }
-
-    .bunny-number-input {
-        width: 70px;
-        height: 50px;
-        font-size: 1.5rem;
-    }
-
-    .bunny-submit-btn {
-        width: 50px;
-        height: 50px;
-    }
-
-    .bunny-message {
-        font-size: 1rem;
-        max-width: 200px;
-        top: 120px;
-    }
-
-    .bunny-hint {
-        font-size: 0.75rem;
-        bottom: 10px;
-        white-space: nowrap;
-    }
-}
-
-/* Ajustes para la carta revelada (modal) en móvil */
-@media (max-width: 768px) {
-    .letter-reveal-container {
-        height: 85%;
-        width: 95%;
-    }
-
-    .letter-reveal-paper {
-        padding: 20px;
-    }
-
-    .letter-reveal-day {
-        font-size: 2rem;
-    }
-
-    .letter-reveal-message {
-        font-size: 1rem;
-        padding: 15px;
-    }
-
-    .letter-reveal-icon {
-        font-size: 3rem;
-    }
-
-    .letter-reveal-bunny-corner {
-        width: 50px;
-        height: 50px;
-        font-size: 1.8rem;
-        bottom: 10px;
-        right: 10px;
-    }
-
-    .letter-reveal-close {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-        top: 10px;
-        right: 10px;
-    }
-}
-
-/* Ajustes para el juego de memoria en móvil */
-@media (max-width: 768px) {
-    .game-container {
-        margin-top: 80px;
-        padding: 10px;
-    }
-
-    .game-title {
-        font-size: 2rem;
-    }
-
-    .memory-grid {
-        gap: 8px;
-        min-height: auto;
-    }
-
-    .memory-card {
-        font-size: 1.5rem;
-    }
-
-    .game-stats {
-        flex-direction: row;
-        justify-content: space-around;
-        padding: 12px;
-    }
-
-    .stat-value {
-        font-size: 1.3rem;
-    }
-
-    .game-controls {
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .game-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-
-    .game-difficulty {
-        flex-wrap: wrap;
-    }
-
-    .difficulty-btn {
-        padding: 6px 15px;
-        font-size: 0.8rem;
-    }
-}
-
-/* Ajustes para la galería en móvil */
-@media (max-width: 768px) {
-    .gallery-container {
-        margin-top: 80px;
-        padding: 10px;
-    }
-
-    .gallery-title {
-        font-size: 2rem;
-    }
-
-    .gallery-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 12px;
-    }
-
-    .gallery-item {
-        height: 180px;
-    }
-
-    .gallery-overlay {
-        padding: 10px;
-    }
-
-    .gallery-date {
-        font-size: 0.7rem;
-    }
-
-    .gallery-description {
-        font-size: 0.85rem;
-    }
-
-    .gallery-filters {
-        gap: 8px;
-    }
-
-    .gallery-filter {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-
-    .photo-modal-content {
-        width: 95%;
-    }
-
-    .modal-nav {
-        padding: 0 10px;
-    }
-
-    .nav-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-}
-
-/* Ajustes para el reproductor de música en móvil */
-@media (max-width: 768px) {
-    .music-container {
-        margin-top: 80px;
-        padding: 10px;
-    }
-
-    .music-title {
-        font-size: 2rem;
-    }
-
-    .player-container {
-        padding: 20px;
-    }
-
-    .album-art {
-        width: 140px;
-        height: 140px;
-        font-size: 3rem;
-    }
-
-    .song-title {
-        font-size: 1.3rem;
-    }
-
-    .control-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 1.2rem;
-    }
-
-    .control-btn.big {
-        width: 55px;
-        height: 55px;
-        font-size: 1.5rem;
-    }
-
-    .love-message p {
-        font-size: 0.9rem;
-    }
-
-    .volume-control {
-        margin-top: 15px;
-    }
-
-    #volume-slider {
-        width: 120px;
-    }
-}
-
-/* Corrección de tap/hover en móviles (evita el hover fantasma) */
-@media (hover: none) and (pointer: coarse) {
-    .letter:hover {
-        transform: none;
-    }
-    
-    .gallery-item:hover {
-        transform: none;
-    }
-    
-    .gallery-item:hover .gallery-overlay {
-        transform: translateY(100%);
-    }
-    
-    .gallery-item:active .gallery-overlay {
-        transform: translateY(0);
-    }
-    
-    .nav-btn:hover {
-        transform: none;
-    }
-    
-    .filter-btn:hover {
-        transform: none;
-    }
-}
-
-/* Mejora de botones táctiles para móvil */
-@media (max-width: 768px) {
-    button, 
-    .nav-btn, 
-    .filter-btn, 
-    .letter, 
-    .gallery-item,
-    .memory-card,
-    .control-btn,
-    .game-btn,
-    .difficulty-btn,
-    .gallery-filter,
-    .bunny-btn,
-    .bunny-submit-btn {
-        cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    /* Aumentar área táctil de botones pequeños */
-    .nav-btn,
-    .bunny-submit-btn,
-    .control-btn {
-        min-width: 44px;
-        min-height: 44px;
-    }
-    
-    /* Evitar scroll horizontal accidental */
-    body {
-        overflow-x: hidden;
-        width: 100%;
-        position: relative;
-    }
-    
-    img, .gallery-img, .album-art img {
-        max-width: 100%;
-        height: auto;
-    }
-}
+    <style>
+        /* ===== ESTILOS BASE ===== */
+        :root {
+            --primary-color: #ff6b8b;
+            --secondary-color: #ff2e63;
+            --accent-color: #ffd700;
+            --light-color: #fff0f5;
+            --dark-color: #1a1a2e;
+            --success-color: #4CAF50;
+            --gradient: linear-gradient(135deg, #ff6b8b, #ff2e63);
+            --gradient-light: linear-gradient(135deg, #ffb6c1, #ffccd5);
+            --gradient-gold: linear-gradient(135deg, #ffd700, #ffec8b);
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease;
+            --border-radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe6f2 100%);
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== ESTILOS PARA LA PRESENTACIÓN CON CONEJITA ===== */
+        .bunny-presentation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffe6f2 0%, #fff0f5 100%);
+            z-index: 10020;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            animation: bunnyEntrance 0.8s ease-out;
+        }
+
+        .bunny-presentation.active {
+            display: flex;
+        }
+
+        @keyframes bunnyEntrance {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .bunny-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin-bottom: 40px;
+        }
+
+        .bunny-body {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 220px;
+            background: white;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 2;
+            animation: bunnyFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes bunnyFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .bunny-ear {
+            position: absolute;
+            top: -60px;
+            width: 50px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .bunny-ear.left { left: 60px; transform: rotate(-15deg); }
+        .bunny-ear.right { right: 60px; transform: rotate(15deg); }
+        .bunny-ear-inner {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 70px;
+            background: #ffe6f2;
+            border-radius: 50%;
+        }
+
+        .bunny-face {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 100px;
+            z-index: 3;
+        }
+
+        .bunny-eye {
+            position: absolute;
+            top: 25px;
+            width: 25px;
+            height: 35px;
+            background: #333;
+            border-radius: 50%;
+            animation: bunnyBlink 3s infinite;
+        }
+        .bunny-eye.left { left: 30px; }
+        .bunny-eye.right { right: 30px; }
+        .bunny-eye-sparkle {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+        @keyframes bunnyBlink {
+            0%, 45%, 55%, 100% { height: 35px; }
+            48%, 52% { height: 2px; }
+        }
+        .bunny-nose {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 15px;
+            background: pink;
+            border-radius: 50%;
+        }
+        .bunny-paw {
+            position: absolute;
+            bottom: -20px;
+            width: 60px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .bunny-paw.left { left: 30px; transform: rotate(-20deg); animation: pawHold 2s infinite; }
+        .bunny-paw.right { right: 30px; transform: rotate(20deg) scaleX(-1); }
+        .bunny-paw.left.broken { transform: rotate(-20deg) rotate(45deg); animation: brokenPaw 2s infinite alternate; background: linear-gradient(to bottom, white 0%, #ffe6e6 100%); }
+        
+        @keyframes pawHold {
+            0%, 100% { transform: rotate(-20deg); }
+            50% { transform: rotate(-10deg) translateY(-5px); }
+        }
+        @keyframes brokenPaw {
+            0%, 100% { transform: rotate(-20deg) rotate(45deg); }
+            50% { transform: rotate(-20deg) rotate(55deg) translateY(-3px); }
+        }
+
+        .bunny-message {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 250px;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            color: #ff6b8b;
+            opacity: 0;
+            animation: messagePop 0.5s ease-out 0.5s forwards;
+            z-index: 4;
+        }
+
+        @keyframes messagePop {
+            0% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1); }
+        }
+
+        .bunny-letter-delivery {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 120px;
+            z-index: 5;
+            opacity: 0;
+            animation: deliverLetter 1s ease-out forwards;
+            display: none;
+        }
+
+        @keyframes deliverLetter {
+            0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+            30% { opacity: 1; transform: translateY(-100px) rotate(10deg); }
+            70% { opacity: 1; transform: translateY(-50px) rotate(-5deg); }
+            100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+        }
+
+        .bunny-envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fffacd, #fff);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .bunny-envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, #ffebcd, #fff8dc);
+            border-radius: 10px 10px 0 0;
+            transform-origin: top;
+            animation: flapOpen 0.5s ease-out 1.2s forwards;
+        }
+
+        @keyframes flapOpen {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(-180deg); }
+        }
+
+        .bunny-letter-content {
+            position: absolute;
+            top: 25%;
+            left: 10%;
+            width: 80%;
+            height: 60%;
+            background: white;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            opacity: 0;
+            animation: showContent 0.5s ease-out 1.7s forwards;
+        }
+
+        @keyframes showContent {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .bunny-heart-stamp {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background: #ff6b8b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .bunny-falling-letters {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10019;
+        }
+
+        .falling-letter {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(135deg, #fffacd, #fff);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            top: -100px;
+            animation: fallDown 15s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #ff6b8b;
+        }
+
+        @keyframes fallDown {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .bunny-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            font-size: 1.5rem;
+            color: #ff6b8b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10021;
+        }
+
+        .bunny-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-family: 'Poppins', sans-serif;
+            color: #ff6b8b;
+            font-size: 0.9rem;
+        }
+
+        .bunny-controls {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .bunny-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bunny-btn.primary { background: linear-gradient(135deg, #ff6b8b, #ff2e63); color: white; }
+        .bunny-btn.secondary { background: white; color: #ff6b8b; border: 2px solid #ff6b8b; }
+
+        .bunny-day-input {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bunny-input-label {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #ff6b8b;
+            font-weight: bold;
+        }
+
+        .bunny-input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .bunny-number-input {
+            width: 80px;
+            height: 60px;
+            font-size: 2rem;
+            text-align: center;
+            border: 3px solid #ff6b8b;
+            border-radius: 15px;
+            font-family: 'Poppins', sans-serif;
+            color: #ff2e63;
+            background: white;
+        }
+
+        .bunny-submit-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b8b, #ff2e63);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== LETTER REVEAL ===== */
+        .letter-reveal-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10030;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .letter-reveal-animation.active { display: flex; }
+
+        .letter-reveal-container {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            height: auto;
+            max-height: 80vh;
+        }
+
+        .letter-reveal-paper {
+            background: linear-gradient(to bottom, #fffaf0 0%, #fff8dc 100%);
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            animation: letterUnfold 0.5s ease-out;
+        }
+
+        @keyframes letterUnfold {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .letter-reveal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ff6b8b;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .letter-reveal-day {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #ff6b8b;
+            text-align: center;
+        }
+
+        .letter-reveal-icon { font-size: 4rem; text-align: center; margin: 20px 0; }
+        .letter-reveal-message { font-size: 1.2rem; line-height: 1.6; text-align: center; }
+        .letter-reveal-bunny-corner { position: absolute; bottom: 10px; right: 10px; font-size: 2rem; }
+
+        /* ===== NAVEGACIÓN Y CONTENIDO PRINCIPAL ===== */
+        .floating-nav {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 15px;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gradient);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .special-counter {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 15px 30px;
+            display: flex;
+            gap: 30px;
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+
+        .counter-item { display: flex; flex-direction: column; align-items: center; }
+        .counter-number { font-size: 2rem; font-weight: bold; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .counter-label { font-size: 0.8rem; color: #666; }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            margin: 100px auto 40px;
+            max-width: 800px;
+        }
+
+        .heart-icon { font-size: 4rem; animation: heartbeat 1.5s infinite; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        .title { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--secondary-color); }
+        .subtitle { font-size: 1.1rem; color: #666; }
+
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 20px auto 0;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+        .search-container i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--primary-color); }
+
+        .filters { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .filter-btn.active { background: var(--gradient); color: white; border-color: transparent; }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .letter {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        .letter:hover { transform: translateY(-5px); }
+        .letter-number { font-size: 1.5rem; font-weight: bold; color: var(--secondary-color); }
+        .letter-icon { font-size: 2.5rem; text-align: center; margin: 15px 0; }
+        .letter-content { font-size: 0.95rem; line-height: 1.5; }
+        .letter-footer { display: flex; justify-content: space-between; padding-top: 15px; border-top: 1px solid #eee; }
+        .letter-category { padding: 5px 15px; background: var(--light-color); border-radius: 20px; font-size: 0.8rem; }
+
+        .progress-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 40px 0;
+        }
+        .progress-bar { height: 20px; background: var(--light-color); border-radius: 10px; overflow: hidden; }
+        .progress-bar::after { content: ''; display: block; height: 100%; width: var(--progress, 0%); background: var(--gradient); transition: width 0.5s; }
+
+        .footer { text-align: center; padding: 30px; margin-top: 40px; background: rgba(255, 255, 255, 0.8); border-radius: var(--border-radius); }
+        .footer-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
+        .secret-btn, .print-btn { padding: 12px 30px; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; }
+        .secret-btn { background: var(--gradient); color: white; }
+        .print-btn { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); }
+
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .notification.show { opacity: 1; }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+            .container { padding: 15px; }
+            
+            .floating-nav {
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+                transform: none;
+                padding: 10px;
+            }
+            .nav-buttons { flex-direction: row; gap: 10px; }
+            .nav-btn { width: 45px; height: 45px; font-size: 1rem; }
+            
+            .special-counter {
+                position: relative;
+                top: 0;
+                margin: 20px auto;
+                width: 90%;
+                padding: 12px 20px;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+            .counter-number { font-size: 1.5rem; }
+            .counter-label { font-size: 0.7rem; }
+            
+            .header { margin-top: 20px; padding: 25px 15px; }
+            .title { font-size: 2rem; }
+            .subtitle { font-size: 0.9rem; }
+            
+            .letters-grid { grid-template-columns: 1fr; gap: 15px; }
+            .letter { padding: 18px; }
+            .letter-number { font-size: 1.3rem; }
+            
+            .filters { gap: 8px; }
+            .filter-btn { padding: 6px 15px; font-size: 0.8rem; }
+            
+            .footer-buttons { flex-direction: column; align-items: center; }
+            .secret-btn, .print-btn { width: 80%; justify-content: center; }
+            
+            .bunny-container { transform: scale(0.7); margin: -30px 0; }
+            .bunny-controls { flex-direction: column; gap: 10px; }
+            .bunny-btn { width: 200px; justify-content: center; }
+            .bunny-input-label { font-size: 1.3rem; }
+            .bunny-number-input { width: 70px; height: 50px; font-size: 1.5rem; }
+            .bunny-message { font-size: 1rem; max-width: 200px; top: 130px; }
+            
+            .letter-reveal-paper { padding: 20px; }
+            .letter-reveal-day { font-size: 1.8rem; }
+            .letter-reveal-message { font-size: 1rem; }
+            .letter-reveal-icon { font-size: 3rem; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .letters-grid { grid-template-columns: repeat(2, 1fr); }
+            .container { max-width: 95%; }
+        }
+
+        @media (max-width: 480px) {
+            .title { font-size: 1.6rem; }
+            .special-counter { flex-direction: column; align-items: center; gap: 8px; }
+            .counter-item { flex-direction: row; gap: 10px; }
+            .letter-content { font-size: 0.85rem; }
+        }
+    </style>
 </head>
 <body>
     <!-- ===== PRESENTACIÓN CON CONEJITA ===== -->
     <div class="bunny-presentation" id="bunny-presentation">
-        <button class="bunny-close-btn" id="bunny-close-btn">
-            <i class="fas fa-times"></i>
-        </button>
-        
+        <button class="bunny-close-btn" id="bunny-close-btn"><i class="fas fa-times"></i></button>
         <div class="bunny-container">
-            <!-- Ojos de la conejita -->
-            <div class="bunny-ear left">
-                <div class="bunny-ear-inner"></div>
-            </div>
-            <div class="bunny-ear right">
-                <div class="bunny-ear-inner"></div>
-            </div>
-            
-            <!-- Cuerpo de la conejita -->
+            <div class="bunny-ear left"><div class="bunny-ear-inner"></div></div>
+            <div class="bunny-ear right"><div class="bunny-ear-inner"></div></div>
             <div class="bunny-body"></div>
-            
-            <!-- Carita de la conejita -->
             <div class="bunny-face">
-                <div class="bunny-eye left">
-                    <div class="bunny-eye-sparkle"></div>
-                </div>
-                <div class="bunny-eye right">
-                    <div class="bunny-eye-sparkle"></div>
-                </div>
+                <div class="bunny-eye left"><div class="bunny-eye-sparkle"></div></div>
+                <div class="bunny-eye right"><div class="bunny-eye-sparkle"></div></div>
                 <div class="bunny-nose"></div>
             </div>
-            
-            <!-- Patitas -->
             <div class="bunny-paw left broken"></div>
             <div class="bunny-paw right"></div>
-            
-            <!-- Mensaje de la conejita -->
-            <div class="bunny-message" id="bunny-message">
-                ¡Hola! Soy tu conejita 🐰<br>
-                Tengo una carta para ti...
-            </div>
-            
-            <!-- Carta que entrega -->
+            <div class="bunny-message" id="bunny-message">¡Hola! Soy tu conejita 🐰<br>Tengo una carta para ti...</div>
             <div class="bunny-letter-delivery" id="bunny-letter-delivery">
                 <div class="bunny-envelope">
                     <div class="bunny-envelope-flap"></div>
                     <div class="bunny-letter-content" id="bunny-letter-preview">
                         <i class="fas fa-heart" style="color:#ff6b8b; font-size:2rem;"></i>
-                        <div style="font-size:0.9rem; color:#ff6b8b; margin-top:5px;">Día 1</div>
+                        <div style="font-size:0.9rem; color:#ff6b8b;">Día 1</div>
                     </div>
-                    <div class="bunny-heart-stamp">
-                        <i class="fas fa-heart"></i>
-                    </div>
+                    <div class="bunny-heart-stamp"><i class="fas fa-heart"></i></div>
                 </div>
             </div>
         </div>
-        
-        <!-- Controles -->
         <div class="bunny-day-input">
             <div class="bunny-input-label">¿Qué día quieres ver?</div>
             <div class="bunny-input-container">
-                <input type="number" min="1" max="117" value="1" class="bunny-number-input" id="bunny-day-input">
-                <button class="bunny-submit-btn" id="bunny-submit-btn">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                <input type="number" min="1" max="213" value="1" class="bunny-number-input" id="bunny-day-input">
+                <button class="bunny-submit-btn" id="bunny-submit-btn"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
-        
         <div class="bunny-controls">
-            <button class="bunny-btn primary" id="bunny-random-btn">
-                <i class="fas fa-random"></i> Carta Sorpresa
-            </button>
-            <button class="bunny-btn secondary" id="bunny-view-all-btn">
-                <i class="fas fa-list"></i> Ver Todas
-            </button>
+            <button class="bunny-btn primary" id="bunny-random-btn"><i class="fas fa-random"></i> Carta Sorpresa</button>
+            <button class="bunny-btn secondary" id="bunny-view-all-btn"><i class="fas fa-list"></i> Ver Todas</button>
         </div>
-        
-        <div class="bunny-hint">
-            <i class="fas fa-lightbulb"></i> Escribe un número del 1 al 213
-        </div>
+        <div class="bunny-hint"><i class="fas fa-lightbulb"></i> Escribe un número del 1 al 213</div>
     </div>
-    
+
     <!-- ===== ANIMACIÓN DE REVELACIÓN DE CARTA ===== -->
     <div class="letter-reveal-animation" id="letter-reveal-animation">
         <div class="letter-reveal-container">
             <div class="letter-reveal-paper">
-                <button class="letter-reveal-close" id="letter-reveal-close">
-                    <i class="fas fa-times"></i>
-                </button>
-                
-                <div class="letter-reveal-content">
-                    <div class="letter-reveal-day" id="reveal-day">Día 1</div>
-                    <div class="letter-reveal-icon" id="reveal-icon">😊</div>
-                    <div class="letter-reveal-message" id="reveal-message">
-                        Tu sonrisa ilumina mis días más grises. Desde que estás en mi vida, todo tiene más color.
-                    </div>
-                </div>
-                
-                <div class="letter-reveal-bunny-corner">
-                    🐰
-                </div>
+                <button class="letter-reveal-close" id="letter-reveal-close"><i class="fas fa-times"></i></button>
+                <div class="letter-reveal-day" id="reveal-day">Día 1</div>
+                <div class="letter-reveal-icon" id="reveal-icon">😊</div>
+                <div class="letter-reveal-message" id="reveal-message"></div>
+                <div class="letter-reveal-bunny-corner">🐰</div>
             </div>
         </div>
     </div>
-    
-    <!-- ===== LETRAS CAYENDO DE FONDO ===== -->
+
+    <!-- ===== LETRAS CAYENDO ===== -->
     <div class="bunny-falling-letters" id="bunny-falling-letters"></div>
-    
-    <!-- ===== CONTENIDO PRINCIPAL ===== -->
-    <!-- Navegación flotante -->
+
+    <!-- ===== NAVEGACIÓN ===== -->
     <nav class="floating-nav">
         <div class="nav-buttons">
-            <button class="nav-btn" id="home-btn" title="Inicio">
-                <i class="fas fa-home"></i>
-            </button>
-            <button class="nav-btn" id="bunny-mode-btn" title="Modo Conejita">
-                <i class="fas fa-paw"></i>
-            </button>
-             <a href="timeline.html" class="nav-btn" id="timeline-btn" title="Nuestra Historia">
-                <i class="fas fa-heartbeat"></i>
-            </a>
-            <a href="gallery.html" class="nav-btn" id="gallery-btn" title="Galería">
-                <i class="fas fa-images"></i>
-            </a>
-            <a href="game.html" class="nav-btn" id="game-btn" title="Juego">
-                <i class="fas fa-gamepad"></i>
-            </a>
-            <a href="music.html" class="nav-btn" id="music-btn" title="Música">
-                <i class="fas fa-music"></i>
-            </a>
-
-            <button class="nav-btn" id="theme-btn" title="Cambiar tema">
-                <i class="fas fa-moon"></i>
-            </button>
+            <button class="nav-btn" id="home-btn"><i class="fas fa-home"></i></button>
+            <button class="nav-btn" id="bunny-mode-btn"><i class="fas fa-paw"></i></button>
+            <button class="nav-btn" id="theme-btn"><i class="fas fa-moon"></i></button>
         </div>
     </nav>
 
-    <!-- Contador de días especial -->
+    <!-- Contador -->
     <div class="special-counter">
-        <div class="counter-item">
-            <span class="counter-number" id="days-together">213</span>
-            <span class="counter-label">Días Juntos</span>
-        </div>
-        <div class="counter-item">
-            <span class="counter-number">213</span>
-            <span class="counter-label">Razones de Amor</span>
-        </div>
-        <div class="counter-item">
-            <span class="counter-number" id="love-level">100%</span>
-            <span class="counter-label">Nivel de Amor</span>
-        </div>
+        <div class="counter-item"><span class="counter-number" id="days-together">213</span><span class="counter-label">Días Juntos</span></div>
+        <div class="counter-item"><span class="counter-number">213</span><span class="counter-label">Razones de Amor</span></div>
+        <div class="counter-item"><span class="counter-number" id="love-level">100%</span><span class="counter-label">Nivel de Amor</span></div>
     </div>
 
     <div class="container">
@@ -721,17 +782,13 @@
             <div class="heart-icon">❤️</div>
             <h1 class="title">Para Mi Amor, KIM</h1>
             <p class="subtitle">Cada día es una nueva razón para amarte más</p>
-            
-            
-            <!-- Buscador de mensajes -->
             <div class="search-container">
                 <input type="text" id="search-messages" placeholder="Buscar mensajes especiales...">
                 <i class="fas fa-search"></i>
             </div>
         </header>
 
-        <main class="main-content">
-            <!-- Filtros por categorías -->
+        <main>
             <div class="filters">
                 <button class="filter-btn active" data-filter="all">Todos</button>
                 <button class="filter-btn" data-filter="romantic">Románticos</button>
@@ -739,61 +796,32 @@
                 <button class="filter-btn" data-filter="funny">Divertidos</button>
                 <button class="filter-btn" data-filter="deep">Profundos</button>
             </div>
-
-            <div class="letters-grid" id="letters-container">
-                <!-- Las cartitas se generarán con JavaScript -->
-            </div>
-
-            <!-- Barra de progreso -->
+            <div class="letters-grid" id="letters-container"></div>
             <div class="progress-container">
                 <div class="progress-bar" id="love-progress"></div>
-                <div class="progress-text">
-                    <span>Progreso del Amor</span>
-                    <span id="progress-percent">0%</span>
-                </div>
+                <div class="progress-text"><span>Progreso del Amor</span><span id="progress-percent">0%</span></div>
             </div>
         </main>
 
         <footer class="footer">
-            <div class="footer-content">
-                <p>Hecho con <span class="heart-pulse">❤️</span> especialmente para ti, mi amor</p>
-                <div class="footer-buttons">
-                    <button class="secret-btn" id="secret-surprise">
-                        <i class="fas fa-gift"></i> Sorpresa Secreta
-                    </button>
-                    <button class="print-btn" id="print-all">
-                        <i class="fas fa-print"></i> Guardar Todos
-                    </button>
-                </div>
+            <p>Hecho con <span class="heart-pulse">❤️</span> especialmente para ti, mi amor</p>
+            <div class="footer-buttons">
+                <button class="secret-btn" id="secret-surprise"><i class="fas fa-gift"></i> Sorpresa Secreta</button>
+                <button class="print-btn" id="print-all"><i class="fas fa-print"></i> Guardar Todos</button>
             </div>
         </footer>
     </div>
 
-    <!-- Notificaciones flotantes -->
-    <div id="notification" class="notification">
-        <div class="notification-content">
-            <i class="fas fa-heart"></i>
-            <span id="notification-text"></span>
-        </div>
-    </div>
+    <div id="notification" class="notification"><div class="notification-content"><i class="fas fa-heart"></i><span id="notification-text"></span></div></div>
 
-    <!-- Audio para efectos -->
-    <audio id="heart-sound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-heartbeat-100.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sparkle-sound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-300.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="bunny-sound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-cute-bunny-743.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="paper-sound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-paper-slide-1495.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="heart-sound"><source src="https://assets.mixkit.co/sfx/preview/mixkit-heartbeat-100.mp3"></audio>
+    <audio id="sparkle-sound"><source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-300.mp3"></audio>
+    <audio id="bunny-sound"><source src="https://assets.mixkit.co/sfx/preview/mixkit-cute-bunny-743.mp3"></audio>
+    <audio id="paper-sound"><source src="https://assets.mixkit.co/sfx/preview/mixkit-paper-slide-1495.mp3"></audio>
 
     <script>
-        // ===== DATOS DE MENSAJES (117 mensajes) =====
-       const messages = [
+        // Aquí va el array messages con 213 mensajes (el que ya tienes)
+        const messages = [
     { day: 1, message: "Tu sonrisa ilumina mis días más grises. Desde que estás en mi vida, todo tiene más color.", icon: "😊", category: "romantic" },
     { day: 2, message: "Contigo he descubierto un amor que no conocía. Un amor que sana, que comprende, que perdona.", icon: "❤️", category: "romantic" },
     { day: 3, message: "Eres la razón por la que creo en el destino. No fue casualidad encontrarte, fue el universo conspirando a nuestro favor.", icon: "✨", category: "romantic" },
@@ -1009,19 +1037,15 @@
     { day: 213, message: "Eres mi gran amor, el que llegó para quedarse y llenarlo todo de felicidad. Gracias por existir, KIM. Te amo más allá de las palabras y los días.", icon: "💖", category: "romantic" }
 ];
 
-        // ===== ESTADO DE LA APLICACIÓN =====
         let state = {
-            currentDay: 1,
             favorites: JSON.parse(localStorage.getItem('favorites')) || [],
             viewedMessages: JSON.parse(localStorage.getItem('viewedMessages')) || [],
             theme: localStorage.getItem('theme') || 'light',
-            loveLevel: parseInt(localStorage.getItem('loveLevel')) || 100,
+            loveLevel: 100,
             bunnyMode: localStorage.getItem('bunnyMode') === 'true' || false
         };
 
-        // ===== ELEMENTOS DOM =====
         const elements = {
-            // Conejita
             bunnyPresentation: document.getElementById('bunny-presentation'),
             bunnyCloseBtn: document.getElementById('bunny-close-btn'),
             bunnyMessage: document.getElementById('bunny-message'),
@@ -1033,17 +1057,12 @@
             bunnyLetterDelivery: document.getElementById('bunny-letter-delivery'),
             bunnyLetterPreview: document.getElementById('bunny-letter-preview'),
             bunnyFallingLetters: document.getElementById('bunny-falling-letters'),
-            
-            // Revelación de carta
             letterRevealAnimation: document.getElementById('letter-reveal-animation'),
             letterRevealClose: document.getElementById('letter-reveal-close'),
             revealDay: document.getElementById('reveal-day'),
             revealIcon: document.getElementById('reveal-icon'),
             revealMessage: document.getElementById('reveal-message'),
-            
-            // Principal
             lettersContainer: document.getElementById('letters-container'),
-            currentDayElement: document.getElementById('current-day'),
             searchInput: document.getElementById('search-messages'),
             filterButtons: document.querySelectorAll('.filter-btn'),
             progressBar: document.getElementById('love-progress'),
@@ -1055,103 +1074,42 @@
             themeBtn: document.getElementById('theme-btn'),
             notification: document.getElementById('notification'),
             notificationText: document.getElementById('notification-text'),
-            
-            // Audio
             heartSound: document.getElementById('heart-sound'),
             sparkleSound: document.getElementById('sparkle-sound'),
             bunnySound: document.getElementById('bunny-sound'),
             paperSound: document.getElementById('paper-sound')
         };
 
-        // ===== INICIALIZACIÓN =====
         document.addEventListener('DOMContentLoaded', () => {
-            init();
-            updateCounters();
-            updateProgress();
-            createFallingLetters();
-            
-            // Si está activado el modo conejita, mostrarlo
-            if (state.bunnyMode) {
-                showBunnyPresentation();
-            }
-        });
-
-        function init() {
             createLetters();
             setupEventListeners();
-            setupFilters();
-            setupSearch();
             applyTheme();
             updateProgress();
-        }
+            createFallingLetters();
+            if (state.bunnyMode) showBunnyPresentation();
+        });
 
-        // ===== FUNCIONES PRINCIPALES =====
         function createLetters() {
             elements.lettersContainer.innerHTML = '';
-            
             messages.forEach(msg => {
                 const letter = document.createElement('div');
                 letter.className = 'letter';
                 letter.dataset.day = msg.day;
                 letter.dataset.category = msg.category;
-                
-                const isViewed = state.viewedMessages.includes(msg.day);
-                const isFavorite = state.favorites.includes(msg.day);
-                
-                if (isViewed) {
-                    letter.classList.add('viewed');
-                }
-                
-                if (isFavorite) {
-                    letter.classList.add('favorite');
-                    letter.innerHTML += '<div class="favorite-star">⭐</div>';
-                }
-                
-                letter.innerHTML = `
-                    <div class="letter-number">Día ${msg.day}</div>
-                    <div class="letter-icon">${msg.icon}</div>
-                    <div class="letter-content">${truncateText(msg.message, 60)}</div>
-                    <div class="letter-footer">
-                        <span class="letter-category">${msg.category}</span>
-                    </div>
-                `;
-                
+                if (state.viewedMessages.includes(msg.day)) letter.classList.add('viewed');
+                letter.innerHTML = `<div class="letter-number">Día ${msg.day}</div><div class="letter-icon">${msg.icon}</div><div class="letter-content">${msg.message.substring(0, 60)}${msg.message.length > 60 ? '...' : ''}</div><div class="letter-footer"><span class="letter-category">${msg.category}</span></div>`;
                 letter.addEventListener('click', () => openLetter(msg.day));
                 elements.lettersContainer.appendChild(letter);
             });
         }
 
-        function openLetter(day) {
-            if (state.bunnyMode) {
-                deliverBunnyLetter(day);
-            } else {
-                showLetterReveal(day);
-            }
-        }
+        function openLetter(day) { showLetterReveal(day); }
 
-        // ===== FUNCIONES DE LA CONEJITA =====
         function showBunnyPresentation() {
             elements.bunnyPresentation.classList.add('active');
-            playSound(elements.bunnySound);
             state.bunnyMode = true;
             localStorage.setItem('bunnyMode', 'true');
-            
-            // Cambiar mensaje aleatorio
-            const bunnyMessages = [
-                "¡Hola! Soy tu conejita 🐰<br>Tengo una carta para ti...",
-                "🐇 ¡Hola mi amor!<br>¿Quieres leer una carta especial?",
-                "¡Guau! ¡Soy tu conejita favorita!<br>Tengo muchos mensajes para ti 💌",
-                "¡Hola KIM!<br>Soy la conejita que te trae amor cada día 🥕",
-                "🐰 ¡Saludos!<br>¿Lista para recibir un mensaje de amor?"
-            ];
-            
-            elements.bunnyMessage.innerHTML = bunnyMessages[Math.floor(Math.random() * bunnyMessages.length)];
-            
-            // Mostrar animación de carta después de un momento
-            setTimeout(() => {
-                elements.bunnyLetterDelivery.style.display = 'block';
-                playSound(elements.paperSound);
-            }, 1000);
+            setTimeout(() => { elements.bunnyLetterDelivery.style.display = 'block'; }, 1000);
         }
 
         function hideBunnyPresentation() {
@@ -1160,56 +1118,13 @@
             localStorage.setItem('bunnyMode', 'false');
         }
 
-        function deliverBunnyLetter(day) {
-            const messageData = messages.find(msg => msg.day == day);
-            if (!messageData) return;
-            
-            // Actualizar vista previa de la carta
-            elements.bunnyLetterPreview.innerHTML = `
-                <i class="fas fa-heart" style="color:#ff6b8b; font-size:2rem;"></i>
-                <div style="font-size:0.9rem; color:#ff6b8b; margin-top:5px;">Día ${day}</div>
-                <div style="font-size:0.7rem; color:#888; margin-top:3px;">${messageData.icon}</div>
-            `;
-            
-            // Resetear animación
-            elements.bunnyLetterDelivery.style.animation = 'none';
-            setTimeout(() => {
-                elements.bunnyLetterDelivery.style.animation = 'deliverLetter 1s ease-out forwards';
-            }, 10);
-            
-            // Cambiar mensaje
-            const deliveryMessages = [
-                `¡Aquí está el día ${day}! 📬`,
-                `¡Ta-dá! Día ${day} para ti 🎁`,
-                `✨ ¡Mira lo que tengo! Día ${day}`,
-                `🎀 Día ${day} especialmente para ti`,
-                `💝 ¡Un mensaje del día ${day}!`
-            ];
-            
-            elements.bunnyMessage.innerHTML = deliveryMessages[Math.floor(Math.random() * deliveryMessages.length)];
-            
-            // Reproducir sonido
-            playSound(elements.paperSound);
-            
-            // Esperar y mostrar la carta completa
-            setTimeout(() => {
-                showLetterReveal(day);
-            }, 1500);
-        }
-
         function showLetterReveal(day) {
-            const messageData = messages.find(msg => msg.day == day);
-            if (!messageData) return;
-            
-            // Actualizar contenido
+            const msg = messages.find(m => m.day == day);
+            if (!msg) return;
             elements.revealDay.textContent = `Día ${day}`;
-            elements.revealIcon.textContent = messageData.icon;
-            elements.revealMessage.textContent = messageData.message;
-            
-            // Mostrar animación
+            elements.revealIcon.textContent = msg.icon;
+            elements.revealMessage.textContent = msg.message;
             elements.letterRevealAnimation.classList.add('active');
-            
-            // Marcar como visto
             if (!state.viewedMessages.includes(day)) {
                 state.viewedMessages.push(day);
                 localStorage.setItem('viewedMessages', JSON.stringify(state.viewedMessages));
@@ -1217,170 +1132,63 @@
             }
         }
 
-        function hideLetterReveal() {
-            elements.letterRevealAnimation.classList.remove('active');
-        }
+        function hideLetterReveal() { elements.letterRevealAnimation.classList.remove('active'); }
 
         function createFallingLetters() {
-            const container = elements.bunnyFallingLetters;
-            const heartEmojis = ['💌', '📜', '💝', '💖', '💕', '💓', '💗', '📨'];
-            
             for (let i = 0; i < 15; i++) {
                 const letter = document.createElement('div');
                 letter.className = 'falling-letter';
-                
-                // Elegir emoji aleatorio
-                const emoji = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-                letter.textContent = emoji;
-                
-                // Posición aleatoria
+                letter.textContent = ['💌', '📜', '💝', '💖'][Math.floor(Math.random() * 4)];
                 letter.style.left = Math.random() * 100 + '%';
-                
-                // Tiempo aleatorio
-                const delay = Math.random() * 5;
-                const duration = 10 + Math.random() * 10;
-                
-                letter.style.animationDelay = delay + 's';
-                letter.style.animationDuration = duration + 's';
-                
-                // Tamaño aleatorio
-                const size = 40 + Math.random() * 40;
-                letter.style.width = size + 'px';
-                letter.style.height = size * 1.3 + 'px';
-                
-                // Color de fondo aleatorio
-                const hue = Math.random() * 60 + 320;
-                letter.style.background = `linear-gradient(135deg, hsl(${hue}, 70%, 90%), hsl(${hue}, 70%, 95%))`;
-                
-                container.appendChild(letter);
+                letter.style.animationDelay = Math.random() * 5 + 's';
+                letter.style.animationDuration = 10 + Math.random() * 10 + 's';
+                elements.bunnyFallingLetters.appendChild(letter);
             }
         }
 
-        // ===== FUNCIONES DE UTILIDAD =====
         function setupEventListeners() {
-            // Botón modo conejita
-            elements.bunnyModeBtn.addEventListener('click', () => {
-                if (state.bunnyMode) {
-                    hideBunnyPresentation();
-                    showNotification('Modo normal activado 🏠');
-                } else {
-                    showBunnyPresentation();
-                    showNotification('¡Modo conejita activado! 🐰');
-                }
-            });
-            
-            // Cerrar presentación conejita
+            elements.bunnyModeBtn.addEventListener('click', () => state.bunnyMode ? hideBunnyPresentation() : showBunnyPresentation());
             elements.bunnyCloseBtn.addEventListener('click', hideBunnyPresentation);
-            
-            // Entregar carta específica
             elements.bunnySubmitBtn.addEventListener('click', () => {
-                const day = parseInt(elements.bunnyDayInput.value);
-                if (day >= 1 && day <= 213) {
-                    deliverBunnyLetter(day);
-                } else {
-                    elements.bunnyMessage.innerHTML = "¡Ups! Ese día no existe<br>Prueba del 1 al 213";
-                    elements.bunnyDayInput.style.borderColor = '#ff2e63';
-                    setTimeout(() => {
-                        elements.bunnyDayInput.style.borderColor = '#ff6b8b';
-                    }, 1000);
-                }
+                let day = parseInt(elements.bunnyDayInput.value);
+                if (day >= 1 && day <= 213) showLetterReveal(day);
+                else showNotification("Día inválido (1-213)");
             });
-            
-            // Enter para enviar
-            elements.bunnyDayInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    elements.bunnySubmitBtn.click();
-                }
-            });
-            
-            // Carta aleatoria
             elements.bunnyRandomBtn.addEventListener('click', () => {
-                const randomDay = Math.floor(Math.random() * 213) + 1;
+                let randomDay = Math.floor(Math.random() * 213) + 1;
                 elements.bunnyDayInput.value = randomDay;
-                deliverBunnyLetter(randomDay);
+                showLetterReveal(randomDay);
             });
-            
-            // Ver todas las cartas
-            elements.bunnyViewAllBtn.addEventListener('click', () => {
-                hideBunnyPresentation();
-                showNotification('Volviendo a la vista de todas las cartas 📚');
-            });
-            
-            // Cerrar carta revelada
+            elements.bunnyViewAllBtn.addEventListener('click', hideBunnyPresentation);
             elements.letterRevealClose.addEventListener('click', hideLetterReveal);
-            
-            // Filtrar cartas
-            elements.filterButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    elements.filterButtons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    filterLetters(btn.dataset.filter);
-                });
-            });
-            
-            // Buscar mensajes
-            elements.searchInput.addEventListener('input', (e) => {
-                filterBySearch(e.target.value.toLowerCase());
-            });
-            
-            // Tema claro/oscuro
+            elements.filterButtons.forEach(btn => btn.addEventListener('click', () => {
+                elements.filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterLetters(btn.dataset.filter);
+            }));
+            elements.searchInput.addEventListener('input', (e) => filterBySearch(e.target.value.toLowerCase()));
             elements.themeBtn.addEventListener('click', toggleTheme);
-            
-            // Sorpresa secreta
-            elements.secretSurprise.addEventListener('click', showSecretSurprise);
-            
-            // Imprimir todos
-            elements.printAll.addEventListener('click', printAllMessages);
-            
-            // Cerrar con ESC
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    if (elements.letterRevealAnimation.classList.contains('active')) {
-                        hideLetterReveal();
-                    } else if (state.bunnyMode) {
-                        hideBunnyPresentation();
-                    }
-                }
+            elements.secretSurprise.addEventListener('click', () => showNotification("🎁 ¡Eres mi mejor sorpresa! 💖"));
+            elements.printAll.addEventListener('click', () => {
+                let content = messages.map(m => `<div><b>Día ${m.day}</b>: ${m.message}</div>`).join('');
+                let win = window.open('', '_blank');
+                win.document.write(`<html><head><title>Mensajes para KIM</title></head><body><h1>213 Mensajes de Amor</h1>${content}</body></html>`);
+                win.print();
             });
-        }
-
-        function setupFilters() {
-            elements.filterButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    elements.filterButtons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    filterLetters(btn.dataset.filter);
-                });
-            });
-        }
-
-        function setupSearch() {
-            elements.searchInput.addEventListener('input', (e) => {
-                filterBySearch(e.target.value.toLowerCase());
-            });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideLetterReveal(); });
         }
 
         function filterLetters(category) {
-            const letters = document.querySelectorAll('.letter');
-            letters.forEach(letter => {
-                if (category === 'all' || letter.dataset.category === category) {
-                    letter.style.display = 'flex';
-                } else {
-                    letter.style.display = 'none';
-                }
+            document.querySelectorAll('.letter').forEach(l => {
+                l.style.display = (category === 'all' || l.dataset.category === category) ? 'flex' : 'none';
             });
         }
 
         function filterBySearch(term) {
-            const letters = document.querySelectorAll('.letter');
-            letters.forEach(letter => {
-                const day = letter.dataset.day;
-                const message = messages.find(m => m.day == day);
-                if (message.message.toLowerCase().includes(term) || term === '') {
-                    letter.style.display = 'flex';
-                } else {
-                    letter.style.display = 'none';
-                }
+            document.querySelectorAll('.letter').forEach(l => {
+                let day = parseInt(l.dataset.day);
+                let msg = messages.find(m => m.day === day);
+                l.style.display = (msg.message.toLowerCase().includes(term) || term === '') ? 'flex' : 'none';
             });
         }
 
@@ -1388,95 +1196,24 @@
             state.theme = state.theme === 'light' ? 'dark' : 'light';
             localStorage.setItem('theme', state.theme);
             applyTheme();
-            
-            const icon = elements.themeBtn.querySelector('i');
-            icon.className = state.theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-            
-            showNotification(state.theme === 'light' ? 'Modo claro ☀️' : 'Modo romántico 🌙');
+            elements.themeBtn.querySelector('i').className = state.theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
         }
 
         function applyTheme() {
-            if (state.theme === 'dark') {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
-        }
-
-        function updateCounters() {
-            elements.daysTogether.textContent = '117';
-            elements.loveLevel.textContent = state.loveLevel + '%';
+            if (state.theme === 'dark') document.body.classList.add('dark-mode');
+            else document.body.classList.remove('dark-mode');
         }
 
         function updateProgress() {
-            const totalMessages = messages.length;
-            const viewedCount = state.viewedMessages.length;
-            const percentage = Math.round((viewedCount / totalMessages) * 100);
-            
-            elements.progressBar.style.setProperty('--progress', `${percentage}%`);
-            elements.progressBar.style.width = `${percentage}%`;
-            elements.progressPercent.textContent = `${percentage}%`;
-            elements.currentDayElement.textContent = viewedCount > 0 ? viewedCount : 1;
-        }
-
-        function showSecretSurprise() {
-            const surpriseMessages = [
-                "🎁 ¡SORPRESA! Cada día contigo es un regalo",
-                "✨ Eres la magia en mi vida",
-                "💝 Para ti, todo mi amor",
-                "🎀 Eres mi mayor bendición",
-                "🎇 Contigo cada día es especial"
-            ];
-            showNotification(surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)]);
-            playSound(elements.sparkleSound);
-        }
-
-        function printAllMessages() {
-            const printContent = messages.map(msg => 
-                `<div style="margin:20px 0; padding:15px; border-left:5px solid #ff6b8b;">
-                    <div style="font-weight:bold; color:#ff2e63;">Día ${msg.day} (${msg.category})</div>
-                    <div>${msg.icon} ${msg.message}</div>
-                </div>`
-            ).join('');
-            
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Mis Mensajes de Amor - Para KIM</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; padding: 40px; }
-                        h1 { color: #ff2e63; text-align: center; margin-bottom: 30px; }
-                    </style>
-                </head>
-                <body>
-                    <h1>💌 213 Mensajes de Amor para KIM 💌</h1>
-                    ${printContent}
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
+            let percent = Math.round((state.viewedMessages.length / messages.length) * 100);
+            elements.progressBar.style.setProperty('--progress', percent + '%');
+            elements.progressPercent.textContent = percent + '%';
         }
 
         function showNotification(text) {
             elements.notificationText.textContent = text;
             elements.notification.classList.add('show');
-            setTimeout(() => {
-                elements.notification.classList.remove('show');
-            }, 3000);
-        }
-
-        function playSound(audioElement) {
-            try {
-                audioElement.currentTime = 0;
-                audioElement.play().catch(() => {});
-            } catch (e) {}
-        }
-
-        function truncateText(text, maxLength) {
-            return text.length <= maxLength ? text : text.substring(0, maxLength) + '...';
+            setTimeout(() => elements.notification.classList.remove('show'), 2500);
         }
     </script>
 </body>
