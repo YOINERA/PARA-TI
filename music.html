@@ -16,7 +16,6 @@
             --dark-color: #1a1a2e;
             --text-color: #555;
             --gradient: linear-gradient(135deg, #ff6b8b, #ff2e63);
-            --gradient-gold: linear-gradient(135deg, #ffd700, #ffb347);
             --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
@@ -360,7 +359,19 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
+        /* ===== RESPONSIVE DESIGN MEJORADO ===== */
+        /* Tablets */
+        @media (max-width: 992px) {
+            .music-container {
+                margin-top: 90px;
+            }
+            
+            .music-title {
+                font-size: 3rem;
+            }
+        }
+
+        /* Móviles */
         @media (max-width: 768px) {
             .music-container {
                 margin-top: 80px;
@@ -440,6 +451,7 @@
             }
         }
 
+        /* Móviles pequeños */
         @media (max-width: 480px) {
             .music-title {
                 font-size: 1.8rem;
@@ -460,8 +472,13 @@
             .player-controls {
                 gap: 12px;
             }
+            
+            .song-title {
+                font-size: 1.2rem;
+            }
         }
 
+        /* Orientación horizontal en móvil */
         @media (max-width: 768px) and (orientation: landscape) {
             .music-container {
                 margin-top: 70px;
@@ -477,12 +494,18 @@
             .player-container {
                 padding: 15px;
             }
+            
+            .love-message {
+                margin-top: 20px;
+                padding: 15px;
+            }
         }
 
-        /* Eliminar hover en táctiles */
+        /* Eliminar hover en dispositivos táctiles */
         @media (hover: none) and (pointer: coarse) {
             .control-btn:hover {
                 transform: none;
+                box-shadow: 0 5px 15px rgba(255, 107, 139, 0.3);
             }
             
             .back-button a:hover {
@@ -494,7 +517,7 @@
             }
         }
 
-        /* Aumentar área táctil */
+        /* Aumentar área táctil para móviles */
         @media (max-width: 768px) {
             .control-btn,
             .back-button a {
@@ -566,6 +589,7 @@
         </div>
     </div>
     
+    <!-- TU CANCIÓN ORIGINAL - NO MODIFICADA -->
     <audio id="audio-player" preload="metadata">
         <source src="assets/music/yellow.mp3" type="audio/mpeg">
         Tu navegador no soporta el elemento de audio.
@@ -603,7 +627,7 @@
                 const rect = progressBar.getBoundingClientRect();
                 const clickX = e.clientX - rect.left;
                 const width = rect.width;
-                if (audioPlayer.duration) {
+                if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
                     audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
                 }
             });
@@ -627,6 +651,9 @@
                 playBtn.style.display = 'flex';
                 pauseBtn.style.display = 'none';
             });
+            audioPlayer.addEventListener('error', () => {
+                showNotification("🎵 Asegúrate de tener el archivo yellow.mp3 en la carpeta assets/music/");
+            });
             
             document.addEventListener('keydown', (e) => {
                 if (e.code === 'Space') {
@@ -634,7 +661,9 @@
                     if (isPlaying) pauseMusic();
                     else playMusic();
                 } else if (e.code === 'ArrowRight') {
-                    audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 5, audioPlayer.duration);
+                    if (audioPlayer.duration) {
+                        audioPlayer.currentTime = Math.min(audioPlayer.currentTime + 5, audioPlayer.duration);
+                    }
                 } else if (e.code === 'ArrowLeft') {
                     audioPlayer.currentTime = Math.max(audioPlayer.currentTime - 5, 0);
                 }
@@ -669,7 +698,7 @@
         }
         
         function updateProgress() {
-            if (audioPlayer.duration) {
+            if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
                 const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
                 progress.style.width = `${percent}%`;
                 currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
@@ -677,7 +706,7 @@
         }
         
         function updateDuration() {
-            if (audioPlayer.duration) {
+            if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
                 durationSpan.textContent = formatTime(audioPlayer.duration);
             }
         }
@@ -688,7 +717,7 @@
         }
         
         function formatTime(seconds) {
-            if (isNaN(seconds)) return '0:00';
+            if (isNaN(seconds) || seconds === undefined) return '0:00';
             const mins = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${mins}:${secs.toString().padStart(2, '0')}`;
@@ -696,6 +725,10 @@
         
         // ===== EFECTOS VISUALES =====
         function showNotification(message) {
+            // Eliminar notificación anterior si existe
+            const oldNotification = document.querySelector('.notification');
+            if (oldNotification) oldNotification.remove();
+            
             const notification = document.createElement('div');
             notification.className = 'notification show';
             notification.innerHTML = `<i class="fas fa-heart" style="margin-right: 8px;"></i> ${message}`;
