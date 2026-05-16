@@ -1890,10 +1890,10 @@
             // Entregar carta específica
             elements.bunnySubmitBtn.addEventListener('click', () => {
                 const day = parseInt(elements.bunnyDayInput.value);
-                if (day >= 1 && day <= 117) {
+                if (day >= 1 && day <= 213) {
                     deliverBunnyLetter(day);
                 } else {
-                    elements.bunnyMessage.innerHTML = "¡Ups! Ese día no existe<br>Prueba del 1 al 117";
+                    elements.bunnyMessage.innerHTML = "¡Ups! Ese día no existe<br>Prueba del 1 al 213";
                     elements.bunnyDayInput.style.borderColor = '#ff2e63';
                     setTimeout(() => {
                         elements.bunnyDayInput.style.borderColor = '#ff6b8b';
@@ -1910,7 +1910,7 @@
             
             // Carta aleatoria
             elements.bunnyRandomBtn.addEventListener('click', () => {
-                const randomDay = Math.floor(Math.random() * 117) + 1;
+                const randomDay = Math.floor(Math.random() * 213) + 1;
                 elements.bunnyDayInput.value = randomDay;
                 deliverBunnyLetter(randomDay);
             });
@@ -2066,7 +2066,7 @@
                     </style>
                 </head>
                 <body>
-                    <h1>💌 117 Mensajes de Amor para KIM 💌</h1>
+                    <h1>💌 213 Mensajes de Amor para KIM 💌</h1>
                     ${printContent}
                 </body>
                 </html>
