@@ -485,7 +485,8 @@
             100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
+        /* ===== RESPONSIVE DESIGN MEJORADO ===== */
+        /* Tablets */
         @media (max-width: 992px) {
             .timeline-item {
                 width: 90%;
@@ -506,15 +507,12 @@
                 font-size: 1.5rem;
             }
 
-            .timeline-date {
-                margin-left: 0;
-            }
-
             .timeline-title {
                 font-size: 2.5rem;
             }
         }
 
+        /* Móviles */
         @media (max-width: 768px) {
             .timeline-hero {
                 height: 40vh;
@@ -612,6 +610,7 @@
             }
         }
 
+        /* Móviles pequeños */
         @media (max-width: 480px) {
             .timeline-hero {
                 height: 35vh;
@@ -639,6 +638,7 @@
                 height: 35px;
                 font-size: 1rem;
                 left: 3px !important;
+                border-width: 3px;
             }
 
             .timeline-content {
@@ -669,10 +669,10 @@
             }
         }
 
+        /* Orientación horizontal */
         @media (max-width: 768px) and (orientation: landscape) {
             .timeline-hero {
-                height: 100vh;
-                min-height: 300px;
+                min-height: 250px;
             }
 
             .timeline-item {
@@ -684,7 +684,7 @@
             }
         }
 
-        /* Eliminar hover en táctiles */
+        /* Eliminar hover en dispositivos táctiles */
         @media (hover: none) and (pointer: coarse) {
             .timeline-content:hover {
                 transform: none;
@@ -708,14 +708,12 @@
     <div class="background-animation"></div>
     <div id="particles-js"></div>
     
-    <!-- Corazones flotantes -->
     <div class="floating-hearts" id="floating-hearts"></div>
     
-    <!-- Sección hero -->
     <div class="timeline-hero">
         <div class="hero-content">
-            <h1 class="timeline-title">Nuestra Historia de Amor</h1>
-            <p style="font-size: 1.3rem; opacity: 0.9;">Cada momento contigo es un capítulo especial</p>
+            <h1 class="timeline-title">✨ Nuestra Historia de Amor ✨</h1>
+            <p>Cada momento contigo es un capítulo especial que atesoro en mi corazón</p>
         </div>
     </div>
     
@@ -725,10 +723,9 @@
         </a>
     </div>
     
-    <!-- Contador de momentos -->
     <div class="moments-counter">
         <span class="count">4</span>
-        <span class="label">Momentos Especiales</span>
+        <span class="label">Momentos<br>Especiales</span>
     </div>
     
     <div class="timeline-container">
@@ -736,17 +733,17 @@
             <!-- Evento 1: Primera Salida -->
             <div class="timeline-item">
                 <div class="timeline-content">
-                    <div class="timeline-date">13 Octubre 2024</div>
+                    <div class="timeline-date">📅 13 Octubre 2024</div>
                     <div class="timeline-icon">💘</div>
                     <h3>El Primer Encuentro</h3>
                     <p>El día que nuestros caminos se cruzaron por primera vez. Recuerdo perfectamente tu sonrisa y cómo el tiempo pareció detenerse. Fue como si el mundo entero se detuviera solo para que yo pudiera verte. Cada detalle de ese momento está grabado en mi memoria como si fuera ayer.</p>
-                    <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primera_salida.jpeg', 'Nuestra primera salida juntos')">
+                    <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primera_salida.jpeg', 'Nuestra primera salida juntos', '13 Octubre 2024')">
                         <img src="assets/photos/primera_salida.jpeg" alt="Primera salida juntos" 
-                             onerror="handleImageError(this, 'Primera Salida', 'fas fa-heart')">
+                             onerror="this.parentElement.innerHTML = '<div class=photo-placeholder><i class=\'fas fa-heart\'></i><span>Primera Salida</span><small>Foto pendiente</small></div>'">
                         <div class="photo-overlay">
                             <div class="photo-overlay-content">
-                                <i class="fas fa-expand fa-2x"></i>
-                                <p>Haz clic para ampliar</p>
+                                <i class="fas fa-search-plus"></i>
+                                <p>Ver más</p>
                             </div>
                         </div>
                     </div>
@@ -756,17 +753,17 @@
             <!-- Evento 2: Primera Cita -->
             <div class="timeline-item">
                 <div class="timeline-content">
-                    <div class="timeline-date">2 Noviembre 2024</div>
+                    <div class="timeline-date">📅 2 Noviembre 2024</div>
                     <div class="timeline-icon">🥰</div>
                     <h3>Nuestra Primera Cita</h3>
                     <p>Esa tarde perfecta donde nos conocimos más. Las risas, las miradas cómplices y la certeza de que algo especial comenzaba. Cada momento fue mágico y supe que quería pasar más tiempo contigo. La conexión que sentimos desde el primer instante solo se hizo más fuerte.</p>
-                    <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primera_cita.jpeg', 'Nuestra primera cita especial')">
+                    <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primera_cita.jpeg', 'Nuestra primera cita especial', '2 Noviembre 2024')">
                         <img src="assets/photos/primera_cita.jpeg" alt="Primera cita" 
-                             onerror="handleImageError(this, 'Primera Cita', 'fas fa-star')">
+                             onerror="this.parentElement.innerHTML = '<div class=photo-placeholder><i class=\'fas fa-star\'></i><span>Primera Cita</span><small>Foto pendiente</small></div>'">
                         <div class="photo-overlay">
                             <div class="photo-overlay-content">
-                                <i class="fas fa-expand fa-2x"></i>
-                                <p>Haz clic para ampliar</p>
+                                <i class="fas fa-search-plus"></i>
+                                <p>Ver más</p>
                             </div>
                         </div>
                     </div>
@@ -776,36 +773,34 @@
             <!-- Evento 3: Primer Te Amo -->
             <div class="timeline-item">
                 <div class="timeline-content">
-                    <div class="timeline-date">19 Octubre 2024</div>
+                    <div class="timeline-date">📅 19 Octubre 2024</div>
                     <div class="timeline-icon">💕</div>
                     <h3>El Primer "Te Amo"</h3>
                     <p>Cuando las palabras salieron de mi corazón sin pensarlo. Ese momento mágico donde supimos que esto era real. Fue el momento más honesto y verdadero de mi vida. No eran solo palabras, era la confirmación de todo lo que sentía por ti.</p>
-                    <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primer_te_amo.jpeg', 'El momento en que te dije "Te amo" por primera vez')">
+                    <div class="timeline-photo" onclick="openPhotoModal('assets/photos/primer_te_amo.jpeg', 'El momento en que te dije "Te amo" por primera vez', '19 Octubre 2024')">
                         <img src="assets/photos/primer_te_amo.jpeg" alt="Primer te amo" 
-                             onerror="handleImageError(this, 'Primer Te Amo', 'fas fa-kiss-wink-heart')">
+                             onerror="this.parentElement.innerHTML = '<div class=photo-placeholder><i class=\'fas fa-kiss-wink-heart\'></i><span>Primer Te Amo</span><small>Foto pendiente</small></div>'">
                         <div class="photo-overlay">
                             <div class="photo-overlay-content">
-                                <i class="fas fa-expand fa-2x"></i>
-                                <p>Haz clic para ampliar</p>
+                                <i class="fas fa-search-plus"></i>
+                                <p>Ver más</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-          
-            
-            <!-- Evento futuro -->
+            <!-- Evento 4: Futuro -->
             <div class="timeline-item">
                 <div class="timeline-content">
-                    <div class="timeline-date">Futuro</div>
+                    <div class="timeline-date">✨ Futuro ✨</div>
                     <div class="timeline-icon">🚀</div>
                     <h3>Nuestros Sueños Juntos</h3>
-                    <p>Todas las aventuras que aún nos esperan, los sueños por cumplir y la vida que construiremos juntos. Un hogar lleno de amor, risas y momentos inolvidables. Contigo, el futuro es infinitamente brillante.</p>
+                    <p>Todas las aventuras que aún nos esperan, los sueños por cumplir y la vida que construiremos juntos. Un hogar lleno de amor, risas y momentos inolvidables. Contigo, el futuro es infinitamente brillante. 💖</p>
                     <div class="timeline-photo">
                         <div class="photo-placeholder">
                             <i class="fas fa-infinity"></i>
-                            <span>Nuestro Futuro Juntos</span>
+                            <span>💑 Nuestro Futuro Juntos 💑</span>
                             <small>El amor es eterno</small>
                         </div>
                     </div>
@@ -832,105 +827,61 @@
         const photosData = {
             'primera_salida': {
                 title: 'Nuestra primera salida juntos',
-                date: '13 Octubre 2024',
-                description: 'El día que todo comenzó'
+                date: '13 Octubre 2024'
             },
             'primera_cita': {
                 title: 'Nuestra primera cita especial',
-                date: '2 Noviembre 2024',
-                description: 'Donde las risas nunca terminaron'
+                date: '2 Noviembre 2024'
             },
             'primer_te_amo': {
                 title: 'El momento más especial',
-                date: '19 Octubre 2024',
-                description: 'Cuando te dije "Te amo" por primera vez'
+                date: '19 Octubre 2024'
             }
         };
         
         // Crear corazones flotantes
         function createFloatingHearts() {
             const container = document.getElementById('floating-hearts');
-            const hearts = ['💖', '💕', '💘', '💝', '💓', '💗', '💞'];
+            const hearts = ['💖', '💕', '💘', '💝', '💓', '💗', '💞', '❤️', '🧡', '💛'];
             
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 20; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'floating-heart';
                 heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
                 heart.style.left = Math.random() * 100 + '%';
                 heart.style.animationDelay = Math.random() * 20 + 's';
-                heart.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+                heart.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
                 heart.style.opacity = Math.random() * 0.3 + 0.1;
                 container.appendChild(heart);
             }
         }
         
-        // Efecto al hacer scroll
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        
+        // Animación de entrada al hacer scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, { 
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        });
+        }, { threshold: 0.1 });
         
-        timelineItems.forEach(item => {
+        document.querySelectorAll('.timeline-item').forEach(item => {
             observer.observe(item);
         });
         
-        // Manejo de errores de imagen
-        function handleImageError(img, title, icon) {
-            img.style.display = 'none';
-            const parent = img.parentElement;
-            if (!parent.querySelector('.photo-placeholder')) {
-                parent.innerHTML = `
-                    <div class="photo-placeholder">
-                        <i class="${icon}"></i>
-                        <span>${title}</span>
-                        <small>Haz clic para añadir tu foto</small>
-                    </div>
-                    <div class="photo-overlay">
-                        <div class="photo-overlay-content">
-                            <i class="fas fa-camera fa-2x"></i>
-                            <p>Añade tu foto aquí</p>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-        
-        // Funciones para el modal de fotos
-        function openPhotoModal(imageSrc, title) {
+        // Funciones para el modal
+        function openPhotoModal(imageSrc, title, date) {
             const modal = document.getElementById('photo-modal');
             const modalImg = document.getElementById('modal-photo-img');
             const modalTitle = document.getElementById('modal-photo-title');
-            
-            // Extraer el nombre del archivo sin extensión
-            const fileName = imageSrc.split('/').pop().split('.')[0];
-            
-            // Obtener datos de la foto
-            const photoData = photosData[fileName];
+            const modalDate = document.getElementById('modal-photo-date');
             
             modalImg.src = imageSrc;
-            modalImg.alt = title;
-            
-            if (photoData) {
-                modalTitle.textContent = photoData.title;
-                document.getElementById('modal-photo-date').textContent = photoData.date;
-            } else {
-                modalTitle.textContent = title;
-                document.getElementById('modal-photo-date').textContent = '';
-            }
-            
+            modalTitle.textContent = title || 'Momento Especial';
+            modalDate.textContent = date || '';
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            
-            // Efecto de sonido
-            playPhotoSound();
         }
         
         function closePhotoModal() {
@@ -939,135 +890,55 @@
             document.body.style.overflow = 'auto';
         }
         
-        // Cerrar modal al hacer clic fuera
-        document.getElementById('photo-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePhotoModal();
-            }
-        });
-        
-        // Cerrar modal con tecla ESC
-        document.addEventListener('keydown', function(e) {
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closePhotoModal();
             }
         });
         
-        // Efecto de precarga para las imágenes
-        function preloadImages() {
-            const imageUrls = [
-                'assets/photos/primera_salida.jpeg',
-                'assets/photos/primera_cita.jpeg',
-                'assets/photos/primer_te_amo.jpeg'
-            ];
-            
-            imageUrls.forEach(url => {
-                const img = new Image();
-                img.src = url;
-                img.onload = () => console.log(`Imagen cargada: ${url}`);
-                img.onerror = () => console.log(`Error cargando: ${url}`);
-            });
-        }
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('photo-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('photo-modal')) {
+                closePhotoModal();
+            }
+        });
         
-        // Efecto de sonido al hacer clic en las fotos
-        function playPhotoSound() {
-            const sound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ');
-            sound.volume = 0.3;
-            sound.play().catch(() => {});
-        }
-        
-        // Inicializar partículas con configuración mejorada
+        // Inicializar partículas
         function initParticles() {
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 80, density: { enable: true, value_area: 800 } },
-                    color: { value: "#ff6b8b" },
-                    shape: { 
-                        type: ["circle", "heart"],
-                        stroke: { width: 0, color: "#000000" }
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { value: 60, density: { enable: true, value_area: 800 } },
+                        color: { value: "#ff6b8b" },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.4, random: true },
+                        size: { value: 3, random: true },
+                        line_linked: { enable: true, distance: 150, color: "#ffa8c2", opacity: 0.2, width: 1 },
+                        move: { enable: true, speed: 1, direction: "none", random: true }
                     },
-                    opacity: { 
-                        value: 0.5, 
-                        random: true,
-                        anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
-                    },
-                    size: { 
-                        value: 5, 
-                        random: true,
-                        anim: { enable: true, speed: 2, size_min: 0.1, sync: false }
-                    },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#ffa8c2",
-                        opacity: 0.4,
-                        width: 2
-                    },
-                    move: {
-                        enable: true,
-                        speed: 1,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false,
-                        attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: { onhover: { enable: false }, onclick: { enable: false }, resize: true }
                     }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { 
-                            enable: true, 
-                            mode: "repulse",
-                            distance: 200
-                        },
-                        onclick: { 
-                            enable: true, 
-                            mode: "push",
-                            particles_nb: 4
-                        }
-                    }
-                },
-                retina_detect: true
-            });
-        }
-        
-        // Contador de scroll
-        function updateScrollProgress() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = scrollTop / docHeight * 100;
-            
-            // Actualizar título con efecto
-            const title = document.querySelector('.timeline-title');
-            if (scrollPercent > 20) {
-                title.style.transform = `scale(${1 - scrollPercent/500})`;
-                title.style.opacity = 1 - scrollPercent/200;
+                });
             }
         }
         
         // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             createFloatingHearts();
             initParticles();
-            preloadImages();
-            window.addEventListener('scroll', updateScrollProgress);
             
-            // Efecto de entrada para el contador
+            // Marcar elementos visibles inicialmente
             setTimeout(() => {
-                document.querySelector('.moments-counter').style.animation = 'slideInRight 0.6s ease';
-            }, 1000);
-            
-            // Efecto de latido en iconos
-            document.querySelectorAll('.timeline-icon').forEach(icon => {
-                setInterval(() => {
-                    icon.style.transform = 'translateY(-50%) scale(1.2)';
-                    setTimeout(() => {
-                        icon.style.transform = 'translateY(-50%) scale(1)';
-                    }, 300);
-                }, 3000);
-            });
+                document.querySelectorAll('.timeline-item').forEach(item => {
+                    const rect = item.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 100) {
+                        item.classList.add('visible');
+                    }
+                });
+            }, 500);
         });
     </script>
 </body>
