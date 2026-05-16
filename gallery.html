@@ -2,29 +2,83 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Nuestros Momentos - Para KIM</title>
-    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== VARIABLES GLOBALES ===== */
+        :root {
+            --primary-color: #ff6b8b;
+            --secondary-color: #ff2e63;
+            --accent-color: #ffd700;
+            --light-color: #fff0f5;
+            --dark-color: #1a1a2e;
+            --gradient: linear-gradient(135deg, #ff6b8b, #ff2e63);
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe6f2 100%);
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animación de fondo */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(-45deg, #ff6b8b, #ffb6c1, #ffccd5, #ff6b8b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* ===== ESTILOS DE LA GALERÍA ===== */
         .gallery-container {
             max-width: 1200px;
             margin: 100px auto 50px;
             padding: 20px;
         }
-        
+
         .gallery-title {
             font-family: 'Dancing Script', cursive;
             font-size: 3.5rem;
             margin-bottom: 40px;
             text-align: center;
-            color: var(--dark-color);
             background: var(--gradient);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
         }
-        
+
         .gallery-filters {
             display: flex;
             justify-content: center;
@@ -32,32 +86,33 @@
             margin-bottom: 40px;
             flex-wrap: wrap;
         }
-        
+
         .gallery-filter {
             padding: 8px 20px;
             border: 2px solid var(--secondary-color);
-            background: transparent;
-            color: var(--dark-color);
+            background: white;
+            color: var(--secondary-color);
             border-radius: 30px;
             cursor: pointer;
             transition: var(--transition);
             font-weight: 500;
+            font-size: 0.9rem;
         }
-        
+
         .gallery-filter:hover, .gallery-filter.active {
             background: var(--gradient);
             color: white;
             border-color: transparent;
             transform: translateY(-3px);
         }
-        
+
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 50px;
         }
-        
+
         .gallery-item {
             position: relative;
             border-radius: 20px;
@@ -67,23 +122,22 @@
             transition: var(--transition);
             box-shadow: var(--shadow);
         }
-        
-        .gallery-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+
+        .gallery-item:active {
+            transform: scale(0.98);
         }
-        
+
         .gallery-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
+
         .gallery-item:hover .gallery-img {
             transform: scale(1.1);
         }
-        
+
         .gallery-overlay {
             position: absolute;
             bottom: 0;
@@ -95,22 +149,23 @@
             transform: translateY(100%);
             transition: transform 0.3s ease;
         }
-        
+
         .gallery-item:hover .gallery-overlay {
             transform: translateY(0);
         }
-        
+
         .gallery-date {
             font-size: 0.9rem;
             opacity: 0.8;
             margin-bottom: 5px;
         }
-        
+
         .gallery-description {
             font-size: 1.1rem;
             font-weight: 500;
         }
-        
+
+        /* Modal de fotos */
         .photo-modal {
             display: none;
             position: fixed;
@@ -118,11 +173,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 10000;
             animation: fadeIn 0.3s ease;
         }
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .photo-modal-content {
             position: relative;
             max-width: 90%;
@@ -131,7 +191,7 @@
             top: 50%;
             transform: translateY(-50%);
         }
-        
+
         .photo-modal-img {
             width: 100%;
             height: auto;
@@ -139,7 +199,7 @@
             object-fit: contain;
             border-radius: 10px;
         }
-        
+
         .modal-info {
             position: absolute;
             bottom: 0;
@@ -150,7 +210,7 @@
             padding: 20px;
             border-radius: 0 0 10px 10px;
         }
-        
+
         .close-modal {
             position: absolute;
             top: -40px;
@@ -160,11 +220,11 @@
             cursor: pointer;
             transition: var(--transition);
         }
-        
+
         .close-modal:hover {
             color: var(--accent-color);
         }
-        
+
         .modal-nav {
             position: absolute;
             top: 50%;
@@ -174,8 +234,8 @@
             justify-content: space-between;
             padding: 0 20px;
         }
-        
-        .nav-btn {
+
+        .modal-nav-btn {
             background: rgba(255, 255, 255, 0.2);
             color: white;
             border: none;
@@ -187,19 +247,20 @@
             transition: var(--transition);
             backdrop-filter: blur(5px);
         }
-        
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+
+        .modal-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
             transform: scale(1.1);
         }
-        
+
+        /* Botón volver */
         .back-button {
             position: fixed;
             top: 20px;
             left: 20px;
             z-index: 1000;
         }
-        
+
         .back-button a {
             display: flex;
             align-items: center;
@@ -210,21 +271,33 @@
             text-decoration: none;
             border-radius: 30px;
             transition: var(--transition);
+            font-weight: 500;
+            box-shadow: var(--shadow);
         }
-        
+
         .back-button a:hover {
             transform: translateX(-5px);
         }
-        
+
+        /* Sección de subida */
         .upload-section {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 30px;
             margin-top: 50px;
             text-align: center;
             box-shadow: var(--shadow);
         }
-        
+
+        .upload-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .upload-section p {
+            color: #666;
+        }
+
         .upload-btn {
             display: inline-flex;
             align-items: center;
@@ -234,48 +307,265 @@
             color: white;
             border: none;
             border-radius: 30px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
             margin-top: 20px;
+            font-weight: 500;
         }
-        
+
         .upload-btn:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(255, 107, 139, 0.4);
         }
-        
+
         .upload-input {
             display: none;
         }
-        
-        @media (max-width: 768px) {
+
+        /* Notificación */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            z-index: 10001;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            font-weight: 500;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        /* Tablets y móviles grandes */
+        @media (max-width: 992px) {
             .gallery-container {
-                margin-top: 80px;
-                padding: 10px;
+                margin-top: 90px;
+                padding: 15px;
             }
             
             .gallery-title {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
             
             .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 15px;
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        /* Móviles */
+        @media (max-width: 768px) {
+            .gallery-container {
+                margin-top: 80px;
+                padding: 12px;
+            }
+            
+            .gallery-title {
+                font-size: 2.2rem;
+                margin-bottom: 25px;
+            }
+            
+            .gallery-filters {
+                gap: 10px;
+                margin-bottom: 25px;
+            }
+            
+            .gallery-filter {
+                padding: 6px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
             }
             
             .gallery-item {
-                height: 200px;
+                height: 180px;
+                border-radius: 15px;
+            }
+            
+            .gallery-overlay {
+                padding: 12px;
+            }
+            
+            .gallery-date {
+                font-size: 0.7rem;
+            }
+            
+            .gallery-description {
+                font-size: 0.85rem;
+            }
+            
+            /* Modal en móvil */
+            .photo-modal-content {
+                max-width: 95%;
+            }
+            
+            .photo-modal-img {
+                max-height: 70vh;
+            }
+            
+            .modal-info {
+                padding: 12px;
+            }
+            
+            .modal-info .gallery-date {
+                font-size: 0.7rem;
+            }
+            
+            .modal-info .gallery-description {
+                font-size: 0.85rem;
+            }
+            
+            .close-modal {
+                top: -35px;
+                font-size: 1.8rem;
+            }
+            
+            .modal-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
             }
             
             .modal-nav {
                 padding: 0 10px;
             }
             
-            .nav-btn {
-                width: 40px;
-                height: 40px;
+            /* Botón volver en móvil */
+            .back-button {
+                top: 10px;
+                left: 10px;
+            }
+            
+            .back-button a {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+            
+            /* Sección subida */
+            .upload-section {
+                padding: 20px;
+                margin-top: 30px;
+            }
+            
+            .upload-section h3 {
                 font-size: 1.2rem;
+            }
+            
+            .upload-section p {
+                font-size: 0.85rem;
+            }
+            
+            .upload-btn {
+                padding: 10px 25px;
+                font-size: 0.9rem;
+            }
+            
+            .notification {
+                font-size: 0.85rem;
+                white-space: normal;
+                text-align: center;
+                max-width: 90%;
+                padding: 10px 20px;
+            }
+        }
+
+        /* Móviles muy pequeños */
+        @media (max-width: 480px) {
+            .gallery-title {
+                font-size: 1.8rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 10px;
+            }
+            
+            .gallery-item {
+                height: 150px;
+            }
+            
+            .gallery-filter {
+                padding: 5px 12px;
+                font-size: 0.7rem;
+            }
+            
+            .modal-nav-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Orientación horizontal en móvil */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .gallery-container {
+                margin-top: 70px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+            
+            .gallery-item {
+                height: 160px;
+            }
+            
+            .photo-modal-img {
+                max-height: 60vh;
+            }
+        }
+
+        /* Eliminar hover en táctiles (mejor experiencia) */
+        @media (hover: none) and (pointer: coarse) {
+            .gallery-item:hover {
+                transform: none;
+            }
+            
+            .gallery-item:hover .gallery-img {
+                transform: none;
+            }
+            
+            .gallery-item:hover .gallery-overlay {
+                transform: translateY(100%);
+            }
+            
+            .gallery-item:active .gallery-overlay {
+                transform: translateY(0);
+            }
+            
+            .gallery-filter:hover {
+                transform: none;
+            }
+            
+            .modal-nav-btn:hover {
+                transform: none;
+            }
+        }
+
+        /* Aumentar área táctil en móvil */
+        @media (max-width: 768px) {
+            .gallery-filter,
+            .modal-nav-btn,
+            .upload-btn,
+            .back-button a {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
             }
         }
     </style>
@@ -301,12 +591,10 @@
             <button class="gallery-filter" data-filter="future">Futuro</button>
         </div>
         
-        <div class="gallery-grid" id="gallery-grid">
-            <!-- Las fotos se cargarán con JavaScript -->
-        </div>
+        <div class="gallery-grid" id="gallery-grid"></div>
         
         <div class="upload-section">
-            <h3>¿Quieres añadir nuestros recuerdos?</h3>
+            <h3>✨ ¿Quieres añadir nuestros recuerdos?</h3>
             <p>Sube fotos especiales de nosotros (solo en tu dispositivo)</p>
             <label for="photo-upload" class="upload-btn">
                 <i class="fas fa-cloud-upload-alt"></i> Subir Foto
@@ -324,18 +612,19 @@
                 <div class="gallery-description" id="modal-description"></div>
             </div>
             <div class="modal-nav">
-                <button class="nav-btn" id="prev-photo">
+                <button class="modal-nav-btn" id="prev-photo">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <button class="nav-btn" id="next-photo">
+                <button class="modal-nav-btn" id="next-photo">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
         </div>
     </div>
-    
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Galería de fotos con descripciones
+        // ===== GALERÍA DE FOTOS =====
         const galleryPhotos = [
             {
                 id: 1,
@@ -406,6 +695,7 @@
         function initGallery() {
             loadGallery();
             setupEventListeners();
+            initParticles();
         }
         
         function loadGallery() {
@@ -418,14 +708,17 @@
                 item.dataset.category = photo.category;
                 
                 item.innerHTML = `
-                    <img src="${photo.url}" alt="${photo.title}" class="gallery-img">
+                    <img src="${photo.url}" alt="${photo.title}" class="gallery-img" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="gallery-date">${photo.date}</div>
                         <div class="gallery-description">${photo.title}</div>
                     </div>
                 `;
                 
-                item.addEventListener('click', () => openPhotoModal(index));
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openPhotoModal(index);
+                });
                 elements.galleryGrid.appendChild(item);
             });
         }
@@ -440,9 +733,6 @@
             
             elements.photoModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            
-            // Efecto de entrada
-            elements.modalImage.style.animation = 'zoomIn 0.5s ease';
         }
         
         function closePhotoModal() {
@@ -452,12 +742,18 @@
         
         function showPrevPhoto() {
             currentPhotoIndex = (currentPhotoIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
-            openPhotoModal(currentPhotoIndex);
+            const photo = filteredPhotos[currentPhotoIndex];
+            elements.modalImage.src = photo.url;
+            elements.modalDate.textContent = photo.date;
+            elements.modalDescription.textContent = photo.description;
         }
         
         function showNextPhoto() {
             currentPhotoIndex = (currentPhotoIndex + 1) % filteredPhotos.length;
-            openPhotoModal(currentPhotoIndex);
+            const photo = filteredPhotos[currentPhotoIndex];
+            elements.modalImage.src = photo.url;
+            elements.modalDate.textContent = photo.date;
+            elements.modalDescription.textContent = photo.description;
         }
         
         function filterGallery(category) {
@@ -498,7 +794,7 @@
             
             elements.photoUpload.addEventListener('change', function(e) {
                 const file = e.target.files[0];
-                if (file) {
+                if (file && file.type.startsWith('image/')) {
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const newPhoto = {
@@ -511,28 +807,22 @@
                         };
                         
                         galleryPhotos.push(newPhoto);
-                        filteredPhotos.push(newPhoto);
-                        loadGallery();
-                        
-                        // Mostrar notificación
-                        showNotification("¡Foto añadida a nuestros recuerdos! 📸");
+                        const currentFilter = document.querySelector('.gallery-filter.active').dataset.filter;
+                        filterGallery(currentFilter);
+                        showNotification("✨ ¡Foto añadida a nuestros recuerdos! 📸");
                     };
                     reader.readAsDataURL(file);
+                } else {
+                    showNotification("❌ Por favor, selecciona una imagen válida");
                 }
+                e.target.value = '';
             });
         }
         
         function showNotification(message) {
-            // Crear notificación temporal
             const notification = document.createElement('div');
             notification.className = 'notification show';
-            notification.innerHTML = `
-                <div class="notification-content">
-                    <i class="fas fa-heart"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            
+            notification.innerHTML = `<i class="fas fa-heart" style="margin-right: 8px;"></i> ${message}`;
             document.body.appendChild(notification);
             
             setTimeout(() => {
@@ -541,29 +831,27 @@
             }, 3000);
         }
         
+        function initParticles() {
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { value: 50, density: { enable: true, value_area: 800 } },
+                        color: { value: "#ff6b8b" },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.5, random: true },
+                        size: { value: 3, random: true },
+                        line_linked: { enable: false },
+                        move: { enable: true, speed: 1, direction: "none", random: true, straight: false, out_mode: "out" }
+                    },
+                    interactivity: {
+                        detect_on: "canvas",
+                        events: { onhover: { enable: false }, onclick: { enable: false }, resize: true }
+                    }
+                });
+            }
+        }
+        
         document.addEventListener('DOMContentLoaded', initGallery);
-        
-        // Inicializar partículas
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 60, density: { enable: true, value_area: 800 } },
-                color: { value: "#ff6b8b" },
-                shape: { type: "circle" },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
-                move: { enable: true, speed: 0.8 }
-            }
-        });
-        
-        // Agregar animación de zoom
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes zoomIn {
-                from { transform: scale(0.8); opacity: 0; }
-                to { transform: scale(1); opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
