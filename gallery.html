@@ -3,28 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Libro Inteligente - Para KIM</title>
+    <title>Libro Inteligente - Nuestra Historia | Para KIM</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Librerías necesarias -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Interactividad de arrastre nativa con soporte táctil -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none; /* Evita selección al arrastrar, mejora la experiencia */
         }
 
         :root {
             --primary: #ff6b8b;
             --secondary: #ff2e63;
-            --dark-bg: #1e1e2f;
-            --light-bg: #fff9f0;
             --shadow: 0 12px 30px rgba(0,0,0,0.15);
-            --radius-lg: 32px;
-            --radius-md: 20px;
+            --radius: 24px;
         }
 
         body {
@@ -32,23 +26,9 @@
             background: linear-gradient(145deg, #fff0f5 0%, #ffe0ea 100%);
             min-height: 100vh;
             padding: 20px;
-            overflow-x: auto;
         }
 
-        /* Contenedor principal tipo libro */
-        .book-workspace {
-            max-width: 1400px;
-            margin: 20px auto;
-            background: rgba(255,255,240,0.85);
-            backdrop-filter: blur(2px);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Toolbar flotante moderno */
+        /* Toolbar */
         .toolbar {
             background: rgba(255,255,255,0.96);
             padding: 12px 20px;
@@ -56,30 +36,26 @@
             flex-wrap: wrap;
             gap: 12px;
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 3px solid var(--primary);
+            justify-content: center;
+            border-radius: 60px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
             position: sticky;
-            top: 0;
+            top: 10px;
             z-index: 100;
-        }
-        .tool-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
         }
         .tool-btn {
             background: white;
             border: none;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 50px;
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             transition: 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: var(--secondary);
             border: 1px solid #ffccd5;
         }
@@ -88,16 +64,14 @@
             color: white;
             border: none;
         }
-        .tool-btn-primary i { color: white; }
         .tool-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(255,107,139,0.3); }
 
-        /* Área del libro: diseño de doble página adaptable */
+        /* Contenedor del libro */
         .book-viewer {
             background: #e8dccc;
             padding: 30px 20px;
-            display: flex;
-            justify-content: center;
-            min-height: 70vh;
+            border-radius: 40px;
+            box-shadow: var(--shadow);
         }
         .pages-container {
             display: flex;
@@ -105,28 +79,27 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 25px;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
-        /* cada página */
+        /* Cada página - estilo libro */
         .book-page {
-            width: 380px;
-            min-width: 280px;
+            width: 400px;
+            min-width: 300px;
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             box-shadow: 0 12px 28px rgba(0,0,0,0.2);
             overflow: hidden;
             display: flex;
             flex-direction: column;
             transition: 0.2s;
-            border: 1px solid #ffd9e4;
             position: relative;
             cursor: grab;
         }
         .book-page:active { cursor: grabbing; }
         .page-header {
             background: #fff5f0;
-            padding: 10px 15px;
+            padding: 8px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -135,7 +108,7 @@
         .page-number {
             font-weight: bold;
             color: var(--primary);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
         .page-actions button {
             background: none;
@@ -147,10 +120,11 @@
             transition: 0.1s;
         }
         .page-actions button:hover { color: var(--secondary); }
+        
         .canvas-container {
             position: relative;
             background: #fef9ef;
-            min-height: 380px;
+            min-height: 420px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -159,15 +133,14 @@
         .image-layer {
             position: relative;
             width: 100%;
-            cursor: crosshair;
+            text-align: center;
         }
         .page-img {
             width: 100%;
             display: block;
             object-fit: contain;
-            max-height: 420px;
+            max-height: 450px;
             pointer-events: auto;
-            user-select: none;
         }
         .draw-canvas {
             position: absolute;
@@ -176,7 +149,7 @@
             width: 100%;
             height: 100%;
             background: transparent;
-            pointer-events: auto;
+            pointer-events: none;
             touch-action: none;
         }
         .blank-placeholder {
@@ -185,17 +158,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 380px;
+            height: 420px;
             color: #b0a088;
             font-style: italic;
+            gap: 12px;
         }
         .page-footer {
-            padding: 12px;
+            padding: 10px;
             background: #fffaf5;
             border-top: 1px solid #ffe0e7;
             display: flex;
-            justify-content: space-between;
-            gap: 8px;
+            justify-content: center;
+            gap: 12px;
             flex-wrap: wrap;
         }
         .page-footer button {
@@ -208,17 +182,19 @@
             align-items: center;
             gap: 4px;
             cursor: pointer;
+            transition: 0.1s;
         }
+        .page-footer button:hover { background: #ffccd5; }
 
-        /* Modal para subir/importar imágenes */
+        /* Modal para subir/editar */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -237,7 +213,7 @@
             from { transform: translateY(40px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
-        .modal-card input, .modal-card textarea {
+        .modal-card input, .modal-card select {
             width: 100%;
             margin: 10px 0;
             padding: 12px;
@@ -246,11 +222,11 @@
         }
         .img-preview {
             max-width: 100%;
-            max-height: 200px;
+            max-height: 180px;
             margin: 10px 0;
             border-radius: 20px;
         }
-        .close-modal {
+        .close-modal-btn {
             background: var(--primary);
             color: white;
             border: none;
@@ -258,100 +234,139 @@
             padding: 8px 20px;
             margin-top: 15px;
         }
-
-        /* Responsive */
-        @media (max-width: 880px) {
-            .pages-container { gap: 20px; }
-            .book-page { width: 320px; }
-        }
-        @media (max-width: 760px) {
-            .book-page { width: 100%; max-width: 420px; }
-            .toolbar { flex-direction: column; align-items: stretch; }
-            .tool-group { justify-content: center; }
-        }
-        @media (max-width: 550px) {
-            body { padding: 10px; }
-            .book-page .canvas-container { min-height: 280px; }
-        }
-
-        .dragging-ghost {
-            opacity: 0.5;
-            background: #ffd9e4;
-        }
         .notification-toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             background: #ff6b8b;
             color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
+            padding: 12px 24px;
+            border-radius: 60px;
             z-index: 3000;
             font-weight: 500;
-            transition: 0.2s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            animation: fadeInOut 2.5s ease forwards;
         }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+        @media (max-width: 880px) {
+            .book-page { width: 340px; }
+        }
+        @media (max-width: 760px) {
+            .book-page { width: 100%; max-width: 400px; }
+            .toolbar { border-radius: 30px; }
+        }
+        .zoom-control {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 30px;
+            display: flex;
+            gap: 8px;
+            padding: 4px 8px;
+            z-index: 5;
+        }
+        .zoom-btn {
+            background: white;
+            border: none;
+            border-radius: 30px;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .dragging-ghost { opacity: 0.4; background: #ffd9e4; }
     </style>
 </head>
 <body>
 
-<div class="book-workspace">
-    <div class="toolbar">
-        <div class="tool-group">
-            <button class="tool-btn" id="addBlankPageBtn"><i class="fas fa-plus-circle"></i> Pág. Blanca</button>
-            <button class="tool-btn" id="importImageBtn"><i class="fas fa-image"></i> Importar Imagen</button>
-            <button class="tool-btn" id="importUrlBtn"><i class="fas fa-link"></i> Desde Web</button>
-            <button class="tool-btn tool-btn-primary" id="saveAsPdfBtn"><i class="fas fa-file-pdf"></i> Guardar Libro (PDF)</button>
-        </div>
-        <div class="tool-group">
-            <button class="tool-btn" id="resetBookBtn"><i class="fas fa-trash-alt"></i> Nuevo Libro</button>
-            <button class="tool-btn" id="exportDataBtn"><i class="fas fa-save"></i> Guardar Proyecto</button>
-            <input type="file" id="importProjectFile" accept=".json" style="display:none">
-            <button class="tool-btn" id="loadProjectBtn"><i class="fas fa-folder-open"></i> Cargar Libro</button>
-        </div>
-    </div>
-
-    <div class="book-viewer">
-        <div class="pages-container" id="pagesContainer">
-            <!-- Las páginas se generarán dinámicamente -->
-        </div>
-    </div>
+<div class="toolbar">
+    <button class="tool-btn" id="addBlankPageBtn"><i class="fas fa-plus-circle"></i> Página Blanca</button>
+    <button class="tool-btn" id="importImageBtn"><i class="fas fa-image"></i> Importar Imagen</button>
+    <button class="tool-btn" id="importUrlBtn"><i class="fas fa-link"></i> Desde Web</button>
+    <button class="tool-btn tool-btn-primary" id="saveAsPdfBtn"><i class="fas fa-file-pdf"></i> Guardar Libro PDF</button>
+    <button class="tool-btn" id="resetBookBtn"><i class="fas fa-trash-alt"></i> Nuevo Libro</button>
 </div>
 
-<!-- Modales -->
+<div class="book-viewer">
+    <div class="pages-container" id="pagesContainer"></div>
+</div>
+
+<!-- MODAL PARA IMPORTAR IMAGEN -->
 <div id="imageModal" class="modal-overlay">
     <div class="modal-card">
-        <h3><i class="fas fa-upload"></i> Añadir Imagen a Página</h3>
+        <h3><i class="fas fa-heart"></i> Añadir imagen a la página</h3>
         <input type="file" id="modalFileInput" accept="image/*">
-        <p style="margin:10px">O pega URL de imagen</p>
+        <p>o URL de imagen:</p>
         <input type="text" id="modalUrlInput" placeholder="https://...">
         <div id="modalPreview"></div>
-        <button id="confirmAddImageBtn" class="close-modal">Agregar a la página actual</button>
+        <button id="confirmAddImageBtn" class="close-modal-btn">Agregar Imagen</button>
         <button id="closeModalBtn" style="background:#ccc; margin-top:10px">Cancelar</button>
     </div>
 </div>
 
-<div id="drawModal" class="modal-overlay" style="display: none;">
+<!-- MODAL PARA HERRAMIENTAS DE DIBUJO (color y grosor) -->
+<div id="drawToolsModal" class="modal-overlay">
     <div class="modal-card">
-        <h3>🖌️ Dibujar sobre la página</h3>
-        <p>Selecciona color y trazo</p>
+        <h3>✏️ Herramientas de Dibujo</h3>
+        <label>Color:</label>
         <input type="color" id="drawColor" value="#ff2e63">
+        <label>Grosor:</label>
         <input type="range" id="drawWidth" min="1" max="20" value="4">
-        <button id="clearDrawingBtn" class="tool-btn">Borrar dibujo</button>
-        <button id="closeDrawModalBtn" class="close-modal">Cerrar</button>
+        <button id="clearDrawingGlobalBtn" class="tool-btn" style="margin:10px 0">Borrar dibujo de esta página</button>
+        <button id="closeDrawModalBtn" class="close-modal-btn">Cerrar</button>
     </div>
 </div>
 
 <script>
     // ---------- MODELO DE DATOS ----------
-    let pages = [];  // cada página: { id, elements: [{type:'image', src, drawDataURL?}] , drawCanvasData (base64), backgroundStyle }
+    let pages = [];
     let nextId = 1;
-    let currentDrawingPageId = null;  // página donde se está dibujando activamente
+    let currentDrawingPageId = null;
     let activeDrawCanvas = null;
     let drawingEnabled = false;
-    let drawCtx = null;
 
-    // Helper: guardar estado de dibujo (dataURL del canvas)
+    // ========== HISTORIA PREDEFINIDA CON 10 IMÁGENES (desde assets/photos/) ==========
+    const predefinedImages = [
+        "assets/photos/imagen1.png", "assets/photos/imagen2.png", "assets/photos/imagen3.png",
+        "assets/photos/imagen4.png", "assets/photos/imagen5.png", "assets/photos/imagen6.png",
+        "assets/photos/imagen7.png", "assets/photos/imagen8.png", "assets/photos/imagen9.png",
+        "assets/photos/imagen10.png"
+    ];
+    // Textos opcionales para acompañar cada imagen (historia)
+    const storyTexts = [
+        "El día que nuestros caminos se cruzaron ✨",
+        "La primera sonrisa compartida 💕",
+        "Nuestra primera cita inolvidable 🍕",
+        "Bajo las estrellas, promesas eternas 🌟",
+        "Risas y confidencias sin fin 😊",
+        "Un abrazo que lo dice todo 🤗",
+        "Viajando juntos hacia el futuro 🚗",
+        "El amor en cada detalle 🌹",
+        "Construyendo sueños contigo 🏠",
+        "Te amo, hoy y siempre 💖"
+    ];
+
+    // Función para crear libro inicial con 10 páginas (imágenes predeterminadas)
+    function createDefaultBook() {
+        const newPages = [];
+        for (let i = 0; i < predefinedImages.length; i++) {
+            newPages.push({
+                id: nextId++,
+                elements: [{ type: 'image', src: predefinedImages[i], caption: storyTexts[i] }],
+                drawDataURL: null,
+                zoomLevel: 1
+            });
+        }
+        return newPages;
+    }
+
+    // Guardar dibujo en dataURL
     function captureDrawData(pageId) {
         const pageDiv = document.querySelector(`.book-page[data-page-id='${pageId}']`);
         if(pageDiv) {
@@ -359,14 +374,11 @@
             if(drawCanvas) {
                 const dataURL = drawCanvas.toDataURL();
                 const pageIndex = pages.findIndex(p => p.id == pageId);
-                if(pageIndex !== -1) {
-                    pages[pageIndex].drawDataURL = dataURL;
-                }
+                if(pageIndex !== -1) pages[pageIndex].drawDataURL = dataURL;
             }
         }
     }
 
-    // Restaurar dibujo en canvas después de render
     function restoreDrawOnPage(pageId, canvasElem) {
         const pageData = pages.find(p => p.id == pageId);
         if(pageData && pageData.drawDataURL && canvasElem) {
@@ -390,7 +402,6 @@
             pageDiv.className = 'book-page';
             pageDiv.setAttribute('data-page-id', page.id);
             pageDiv.setAttribute('draggable', 'true');
-            // eventos de arrastre para reordenar (táctil + ratón)
             pageDiv.addEventListener('dragstart', handleDragStart);
             pageDiv.addEventListener('dragover', handleDragOver);
             pageDiv.addEventListener('drop', handleDrop);
@@ -399,31 +410,49 @@
             // Header
             const header = document.createElement('div');
             header.className = 'page-header';
-            header.innerHTML = `<span class="page-number">Página ${idx+1}</span>
+            header.innerHTML = `<span class="page-number">📖 Página ${idx+1}</span>
                                 <div class="page-actions">
-                                    <button class="delete-page" data-id="${page.id}"><i class="fas fa-trash"></i></button>
-                                    <button class="draw-toggle" data-id="${page.id}"><i class="fas fa-paint-brush"></i></button>
+                                    <button class="delete-page" data-id="${page.id}" title="Eliminar página"><i class="fas fa-trash"></i></button>
+                                    <button class="draw-toggle" data-id="${page.id}" title="Dibujar sobre imagen"><i class="fas fa-paint-brush"></i></button>
+                                    <button class="edit-caption" data-id="${page.id}" title="Editar texto"><i class="fas fa-pen"></i></button>
                                 </div>`;
-            // Contenedor de imagen / lienzo
+            
+            // Contenedor imagen
             const canvasContainer = document.createElement('div');
             canvasContainer.className = 'canvas-container';
             const imageLayer = document.createElement('div');
             imageLayer.className = 'image-layer';
-            let mainImage = null;
+            
             const hasImage = page.elements && page.elements.length > 0 && page.elements[0].type === 'image';
             if(hasImage) {
                 const imgElem = document.createElement('img');
                 imgElem.src = page.elements[0].src;
                 imgElem.className = 'page-img';
-                imgElem.style.maxWidth = '100%';
-                imgElem.style.pointerEvents = 'none';
+                imgElem.style.transform = `scale(${page.zoomLevel || 1})`;
+                imgElem.style.transition = 'transform 0.2s';
+                // Pie de foto
+                const captionSpan = document.createElement('div');
+                captionSpan.style.padding = '8px';
+                captionSpan.style.fontSize = '0.8rem';
+                captionSpan.style.color = '#a0556e';
+                captionSpan.style.fontStyle = 'italic';
+                captionSpan.style.textAlign = 'center';
+                captionSpan.innerText = page.elements[0].caption || 'Momento especial ❤️';
                 imageLayer.appendChild(imgElem);
+                imageLayer.appendChild(captionSpan);
+                // Controles de zoom
+                const zoomDiv = document.createElement('div');
+                zoomDiv.className = 'zoom-control';
+                zoomDiv.innerHTML = `<button class="zoom-btn" data-id="${page.id}" data-dir="in">🔍+</button>
+                                     <button class="zoom-btn" data-id="${page.id}" data-dir="out">🔍-</button>`;
+                imageLayer.appendChild(zoomDiv);
             } else {
                 const blankDiv = document.createElement('div');
                 blankDiv.className = 'blank-placeholder';
-                blankDiv.innerHTML = '<i class="fas fa-book-open" style="font-size:3rem; opacity:0.4;"></i><p>Página en blanco</p><small>Haz clic en importar</small>';
+                blankDiv.innerHTML = '<i class="fas fa-book-open" style="font-size:3rem;"></i><p>Página en blanco</p><small>Haz clic en importar imagen</small>';
                 imageLayer.appendChild(blankDiv);
             }
+            
             // Canvas de dibujo
             const drawCanvas = document.createElement('canvas');
             drawCanvas.className = 'draw-canvas';
@@ -432,9 +461,9 @@
             drawCanvas.style.left = '0';
             drawCanvas.style.width = '100%';
             drawCanvas.style.height = '100%';
-            drawCanvas.width = 380;
-            drawCanvas.height = 380;
-            drawCanvas.style.pointerEvents = 'none'; // inicialmente desactivado
+            drawCanvas.width = 400;
+            drawCanvas.height = 450;
+            drawCanvas.style.pointerEvents = 'none';
             drawCanvas.setAttribute('data-page', page.id);
             imageLayer.appendChild(drawCanvas);
             canvasContainer.appendChild(imageLayer);
@@ -442,44 +471,61 @@
             // Footer
             const footer = document.createElement('div');
             footer.className = 'page-footer';
-            footer.innerHTML = `<button class="add-img-footer" data-id="${page.id}"><i class="fas fa-plus"></i> Imagen</button>
-                                <button class="blank-page-footer" data-id="${page.id}"><i class="far fa-file"></i> Convertir en Blanca</button>
-                                <button class="clear-draw-footer" data-id="${page.id}"><i class="fas fa-eraser"></i> Limpiar dibujo</button>`;
+            footer.innerHTML = `<button class="replace-img" data-id="${page.id}"><i class="fas fa-exchange-alt"></i> Cambiar imagen</button>
+                                <button class="clear-draw" data-id="${page.id}"><i class="fas fa-eraser"></i> Limpiar dibujo</button>`;
             
             pageDiv.appendChild(header);
             pageDiv.appendChild(canvasContainer);
             pageDiv.appendChild(footer);
             container.appendChild(pageDiv);
             
-            // restaurar dibujo guardado
             restoreDrawOnPage(page.id, drawCanvas);
-            // configurar evento de dibujo después de render
-            const drawBtn = header.querySelector('.draw-toggle');
-            drawBtn.addEventListener('click', (e) => {
+            
+            // Eventos internos
+            header.querySelector('.delete-page').addEventListener('click', () => deletePage(page.id));
+            header.querySelector('.draw-toggle').addEventListener('click', (e) => {
                 e.stopPropagation();
                 toggleDrawingMode(page.id, drawCanvas);
             });
-            // eliminar página
-            header.querySelector('.delete-page').addEventListener('click', () => deletePage(page.id));
-            // Botones footer
-            footer.querySelector('.add-img-footer').addEventListener('click', () => openImageModalForPage(page.id));
-            footer.querySelector('.blank-page-footer').addEventListener('click', () => convertToBlank(page.id));
-            footer.querySelector('.clear-draw-footer').addEventListener('click', () => clearDrawingOnPage(page.id, drawCanvas));
+            header.querySelector('.edit-caption').addEventListener('click', () => editCaption(page.id));
+            if(hasImage) {
+                const zoomInBtn = pageDiv.querySelector('.zoom-btn[data-dir="in"]');
+                const zoomOutBtn = pageDiv.querySelector('.zoom-btn[data-dir="out"]');
+                if(zoomInBtn) zoomInBtn.addEventListener('click', () => adjustZoom(page.id, 0.1));
+                if(zoomOutBtn) zoomOutBtn.addEventListener('click', () => adjustZoom(page.id, -0.1));
+            }
+            footer.querySelector('.replace-img').addEventListener('click', () => openImageModalForPage(page.id, true));
+            footer.querySelector('.clear-draw').addEventListener('click', () => clearDrawingOnPage(page.id, drawCanvas));
         });
-        // Actualizar números de página luego de reordenar
-        updatePageNumbers();
     }
 
-    // Alternar modo dibujo
+    function adjustZoom(pageId, delta) {
+        const idx = pages.findIndex(p => p.id === pageId);
+        if(idx !== -1 && pages[idx].elements.length) {
+            let newZoom = (pages[idx].zoomLevel || 1) + delta;
+            newZoom = Math.min(2.5, Math.max(0.6, newZoom));
+            pages[idx].zoomLevel = newZoom;
+            const imgDiv = document.querySelector(`.book-page[data-page-id='${pageId}'] .page-img`);
+            if(imgDiv) imgDiv.style.transform = `scale(${newZoom})`;
+        }
+    }
+
+    function editCaption(pageId) {
+        const idx = pages.findIndex(p => p.id === pageId);
+        if(idx !== -1 && pages[idx].elements.length) {
+            const newText = prompt("Escribe un pie de foto para este momento:", pages[idx].elements[0].caption || "");
+            if(newText !== null) pages[idx].elements[0].caption = newText;
+            renderBook();
+        }
+    }
+
     function toggleDrawingMode(pageId, canvasElem) {
         if(currentDrawingPageId === pageId && drawingEnabled) {
-            // desactivar
             drawingEnabled = false;
             canvasElem.style.pointerEvents = 'none';
             currentDrawingPageId = null;
             showToast("Dibujo desactivado");
         } else {
-            // desactivar cualquier otro activo
             if(currentDrawingPageId) {
                 const prevCanvas = document.querySelector(`.book-page[data-page-id='${currentDrawingPageId}'] .draw-canvas`);
                 if(prevCanvas) prevCanvas.style.pointerEvents = 'none';
@@ -488,7 +534,9 @@
             currentDrawingPageId = pageId;
             canvasElem.style.pointerEvents = 'auto';
             setupDrawing(canvasElem);
-            showToast("✏️ Modo dibujo activado - usa el dedo o ratón");
+            showToast("✏️ Modo dibujo activado - usa el dedo o mouse");
+            // Mostrar modal de herramientas de dibujo
+            document.getElementById('drawToolsModal').style.display = 'flex';
         }
     }
 
@@ -496,6 +544,7 @@
         let ctx = canvas.getContext('2d');
         let painting = false;
         let lastX = 0, lastY = 0;
+        
         const setCanvasSize = () => {
             const rect = canvas.parentElement.getBoundingClientRect();
             canvas.width = rect.width;
@@ -546,9 +595,7 @@
             ctx.moveTo(lastX, lastY);
             ctx.lineTo(x, y);
             ctx.stroke();
-            lastX = x;
-            lastY = y;
-            // guardar en dataURL
+            lastX = x; lastY = y;
             const pageId = canvas.getAttribute('data-page');
             const pageIndex = pages.findIndex(p => p.id == pageId);
             if(pageIndex !== -1) pages[pageIndex].drawDataURL = canvas.toDataURL();
@@ -578,42 +625,41 @@
         ctx.clearRect(0, 0, canvasElem.width, canvasElem.height);
         const idx = pages.findIndex(p => p.id == pageId);
         if(idx !== -1) pages[idx].drawDataURL = null;
-        showToast("Dibujo borrado");
+        showToast("Dibujo eliminado");
     }
     
     function deletePage(id) {
+        if(pages.length === 1) {
+            showToast("No puedes eliminar la última página del libro");
+            return;
+        }
         pages = pages.filter(p => p.id !== id);
-        if(pages.length === 0) addBlankPage(); // al menos una página
         renderBook();
     }
     
     function addBlankPage() {
         const newId = nextId++;
-        pages.push({ id: newId, elements: [], drawDataURL: null });
+        pages.push({ id: newId, elements: [], drawDataURL: null, zoomLevel: 1 });
         renderBook();
+        showToast("Página en blanco agregada");
     }
     
-    function convertToBlank(pageId) {
+    function addImageToPage(pageId, imageSrc, isReplace = false) {
         const idx = pages.findIndex(p => p.id === pageId);
         if(idx !== -1) {
-            pages[idx].elements = [];
-            pages[idx].drawDataURL = null;
+            if(isReplace || pages[idx].elements.length === 0) {
+                pages[idx].elements = [{ type: 'image', src: imageSrc, caption: "Recuerdo especial ❤️" }];
+            } else {
+                pages[idx].elements.push({ type: 'image', src: imageSrc, caption: "Nuevo recuerdo" });
+            }
             renderBook();
-            showToast("Página convertida a blanco");
+            showToast("Imagen añadida correctamente");
         }
     }
     
-    function addImageToPage(pageId, imageSrc) {
-        const idx = pages.findIndex(p => p.id === pageId);
-        if(idx !== -1) {
-            pages[idx].elements = [{ type: 'image', src: imageSrc }];
-            renderBook();
-            showToast("Imagen añadida");
-        }
-    }
-    
-    function openImageModalForPage(pageId) {
+    function openImageModalForPage(pageId, replaceMode = false) {
         window.tempPageId = pageId;
+        window.replaceMode = replaceMode;
         const modal = document.getElementById('imageModal');
         modal.style.display = 'flex';
         document.getElementById('modalFileInput').value = '';
@@ -621,16 +667,15 @@
         document.getElementById('modalPreview').innerHTML = '';
     }
     
-    // Subida de archivo o URL
     document.getElementById('confirmAddImageBtn').onclick = () => {
         const file = document.getElementById('modalFileInput').files[0];
         const url = document.getElementById('modalUrlInput').value.trim();
         if(file) {
             const reader = new FileReader();
-            reader.onload = (e) => { addImageToPage(window.tempPageId, e.target.result); closeModal(); };
+            reader.onload = (e) => { addImageToPage(window.tempPageId, e.target.result, window.replaceMode); closeModal(); };
             reader.readAsDataURL(file);
         } else if(url) {
-            addImageToPage(window.tempPageId, url);
+            addImageToPage(window.tempPageId, url, window.replaceMode);
             closeModal();
         } else {
             alert("Selecciona una imagen o URL");
@@ -639,7 +684,17 @@
     document.getElementById('closeModalBtn').onclick = closeModal;
     function closeModal() { document.getElementById('imageModal').style.display = 'none'; }
     
-    // Ordenamiento Drag & drop
+    // Cerrar modal dibujo
+    document.getElementById('closeDrawModalBtn').onclick = () => document.getElementById('drawToolsModal').style.display = 'none';
+    document.getElementById('clearDrawingGlobalBtn').onclick = () => {
+        if(currentDrawingPageId) {
+            const canvas = document.querySelector(`.book-page[data-page-id='${currentDrawingPageId}'] .draw-canvas`);
+            if(canvas) clearDrawingOnPage(currentDrawingPageId, canvas);
+        }
+        document.getElementById('drawToolsModal').style.display = 'none';
+    };
+    
+    // Drag & drop reordenar
     let dragSrcIndex = null;
     function handleDragStart(e) {
         const pageDiv = e.target.closest('.book-page');
@@ -647,10 +702,9 @@
         const id = parseInt(pageDiv.getAttribute('data-page-id'));
         dragSrcIndex = pages.findIndex(p => p.id === id);
         e.dataTransfer.setData('text/plain', id);
-        e.dataTransfer.effectAllowed = 'move';
         pageDiv.classList.add('dragging-ghost');
     }
-    function handleDragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }
+    function handleDragOver(e) { e.preventDefault(); }
     function handleDrop(e) {
         e.preventDefault();
         const targetPage = e.target.closest('.book-page');
@@ -667,88 +721,47 @@
     }
     function handleDragEnd(e) { document.querySelectorAll('.book-page').forEach(p => p.classList.remove('dragging-ghost')); dragSrcIndex = null; }
     
-    function updatePageNumbers() { /* solo visual, se actualiza en render */ }
-    
-    // Guardar libro como PDF usando html2pdf
+    // PDF optimizado: ocupa 90% de la hoja, márgenes mínimos
     async function saveAsPDF() {
         const element = document.getElementById('pagesContainer');
         const opt = {
-            margin:        [0.5, 0.5, 0.5, 0.5],
-            filename:     'libro_amor_KIM.pdf',
+            margin:        [0.2, 0.2, 0.2, 0.2], // márgenes muy pequeños
+            filename:     'libro_nuestra_historia_KIM.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, logging: false },
+            html2canvas:  { scale: 2, useCORS: true, logging: false, letterRendering: true },
             jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
-        showToast("Generando PDF... puede tomar unos segundos");
+        showToast("✨ Generando PDF con todo el amor...");
         try {
             await html2pdf().set(opt).from(element).save();
-            showToast("📖 PDF guardado exitosamente");
-        } catch(err) { showToast("Error generando PDF: "+err); }
+            showToast("📖 ¡Libro guardado! Cada página es un tesoro.");
+        } catch(err) { showToast("Error: "+err); }
     }
     
-    // Guardar proyecto (JSON)
-    function saveProject() {
-        const data = JSON.stringify({ pages, nextId });
-        const blob = new Blob([data], {type: 'application/json'});
-        const a = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        a.href = url;
-        a.download = 'mi_libro_amor.json';
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast("Proyecto guardado");
-    }
-    function loadProjectFromFile(file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                const obj = JSON.parse(e.target.result);
-                pages = obj.pages;
-                nextId = obj.nextId;
-                renderBook();
-                showToast("Libro cargado correctamente");
-            } catch(err) { alert("Archivo inválido"); }
-        };
-        reader.readAsText(file);
-    }
-    document.getElementById('exportDataBtn').onclick = saveProject;
-    document.getElementById('loadProjectBtn').onclick = () => document.getElementById('importProjectFile').click();
-    document.getElementById('importProjectFile').onchange = (e) => { if(e.target.files[0]) loadProjectFromFile(e.target.files[0]); };
-    document.getElementById('resetBookBtn').onclick = () => { pages = [{ id: 1, elements: [], drawDataURL: null }]; nextId=2; renderBook(); };
-    document.getElementById('addBlankPageBtn').onclick = addBlankPage;
-    document.getElementById('importImageBtn').onclick = () => { if(pages.length) openImageModalForPage(pages[0].id); else addBlankPage(); };
-    document.getElementById('importUrlBtn').onclick = () => { if(pages.length) openImageModalForPage(pages[0].id); else addBlankPage(); };
-    document.getElementById('saveAsPdfBtn').onclick = saveAsPDF;
-    
-    // Dibujar modal de opciones
     function showToast(msg) {
-        let toast = document.querySelector('.notification-toast');
-        if(toast) toast.remove();
-        toast = document.createElement('div');
+        const toast = document.createElement('div');
         toast.className = 'notification-toast';
         toast.innerHTML = `<i class="fas fa-heart"></i> ${msg}`;
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 2500);
     }
     
-    // Inicializar libro por defecto con una página en blanco
-    pages = [{ id: 1, elements: [], drawDataURL: null }];
-    nextId = 2;
-    renderBook();
-    
-    // Adicional: botón para abrir panel de dibujo modal (opcional)
-    const drawModal = document.getElementById('drawModal');
-    document.getElementById('clearDrawingBtn').onclick = () => {
-        if(currentDrawingPageId) {
-            const canvas = document.querySelector(`.book-page[data-page-id='${currentDrawingPageId}'] .draw-canvas`);
-            if(canvas) clearDrawingOnPage(currentDrawingPageId, canvas);
-        }
-        drawModal.style.display = 'none';
+    // Botones principales
+    document.getElementById('addBlankPageBtn').onclick = addBlankPage;
+    document.getElementById('importImageBtn').onclick = () => { if(pages.length) openImageModalForPage(pages[0].id, false); };
+    document.getElementById('importUrlBtn').onclick = () => { if(pages.length) openImageModalForPage(pages[0].id, false); };
+    document.getElementById('saveAsPdfBtn').onclick = saveAsPDF;
+    document.getElementById('resetBookBtn').onclick = () => { 
+        pages = createDefaultBook();
+        nextId = pages[pages.length-1].id + 1;
+        renderBook();
+        showToast("Libro restaurado con la historia especial");
     };
-    document.getElementById('closeDrawModalBtn').onclick = () => drawModal.style.display = 'none';
-    // para acceder rápido a herramientas de dibujo se puede usar un botón extra, pero no interfiere
-    // asegurar que se guarde dibujo al cambiar página
-    window.addEventListener('beforeunload', () => { if(currentDrawingPageId) captureDrawData(currentDrawingPageId); });
+    
+    // Inicializar con historia predefinida
+    pages = createDefaultBook();
+    nextId = pages[pages.length-1].id + 1;
+    renderBook();
 </script>
 </body>
 </html>
