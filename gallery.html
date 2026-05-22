@@ -82,10 +82,11 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-        /* Cada página - estilo libro */
+        /* Cada página - estilo libro - tamaño fijo para que la imagen ocupe todo */
         .book-page {
-            width: 400px;
-            min-width: 300px;
+            width: 420px;
+            min-width: 320px;
+            max-width: 450px;
             background: white;
             border-radius: 20px;
             box-shadow: 0 12px 28px rgba(0,0,0,0.2);
@@ -121,26 +122,46 @@
         }
         .page-actions button:hover { color: var(--secondary); }
         
+        /* Contenedor de imagen - ahora ocupa casi todo el espacio */
         .canvas-container {
             position: relative;
             background: #fef9ef;
-            min-height: 420px;
+            min-height: 480px;
+            height: auto;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            flex: 1;
         }
         .image-layer {
             position: relative;
             width: 100%;
-            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .page-img {
             width: 100%;
-            display: block;
+            height: auto;
+            min-height: 380px;
             object-fit: contain;
-            max-height: 450px;
-            pointer-events: auto;
+            display: block;
+            background: #f0e8d8;
+        }
+        /* Forzar que la imagen ocupe todo el ancho disponible y se ajuste bien */
+        .image-layer .page-img {
+            width: 100%;
+            max-height: 460px;
+            object-fit: cover;
+        }
+        /* Para imágenes que no llenan el espacio, usar cover pero sin perder relación */
+        .book-page .page-img {
+            width: 100%;
+            min-height: 400px;
+            object-fit: cover;
         }
         .draw-canvas {
             position: absolute;
@@ -158,25 +179,37 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 420px;
+            min-height: 420px;
+            width: 100%;
             color: #b0a088;
             font-style: italic;
             gap: 12px;
         }
+        /* Pie de foto - pequeño pero visible */
+        .image-caption {
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            color: #a0556e;
+            font-style: italic;
+            text-align: center;
+            background: rgba(255,245,240,0.9);
+            width: 100%;
+            border-top: 1px solid #ffe0e7;
+        }
         .page-footer {
-            padding: 10px;
+            padding: 8px;
             background: #fffaf5;
             border-top: 1px solid #ffe0e7;
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
         .page-footer button {
             background: #ffe4ed;
             border: none;
             border-radius: 30px;
-            padding: 6px 12px;
+            padding: 5px 12px;
             font-size: 0.7rem;
             display: inline-flex;
             align-items: center;
@@ -186,7 +219,30 @@
         }
         .page-footer button:hover { background: #ffccd5; }
 
-        /* Modal para subir/editar */
+        /* Controles de zoom dentro de la imagen */
+        .zoom-control {
+            position: absolute;
+            bottom: 50px;
+            right: 8px;
+            background: rgba(255,255,255,0.85);
+            border-radius: 30px;
+            display: flex;
+            gap: 6px;
+            padding: 4px 8px;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+        .zoom-btn {
+            background: white;
+            border: none;
+            border-radius: 30px;
+            padding: 4px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -220,12 +276,6 @@
             border-radius: 60px;
             border: 2px solid #ffb6c1;
         }
-        .img-preview {
-            max-width: 100%;
-            max-height: 180px;
-            margin: 10px 0;
-            border-radius: 20px;
-        }
         .close-modal-btn {
             background: var(--primary);
             color: white;
@@ -255,32 +305,23 @@
             100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
         }
         @media (max-width: 880px) {
-            .book-page { width: 340px; }
+            .book-page { width: 360px; }
+            .canvas-container { min-height: 420px; }
         }
         @media (max-width: 760px) {
-            .book-page { width: 100%; max-width: 400px; }
+            .book-page { width: 95%; max-width: 400px; }
             .toolbar { border-radius: 30px; }
         }
-        .zoom-control {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 30px;
-            display: flex;
-            gap: 8px;
-            padding: 4px 8px;
-            z-index: 5;
-        }
-        .zoom-btn {
-            background: white;
-            border: none;
-            border-radius: 30px;
-            padding: 4px 8px;
-            font-size: 12px;
-            cursor: pointer;
-        }
         .dragging-ghost { opacity: 0.4; background: #ffd9e4; }
+        
+        /* Asegurar que la imagen ocupe el máximo espacio posible */
+        .image-layer .page-img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            min-height: 380px;
+            max-height: 460px;
+        }
     </style>
 </head>
 <body>
@@ -310,7 +351,7 @@
     </div>
 </div>
 
-<!-- MODAL PARA HERRAMIENTAS DE DIBUJO (color y grosor) -->
+<!-- MODAL PARA HERRAMIENTAS DE DIBUJO -->
 <div id="drawToolsModal" class="modal-overlay">
     <div class="modal-card">
         <h3>✏️ Herramientas de Dibujo</h3>
@@ -328,31 +369,28 @@
     let pages = [];
     let nextId = 1;
     let currentDrawingPageId = null;
-    let activeDrawCanvas = null;
     let drawingEnabled = false;
 
-    // ========== HISTORIA PREDEFINIDA CON 10 IMÁGENES (desde assets/photos/) ==========
+    // ========== HISTORIA PREDEFINIDA CON 10 IMÁGENES ==========
     const predefinedImages = [
         "assets/photos/imagen1.png", "assets/photos/imagen2.png", "assets/photos/imagen3.png",
         "assets/photos/imagen4.png", "assets/photos/imagen5.png", "assets/photos/imagen6.png",
         "assets/photos/imagen7.png", "assets/photos/imagen8.png", "assets/photos/imagen9.png",
         "assets/photos/imagen10.png"
     ];
-    // Textos opcionales para acompañar cada imagen (historia)
     const storyTexts = [
-        "El día que nuestros caminos se cruzaron ✨",
-        "La primera sonrisa compartida 💕",
-        "Nuestra primera cita inolvidable 🍕",
-        "Bajo las estrellas, promesas eternas 🌟",
-        "Risas y confidencias sin fin 😊",
-        "Un abrazo que lo dice todo 🤗",
-        "Viajando juntos hacia el futuro 🚗",
-        "El amor en cada detalle 🌹",
-        "Construyendo sueños contigo 🏠",
-        "Te amo, hoy y siempre 💖"
+        "✨ El día que nuestros caminos se cruzaron ✨",
+        "💕 La primera sonrisa compartida 💕",
+        "🍕 Nuestra primera cita inolvidable 🍕",
+        "🌟 Bajo las estrellas, promesas eternas 🌟",
+        "😊 Risas y confidencias sin fin 😊",
+        "🤗 Un abrazo que lo dice todo 🤗",
+        "🚗 Viajando juntos hacia el futuro 🚗",
+        "🌹 El amor en cada detalle 🌹",
+        "🏠 Construyendo sueños contigo 🏠",
+        "💖 Te amo, hoy y siempre 💖"
     ];
 
-    // Función para crear libro inicial con 10 páginas (imágenes predeterminadas)
     function createDefaultBook() {
         const newPages = [];
         for (let i = 0; i < predefinedImages.length; i++) {
@@ -366,7 +404,6 @@
         return newPages;
     }
 
-    // Guardar dibujo en dataURL
     function captureDrawData(pageId) {
         const pageDiv = document.querySelector(`.book-page[data-page-id='${pageId}']`);
         if(pageDiv) {
@@ -393,7 +430,6 @@
         }
     }
 
-    // Renderizar todas las páginas
     function renderBook() {
         const container = document.getElementById('pagesContainer');
         container.innerHTML = '';
@@ -407,17 +443,15 @@
             pageDiv.addEventListener('drop', handleDrop);
             pageDiv.addEventListener('dragend', handleDragEnd);
             
-            // Header
             const header = document.createElement('div');
             header.className = 'page-header';
             header.innerHTML = `<span class="page-number">📖 Página ${idx+1}</span>
                                 <div class="page-actions">
-                                    <button class="delete-page" data-id="${page.id}" title="Eliminar página"><i class="fas fa-trash"></i></button>
-                                    <button class="draw-toggle" data-id="${page.id}" title="Dibujar sobre imagen"><i class="fas fa-paint-brush"></i></button>
+                                    <button class="delete-page" data-id="${page.id}" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    <button class="draw-toggle" data-id="${page.id}" title="Dibujar"><i class="fas fa-paint-brush"></i></button>
                                     <button class="edit-caption" data-id="${page.id}" title="Editar texto"><i class="fas fa-pen"></i></button>
                                 </div>`;
             
-            // Contenedor imagen
             const canvasContainer = document.createElement('div');
             canvasContainer.className = 'canvas-container';
             const imageLayer = document.createElement('div');
@@ -430,21 +464,20 @@
                 imgElem.className = 'page-img';
                 imgElem.style.transform = `scale(${page.zoomLevel || 1})`;
                 imgElem.style.transition = 'transform 0.2s';
+                imgElem.style.width = '100%';
+                imgElem.style.minHeight = '380px';
+                imgElem.style.objectFit = 'cover';
                 // Pie de foto
                 const captionSpan = document.createElement('div');
-                captionSpan.style.padding = '8px';
-                captionSpan.style.fontSize = '0.8rem';
-                captionSpan.style.color = '#a0556e';
-                captionSpan.style.fontStyle = 'italic';
-                captionSpan.style.textAlign = 'center';
+                captionSpan.className = 'image-caption';
                 captionSpan.innerText = page.elements[0].caption || 'Momento especial ❤️';
-                imageLayer.appendChild(imgElem);
-                imageLayer.appendChild(captionSpan);
                 // Controles de zoom
                 const zoomDiv = document.createElement('div');
                 zoomDiv.className = 'zoom-control';
                 zoomDiv.innerHTML = `<button class="zoom-btn" data-id="${page.id}" data-dir="in">🔍+</button>
                                      <button class="zoom-btn" data-id="${page.id}" data-dir="out">🔍-</button>`;
+                imageLayer.appendChild(imgElem);
+                imageLayer.appendChild(captionSpan);
                 imageLayer.appendChild(zoomDiv);
             } else {
                 const blankDiv = document.createElement('div');
@@ -461,14 +494,13 @@
             drawCanvas.style.left = '0';
             drawCanvas.style.width = '100%';
             drawCanvas.style.height = '100%';
-            drawCanvas.width = 400;
-            drawCanvas.height = 450;
+            drawCanvas.width = 420;
+            drawCanvas.height = 480;
             drawCanvas.style.pointerEvents = 'none';
             drawCanvas.setAttribute('data-page', page.id);
             imageLayer.appendChild(drawCanvas);
             canvasContainer.appendChild(imageLayer);
             
-            // Footer
             const footer = document.createElement('div');
             footer.className = 'page-footer';
             footer.innerHTML = `<button class="replace-img" data-id="${page.id}"><i class="fas fa-exchange-alt"></i> Cambiar imagen</button>
@@ -481,7 +513,7 @@
             
             restoreDrawOnPage(page.id, drawCanvas);
             
-            // Eventos internos
+            // Eventos
             header.querySelector('.delete-page').addEventListener('click', () => deletePage(page.id));
             header.querySelector('.draw-toggle').addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -503,7 +535,7 @@
         const idx = pages.findIndex(p => p.id === pageId);
         if(idx !== -1 && pages[idx].elements.length) {
             let newZoom = (pages[idx].zoomLevel || 1) + delta;
-            newZoom = Math.min(2.5, Math.max(0.6, newZoom));
+            newZoom = Math.min(2.2, Math.max(0.7, newZoom));
             pages[idx].zoomLevel = newZoom;
             const imgDiv = document.querySelector(`.book-page[data-page-id='${pageId}'] .page-img`);
             if(imgDiv) imgDiv.style.transform = `scale(${newZoom})`;
@@ -513,7 +545,7 @@
     function editCaption(pageId) {
         const idx = pages.findIndex(p => p.id === pageId);
         if(idx !== -1 && pages[idx].elements.length) {
-            const newText = prompt("Escribe un pie de foto para este momento:", pages[idx].elements[0].caption || "");
+            const newText = prompt("Escribe un pie de foto:", pages[idx].elements[0].caption || "");
             if(newText !== null) pages[idx].elements[0].caption = newText;
             renderBook();
         }
@@ -525,6 +557,7 @@
             canvasElem.style.pointerEvents = 'none';
             currentDrawingPageId = null;
             showToast("Dibujo desactivado");
+            document.getElementById('drawToolsModal').style.display = 'none';
         } else {
             if(currentDrawingPageId) {
                 const prevCanvas = document.querySelector(`.book-page[data-page-id='${currentDrawingPageId}'] .draw-canvas`);
@@ -534,8 +567,7 @@
             currentDrawingPageId = pageId;
             canvasElem.style.pointerEvents = 'auto';
             setupDrawing(canvasElem);
-            showToast("✏️ Modo dibujo activado - usa el dedo o mouse");
-            // Mostrar modal de herramientas de dibujo
+            showToast("✏️ Modo dibujo activado");
             document.getElementById('drawToolsModal').style.display = 'flex';
         }
     }
@@ -555,8 +587,6 @@
                 const img = new Image();
                 img.src = pageData.drawDataURL;
                 img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            } else {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
             }
         };
         setCanvasSize();
@@ -587,7 +617,6 @@
             const { x, y } = getCoords(e);
             const color = document.getElementById('drawColor')?.value || '#ff2e63';
             const width = document.getElementById('drawWidth')?.value || 4;
-            ctx.globalCompositeOperation = 'source-over';
             ctx.strokeStyle = color;
             ctx.lineWidth = width;
             ctx.lineCap = 'round';
@@ -630,7 +659,7 @@
     
     function deletePage(id) {
         if(pages.length === 1) {
-            showToast("No puedes eliminar la última página del libro");
+            showToast("No puedes eliminar la última página");
             return;
         }
         pages = pages.filter(p => p.id !== id);
@@ -647,13 +676,9 @@
     function addImageToPage(pageId, imageSrc, isReplace = false) {
         const idx = pages.findIndex(p => p.id === pageId);
         if(idx !== -1) {
-            if(isReplace || pages[idx].elements.length === 0) {
-                pages[idx].elements = [{ type: 'image', src: imageSrc, caption: "Recuerdo especial ❤️" }];
-            } else {
-                pages[idx].elements.push({ type: 'image', src: imageSrc, caption: "Nuevo recuerdo" });
-            }
+            pages[idx].elements = [{ type: 'image', src: imageSrc, caption: "Recuerdo especial ❤️" }];
             renderBook();
-            showToast("Imagen añadida correctamente");
+            showToast("Imagen añadida - ahora ocupa toda la página");
         }
     }
     
@@ -664,7 +689,6 @@
         modal.style.display = 'flex';
         document.getElementById('modalFileInput').value = '';
         document.getElementById('modalUrlInput').value = '';
-        document.getElementById('modalPreview').innerHTML = '';
     }
     
     document.getElementById('confirmAddImageBtn').onclick = () => {
@@ -684,7 +708,6 @@
     document.getElementById('closeModalBtn').onclick = closeModal;
     function closeModal() { document.getElementById('imageModal').style.display = 'none'; }
     
-    // Cerrar modal dibujo
     document.getElementById('closeDrawModalBtn').onclick = () => document.getElementById('drawToolsModal').style.display = 'none';
     document.getElementById('clearDrawingGlobalBtn').onclick = () => {
         if(currentDrawingPageId) {
@@ -694,7 +717,7 @@
         document.getElementById('drawToolsModal').style.display = 'none';
     };
     
-    // Drag & drop reordenar
+    // Drag & drop
     let dragSrcIndex = null;
     function handleDragStart(e) {
         const pageDiv = e.target.closest('.book-page');
@@ -721,20 +744,20 @@
     }
     function handleDragEnd(e) { document.querySelectorAll('.book-page').forEach(p => p.classList.remove('dragging-ghost')); dragSrcIndex = null; }
     
-    // PDF optimizado: ocupa 90% de la hoja, márgenes mínimos
+    // PDF optimizado con imágenes que ocupan todo el espacio
     async function saveAsPDF() {
         const element = document.getElementById('pagesContainer');
         const opt = {
-            margin:        [0.2, 0.2, 0.2, 0.2], // márgenes muy pequeños
-            filename:     'libro_nuestra_historia_KIM.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, logging: false, letterRendering: true },
-            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            margin: [0.2, 0.2, 0.2, 0.2],
+            filename: 'libro_nuestra_historia_KIM.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2.2, useCORS: true, logging: false, letterRendering: true },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
-        showToast("✨ Generando PDF con todo el amor...");
+        showToast("✨ Generando PDF con imágenes a tamaño completo...");
         try {
             await html2pdf().set(opt).from(element).save();
-            showToast("📖 ¡Libro guardado! Cada página es un tesoro.");
+            showToast("📖 ¡Libro guardado! Las imágenes ocupan todo el espacio.");
         } catch(err) { showToast("Error: "+err); }
     }
     
@@ -746,7 +769,7 @@
         setTimeout(() => toast.remove(), 2500);
     }
     
-    // Botones principales
+    // Botones
     document.getElementById('addBlankPageBtn').onclick = addBlankPage;
     document.getElementById('importImageBtn').onclick = () => { if(pages.length) openImageModalForPage(pages[0].id, false); };
     document.getElementById('importUrlBtn').onclick = () => { if(pages.length) openImageModalForPage(pages[0].id, false); };
@@ -758,7 +781,7 @@
         showToast("Libro restaurado con la historia especial");
     };
     
-    // Inicializar con historia predefinida
+    // Inicializar
     pages = createDefaultBook();
     nextId = pages[pages.length-1].id + 1;
     renderBook();
