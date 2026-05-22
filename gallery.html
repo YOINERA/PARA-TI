@@ -2,856 +2,753 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Nuestros Momentos - Para KIM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Libro Inteligente - Para KIM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Librerías necesarias -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Interactividad de arrastre nativa con soporte táctil -->
     <style>
-        /* ===== VARIABLES GLOBALES ===== */
-        :root {
-            --primary-color: #ff6b8b;
-            --secondary-color: #ff2e63;
-            --accent-color: #ffd700;
-            --light-color: #fff0f5;
-            --dark-color: #1a1a2e;
-            --gradient: linear-gradient(135deg, #ff6b8b, #ff2e63);
-            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none; /* Evita selección al arrastrar, mejora la experiencia */
+        }
+
+        :root {
+            --primary: #ff6b8b;
+            --secondary: #ff2e63;
+            --dark-bg: #1e1e2f;
+            --light-bg: #fff9f0;
+            --shadow: 0 12px 30px rgba(0,0,0,0.15);
+            --radius-lg: 32px;
+            --radius-md: 20px;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #fff0f5 0%, #ffe6f2 100%);
-            color: #333;
+            background: linear-gradient(145deg, #fff0f5 0%, #ffe0ea 100%);
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Animación de fondo */
-        .background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: linear-gradient(-45deg, #ff6b8b, #ffb6c1, #ffccd5, #ff6b8b);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        #particles-js {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        /* ===== ESTILOS DE LA GALERÍA ===== */
-        .gallery-container {
-            max-width: 1200px;
-            margin: 100px auto 50px;
             padding: 20px;
+            overflow-x: auto;
         }
 
-        .gallery-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            margin-bottom: 40px;
-            text-align: center;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .gallery-filters {
+        /* Contenedor principal tipo libro */
+        .book-workspace {
+            max-width: 1400px;
+            margin: 20px auto;
+            background: rgba(255,255,240,0.85);
+            backdrop-filter: blur(2px);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
+            flex-direction: column;
+        }
+
+        /* Toolbar flotante moderno */
+        .toolbar {
+            background: rgba(255,255,255,0.96);
+            padding: 12px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .tool-group {
+            display: flex;
+            gap: 8px;
             flex-wrap: wrap;
         }
-
-        .gallery-filter {
-            padding: 8px 20px;
-            border: 2px solid var(--secondary-color);
+        .tool-btn {
             background: white;
-            color: var(--secondary-color);
-            border-radius: 30px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
             font-size: 0.9rem;
-        }
-
-        .gallery-filter:hover, .gallery-filter.active {
-            background: var(--gradient);
-            color: white;
-            border-color: transparent;
-            transform: translateY(-3px);
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
             cursor: pointer;
-            height: 250px;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--secondary);
+            border: 1px solid #ffccd5;
         }
-
-        .gallery-item:active {
-            transform: scale(0.98);
+        .tool-btn-primary {
+            background: linear-gradient(135deg, #ff6b8b, #ff2e63);
+            color: white;
+            border: none;
         }
+        .tool-btn-primary i { color: white; }
+        .tool-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(255,107,139,0.3); }
 
-        .gallery-img {
+        /* Área del libro: diseño de doble página adaptable */
+        .book-viewer {
+            background: #e8dccc;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 70vh;
+        }
+        .pages-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* cada página */
+        .book-page {
+            width: 380px;
+            min-width: 280px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: 0.2s;
+            border: 1px solid #ffd9e4;
+            position: relative;
+            cursor: grab;
+        }
+        .book-page:active { cursor: grabbing; }
+        .page-header {
+            background: #fff5f0;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ffe0e7;
+        }
+        .page-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+        .page-actions button {
+            background: none;
+            border: none;
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #888;
+            transition: 0.1s;
+        }
+        .page-actions button:hover { color: var(--secondary); }
+        .canvas-container {
+            position: relative;
+            background: #fef9ef;
+            min-height: 380px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .image-layer {
+            position: relative;
+            width: 100%;
+            cursor: crosshair;
+        }
+        .page-img {
+            width: 100%;
+            display: block;
+            object-fit: contain;
+            max-height: 420px;
+            pointer-events: auto;
+            user-select: none;
+        }
+        .draw-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+            background: transparent;
+            pointer-events: auto;
+            touch-action: none;
+        }
+        .blank-placeholder {
+            background: #f7f0e3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 380px;
+            color: #b0a088;
+            font-style: italic;
+        }
+        .page-footer {
+            padding: 12px;
+            background: #fffaf5;
+            border-top: 1px solid #ffe0e7;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .page-footer button {
+            background: #ffe4ed;
+            border: none;
+            border-radius: 30px;
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
         }
 
-        .gallery-item:hover .gallery-img {
-            transform: scale(1.1);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: white;
-            padding: 20px;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            transform: translateY(0);
-        }
-
-        .gallery-date {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 5px;
-        }
-
-        .gallery-description {
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-
-        /* Modal de fotos */
-        .photo-modal {
-            display: none;
+        /* Modal para subir/importar imágenes */
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .photo-modal-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-            margin: auto;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .photo-modal-img {
-            width: 100%;
-            height: auto;
-            max-height: 80vh;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-
-        .modal-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 20px;
-            border-radius: 0 0 10px 10px;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .close-modal:hover {
-            color: var(--accent-color);
-        }
-
-        .modal-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-        }
-
-        .modal-nav-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: var(--transition);
+            background: rgba(0,0,0,0.7);
             backdrop-filter: blur(5px);
-        }
-
-        .modal-nav-btn:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(1.1);
-        }
-
-        /* Botón volver */
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-        }
-
-        .back-button a {
-            display: flex;
+            display: none;
             align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
-            background: var(--gradient);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            transition: var(--transition);
-            font-weight: 500;
-            box-shadow: var(--shadow);
+            justify-content: center;
+            z-index: 2000;
         }
-
-        .back-button a:hover {
-            transform: translateX(-5px);
-        }
-
-        /* Sección de subida */
-        .upload-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 50px;
+        .modal-card {
+            background: white;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 40px;
+            padding: 25px;
             text-align: center;
-            box-shadow: var(--shadow);
+            animation: fadeUp 0.3s;
         }
-
-        .upload-section h3 {
-            color: var(--secondary-color);
-            margin-bottom: 10px;
+        @keyframes fadeUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
-
-        .upload-section p {
-            color: #666;
+        .modal-card input, .modal-card textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 60px;
+            border: 2px solid #ffb6c1;
         }
-
-        .upload-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 30px;
-            background: var(--gradient);
+        .img-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin: 10px 0;
+            border-radius: 20px;
+        }
+        .close-modal {
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 20px;
-            font-weight: 500;
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-top: 15px;
         }
 
-        .upload-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 107, 139, 0.4);
+        /* Responsive */
+        @media (max-width: 880px) {
+            .pages-container { gap: 20px; }
+            .book-page { width: 320px; }
+        }
+        @media (max-width: 760px) {
+            .book-page { width: 100%; max-width: 420px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .tool-group { justify-content: center; }
+        }
+        @media (max-width: 550px) {
+            body { padding: 10px; }
+            .book-page .canvas-container { min-height: 280px; }
         }
 
-        .upload-input {
-            display: none;
+        .dragging-ghost {
+            opacity: 0.5;
+            background: #ffd9e4;
         }
-
-        /* Notificación */
-        .notification {
+        .notification-toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--gradient);
+            background: #ff6b8b;
             color: white;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 50px;
-            z-index: 10001;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            white-space: nowrap;
+            z-index: 3000;
             font-weight: 500;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-
-        .notification.show {
-            opacity: 1;
-        }
-
-        /* ===== RESPONSIVE DESIGN ===== */
-        /* Tablets y móviles grandes */
-        @media (max-width: 992px) {
-            .gallery-container {
-                margin-top: 90px;
-                padding: 15px;
-            }
-            
-            .gallery-title {
-                font-size: 3rem;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-                gap: 20px;
-            }
-        }
-
-        /* Móviles */
-        @media (max-width: 768px) {
-            .gallery-container {
-                margin-top: 80px;
-                padding: 12px;
-            }
-            
-            .gallery-title {
-                font-size: 2.2rem;
-                margin-bottom: 25px;
-            }
-            
-            .gallery-filters {
-                gap: 10px;
-                margin-bottom: 25px;
-            }
-            
-            .gallery-filter {
-                padding: 6px 15px;
-                font-size: 0.8rem;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 12px;
-            }
-            
-            .gallery-item {
-                height: 180px;
-                border-radius: 15px;
-            }
-            
-            .gallery-overlay {
-                padding: 12px;
-            }
-            
-            .gallery-date {
-                font-size: 0.7rem;
-            }
-            
-            .gallery-description {
-                font-size: 0.85rem;
-            }
-            
-            /* Modal en móvil */
-            .photo-modal-content {
-                max-width: 95%;
-            }
-            
-            .photo-modal-img {
-                max-height: 70vh;
-            }
-            
-            .modal-info {
-                padding: 12px;
-            }
-            
-            .modal-info .gallery-date {
-                font-size: 0.7rem;
-            }
-            
-            .modal-info .gallery-description {
-                font-size: 0.85rem;
-            }
-            
-            .close-modal {
-                top: -35px;
-                font-size: 1.8rem;
-            }
-            
-            .modal-nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            .modal-nav {
-                padding: 0 10px;
-            }
-            
-            /* Botón volver en móvil */
-            .back-button {
-                top: 10px;
-                left: 10px;
-            }
-            
-            .back-button a {
-                padding: 8px 16px;
-                font-size: 0.85rem;
-            }
-            
-            /* Sección subida */
-            .upload-section {
-                padding: 20px;
-                margin-top: 30px;
-            }
-            
-            .upload-section h3 {
-                font-size: 1.2rem;
-            }
-            
-            .upload-section p {
-                font-size: 0.85rem;
-            }
-            
-            .upload-btn {
-                padding: 10px 25px;
-                font-size: 0.9rem;
-            }
-            
-            .notification {
-                font-size: 0.85rem;
-                white-space: normal;
-                text-align: center;
-                max-width: 90%;
-                padding: 10px 20px;
-            }
-        }
-
-        /* Móviles muy pequeños */
-        @media (max-width: 480px) {
-            .gallery-title {
-                font-size: 1.8rem;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 10px;
-            }
-            
-            .gallery-item {
-                height: 150px;
-            }
-            
-            .gallery-filter {
-                padding: 5px 12px;
-                font-size: 0.7rem;
-            }
-            
-            .modal-nav-btn {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
-        }
-
-        /* Orientación horizontal en móvil */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .gallery-container {
-                margin-top: 70px;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            }
-            
-            .gallery-item {
-                height: 160px;
-            }
-            
-            .photo-modal-img {
-                max-height: 60vh;
-            }
-        }
-
-        /* Eliminar hover en táctiles (mejor experiencia) */
-        @media (hover: none) and (pointer: coarse) {
-            .gallery-item:hover {
-                transform: none;
-            }
-            
-            .gallery-item:hover .gallery-img {
-                transform: none;
-            }
-            
-            .gallery-item:hover .gallery-overlay {
-                transform: translateY(100%);
-            }
-            
-            .gallery-item:active .gallery-overlay {
-                transform: translateY(0);
-            }
-            
-            .gallery-filter:hover {
-                transform: none;
-            }
-            
-            .modal-nav-btn:hover {
-                transform: none;
-            }
-        }
-
-        /* Aumentar área táctil en móvil */
-        @media (max-width: 768px) {
-            .gallery-filter,
-            .modal-nav-btn,
-            .upload-btn,
-            .back-button a {
-                min-height: 44px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
+            transition: 0.2s;
         }
     </style>
 </head>
 <body>
-    <div class="background-animation"></div>
-    <div id="particles-js"></div>
-    
-    <div class="back-button">
-        <a href="index.html">
-            <i class="fas fa-arrow-left"></i> Volver al inicio
-        </a>
-    </div>
-    
-    <div class="gallery-container">
-        <h1 class="gallery-title">Nuestros Momentos Especiales</h1>
-        
-        <div class="gallery-filters">
-            <button class="gallery-filter active" data-filter="all">Todos</button>
-            <button class="gallery-filter" data-filter="together">Juntos</button>
-            <button class="gallery-filter" data-filter="dates">Citas</button>
-            <button class="gallery-filter" data-filter="special">Especiales</button>
-            <button class="gallery-filter" data-filter="future">Futuro</button>
+
+<div class="book-workspace">
+    <div class="toolbar">
+        <div class="tool-group">
+            <button class="tool-btn" id="addBlankPageBtn"><i class="fas fa-plus-circle"></i> Pág. Blanca</button>
+            <button class="tool-btn" id="importImageBtn"><i class="fas fa-image"></i> Importar Imagen</button>
+            <button class="tool-btn" id="importUrlBtn"><i class="fas fa-link"></i> Desde Web</button>
+            <button class="tool-btn tool-btn-primary" id="saveAsPdfBtn"><i class="fas fa-file-pdf"></i> Guardar Libro (PDF)</button>
         </div>
-        
-        <div class="gallery-grid" id="gallery-grid"></div>
-        
-        <div class="upload-section">
-            <h3>✨ ¿Quieres añadir nuestros recuerdos?</h3>
-            <p>Sube fotos especiales de nosotros (solo en tu dispositivo)</p>
-            <label for="photo-upload" class="upload-btn">
-                <i class="fas fa-cloud-upload-alt"></i> Subir Foto
-            </label>
-            <input type="file" id="photo-upload" class="upload-input" accept="image/*">
-        </div>
-    </div>
-    
-    <div class="photo-modal" id="photo-modal">
-        <div class="photo-modal-content">
-            <span class="close-modal" id="close-photo-modal">&times;</span>
-            <img class="photo-modal-img" id="modal-image" src="" alt="">
-            <div class="modal-info">
-                <div class="gallery-date" id="modal-date"></div>
-                <div class="gallery-description" id="modal-description"></div>
-            </div>
-            <div class="modal-nav">
-                <button class="modal-nav-btn" id="prev-photo">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="modal-nav-btn" id="next-photo">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
+        <div class="tool-group">
+            <button class="tool-btn" id="resetBookBtn"><i class="fas fa-trash-alt"></i> Nuevo Libro</button>
+            <button class="tool-btn" id="exportDataBtn"><i class="fas fa-save"></i> Guardar Proyecto</button>
+            <input type="file" id="importProjectFile" accept=".json" style="display:none">
+            <button class="tool-btn" id="loadProjectBtn"><i class="fas fa-folder-open"></i> Cargar Libro</button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-        // ===== GALERÍA DE FOTOS =====
-        const galleryPhotos = [
-            {
-                id: 1,
-                url: "https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-                title: "Nuestro Primer Viaje",
-                date: "Marzo 2024",
-                description: "Esa aventura inolvidable donde todo comenzó",
-                category: "together"
-            },
-            {
-                id: 2,
-                url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-                title: "Atardecer Perfecto",
-                date: "Abril 2024",
-                description: "Mirando el sol esconderse juntos",
-                category: "dates"
-            },
-            {
-                id: 3,
-                url: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-                title: "Risas Sin Fin",
-                date: "Mayo 2024",
-                description: "Los momentos más divertidos contigo",
-                category: "together"
-            },
-            {
-                id: 4,
-                url: "https://images.unsplash.com/photo-1529254479751-fbacb4c7a587?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-                title: "Celebración Especial",
-                date: "Junio 2024",
-                description: "Nuestro primer aniversario juntos",
-                category: "special"
-            },
-            {
-                id: 5,
-                url: "https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-                title: "Sueños Compartidos",
-                date: "Futuro",
-                description: "Todo lo que aún nos espera por vivir",
-                category: "future"
-            },
-            {
-                id: 6,
-                url: "https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-                title: "Noche de Estrellas",
-                date: "Julio 2024",
-                description: "Contando estrellas y compartiendo secretos",
-                category: "dates"
+    <div class="book-viewer">
+        <div class="pages-container" id="pagesContainer">
+            <!-- Las páginas se generarán dinámicamente -->
+        </div>
+    </div>
+</div>
+
+<!-- Modales -->
+<div id="imageModal" class="modal-overlay">
+    <div class="modal-card">
+        <h3><i class="fas fa-upload"></i> Añadir Imagen a Página</h3>
+        <input type="file" id="modalFileInput" accept="image/*">
+        <p style="margin:10px">O pega URL de imagen</p>
+        <input type="text" id="modalUrlInput" placeholder="https://...">
+        <div id="modalPreview"></div>
+        <button id="confirmAddImageBtn" class="close-modal">Agregar a la página actual</button>
+        <button id="closeModalBtn" style="background:#ccc; margin-top:10px">Cancelar</button>
+    </div>
+</div>
+
+<div id="drawModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+        <h3>🖌️ Dibujar sobre la página</h3>
+        <p>Selecciona color y trazo</p>
+        <input type="color" id="drawColor" value="#ff2e63">
+        <input type="range" id="drawWidth" min="1" max="20" value="4">
+        <button id="clearDrawingBtn" class="tool-btn">Borrar dibujo</button>
+        <button id="closeDrawModalBtn" class="close-modal">Cerrar</button>
+    </div>
+</div>
+
+<script>
+    // ---------- MODELO DE DATOS ----------
+    let pages = [];  // cada página: { id, elements: [{type:'image', src, drawDataURL?}] , drawCanvasData (base64), backgroundStyle }
+    let nextId = 1;
+    let currentDrawingPageId = null;  // página donde se está dibujando activamente
+    let activeDrawCanvas = null;
+    let drawingEnabled = false;
+    let drawCtx = null;
+
+    // Helper: guardar estado de dibujo (dataURL del canvas)
+    function captureDrawData(pageId) {
+        const pageDiv = document.querySelector(`.book-page[data-page-id='${pageId}']`);
+        if(pageDiv) {
+            const drawCanvas = pageDiv.querySelector('.draw-canvas');
+            if(drawCanvas) {
+                const dataURL = drawCanvas.toDataURL();
+                const pageIndex = pages.findIndex(p => p.id == pageId);
+                if(pageIndex !== -1) {
+                    pages[pageIndex].drawDataURL = dataURL;
+                }
             }
-        ];
+        }
+    }
+
+    // Restaurar dibujo en canvas después de render
+    function restoreDrawOnPage(pageId, canvasElem) {
+        const pageData = pages.find(p => p.id == pageId);
+        if(pageData && pageData.drawDataURL && canvasElem) {
+            const img = new Image();
+            img.src = pageData.drawDataURL;
+            img.onload = () => {
+                const ctx = canvasElem.getContext('2d');
+                canvasElem.width = canvasElem.clientWidth;
+                canvasElem.height = canvasElem.clientHeight;
+                ctx.drawImage(img, 0, 0, canvasElem.width, canvasElem.height);
+            };
+        }
+    }
+
+    // Renderizar todas las páginas
+    function renderBook() {
+        const container = document.getElementById('pagesContainer');
+        container.innerHTML = '';
+        pages.forEach((page, idx) => {
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'book-page';
+            pageDiv.setAttribute('data-page-id', page.id);
+            pageDiv.setAttribute('draggable', 'true');
+            // eventos de arrastre para reordenar (táctil + ratón)
+            pageDiv.addEventListener('dragstart', handleDragStart);
+            pageDiv.addEventListener('dragover', handleDragOver);
+            pageDiv.addEventListener('drop', handleDrop);
+            pageDiv.addEventListener('dragend', handleDragEnd);
+            
+            // Header
+            const header = document.createElement('div');
+            header.className = 'page-header';
+            header.innerHTML = `<span class="page-number">Página ${idx+1}</span>
+                                <div class="page-actions">
+                                    <button class="delete-page" data-id="${page.id}"><i class="fas fa-trash"></i></button>
+                                    <button class="draw-toggle" data-id="${page.id}"><i class="fas fa-paint-brush"></i></button>
+                                </div>`;
+            // Contenedor de imagen / lienzo
+            const canvasContainer = document.createElement('div');
+            canvasContainer.className = 'canvas-container';
+            const imageLayer = document.createElement('div');
+            imageLayer.className = 'image-layer';
+            let mainImage = null;
+            const hasImage = page.elements && page.elements.length > 0 && page.elements[0].type === 'image';
+            if(hasImage) {
+                const imgElem = document.createElement('img');
+                imgElem.src = page.elements[0].src;
+                imgElem.className = 'page-img';
+                imgElem.style.maxWidth = '100%';
+                imgElem.style.pointerEvents = 'none';
+                imageLayer.appendChild(imgElem);
+            } else {
+                const blankDiv = document.createElement('div');
+                blankDiv.className = 'blank-placeholder';
+                blankDiv.innerHTML = '<i class="fas fa-book-open" style="font-size:3rem; opacity:0.4;"></i><p>Página en blanco</p><small>Haz clic en importar</small>';
+                imageLayer.appendChild(blankDiv);
+            }
+            // Canvas de dibujo
+            const drawCanvas = document.createElement('canvas');
+            drawCanvas.className = 'draw-canvas';
+            drawCanvas.style.position = 'absolute';
+            drawCanvas.style.top = '0';
+            drawCanvas.style.left = '0';
+            drawCanvas.style.width = '100%';
+            drawCanvas.style.height = '100%';
+            drawCanvas.width = 380;
+            drawCanvas.height = 380;
+            drawCanvas.style.pointerEvents = 'none'; // inicialmente desactivado
+            drawCanvas.setAttribute('data-page', page.id);
+            imageLayer.appendChild(drawCanvas);
+            canvasContainer.appendChild(imageLayer);
+            
+            // Footer
+            const footer = document.createElement('div');
+            footer.className = 'page-footer';
+            footer.innerHTML = `<button class="add-img-footer" data-id="${page.id}"><i class="fas fa-plus"></i> Imagen</button>
+                                <button class="blank-page-footer" data-id="${page.id}"><i class="far fa-file"></i> Convertir en Blanca</button>
+                                <button class="clear-draw-footer" data-id="${page.id}"><i class="fas fa-eraser"></i> Limpiar dibujo</button>`;
+            
+            pageDiv.appendChild(header);
+            pageDiv.appendChild(canvasContainer);
+            pageDiv.appendChild(footer);
+            container.appendChild(pageDiv);
+            
+            // restaurar dibujo guardado
+            restoreDrawOnPage(page.id, drawCanvas);
+            // configurar evento de dibujo después de render
+            const drawBtn = header.querySelector('.draw-toggle');
+            drawBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleDrawingMode(page.id, drawCanvas);
+            });
+            // eliminar página
+            header.querySelector('.delete-page').addEventListener('click', () => deletePage(page.id));
+            // Botones footer
+            footer.querySelector('.add-img-footer').addEventListener('click', () => openImageModalForPage(page.id));
+            footer.querySelector('.blank-page-footer').addEventListener('click', () => convertToBlank(page.id));
+            footer.querySelector('.clear-draw-footer').addEventListener('click', () => clearDrawingOnPage(page.id, drawCanvas));
+        });
+        // Actualizar números de página luego de reordenar
+        updatePageNumbers();
+    }
+
+    // Alternar modo dibujo
+    function toggleDrawingMode(pageId, canvasElem) {
+        if(currentDrawingPageId === pageId && drawingEnabled) {
+            // desactivar
+            drawingEnabled = false;
+            canvasElem.style.pointerEvents = 'none';
+            currentDrawingPageId = null;
+            showToast("Dibujo desactivado");
+        } else {
+            // desactivar cualquier otro activo
+            if(currentDrawingPageId) {
+                const prevCanvas = document.querySelector(`.book-page[data-page-id='${currentDrawingPageId}'] .draw-canvas`);
+                if(prevCanvas) prevCanvas.style.pointerEvents = 'none';
+            }
+            drawingEnabled = true;
+            currentDrawingPageId = pageId;
+            canvasElem.style.pointerEvents = 'auto';
+            setupDrawing(canvasElem);
+            showToast("✏️ Modo dibujo activado - usa el dedo o ratón");
+        }
+    }
+
+    function setupDrawing(canvas) {
+        let ctx = canvas.getContext('2d');
+        let painting = false;
+        let lastX = 0, lastY = 0;
+        const setCanvasSize = () => {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            const pageId = canvas.getAttribute('data-page');
+            const pageData = pages.find(p => p.id == pageId);
+            if(pageData && pageData.drawDataURL) {
+                const img = new Image();
+                img.src = pageData.drawDataURL;
+                img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            } else {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+            }
+        };
+        setCanvasSize();
+        window.addEventListener('resize', () => setCanvasSize());
         
-        let currentPhotoIndex = 0;
-        let filteredPhotos = [...galleryPhotos];
-        
-        const elements = {
-            galleryGrid: document.getElementById('gallery-grid'),
-            photoModal: document.getElementById('photo-modal'),
-            modalImage: document.getElementById('modal-image'),
-            modalDate: document.getElementById('modal-date'),
-            modalDescription: document.getElementById('modal-description'),
-            closePhotoModal: document.getElementById('close-photo-modal'),
-            prevPhoto: document.getElementById('prev-photo'),
-            nextPhoto: document.getElementById('next-photo'),
-            galleryFilters: document.querySelectorAll('.gallery-filter'),
-            photoUpload: document.getElementById('photo-upload')
+        const getCoords = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let clientX, clientY;
+            if(e.touches) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            let x = (clientX - rect.left) * scaleX;
+            let y = (clientY - rect.top) * scaleY;
+            x = Math.min(Math.max(0, x), canvas.width);
+            y = Math.min(Math.max(0, y), canvas.height);
+            return { x, y };
         };
         
-        function initGallery() {
-            loadGallery();
-            setupEventListeners();
-            initParticles();
-        }
+        const draw = (e) => {
+            if(!painting) return;
+            e.preventDefault();
+            const { x, y } = getCoords(e);
+            const color = document.getElementById('drawColor')?.value || '#ff2e63';
+            const width = document.getElementById('drawWidth')?.value || 4;
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            lastX = x;
+            lastY = y;
+            // guardar en dataURL
+            const pageId = canvas.getAttribute('data-page');
+            const pageIndex = pages.findIndex(p => p.id == pageId);
+            if(pageIndex !== -1) pages[pageIndex].drawDataURL = canvas.toDataURL();
+        };
         
-        function loadGallery() {
-            elements.galleryGrid.innerHTML = '';
-            
-            filteredPhotos.forEach((photo, index) => {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.dataset.index = index;
-                item.dataset.category = photo.category;
-                
-                item.innerHTML = `
-                    <img src="${photo.url}" alt="${photo.title}" class="gallery-img" loading="lazy">
-                    <div class="gallery-overlay">
-                        <div class="gallery-date">${photo.date}</div>
-                        <div class="gallery-description">${photo.title}</div>
-                    </div>
-                `;
-                
-                item.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openPhotoModal(index);
-                });
-                elements.galleryGrid.appendChild(item);
-            });
+        const start = (e) => {
+            painting = true;
+            const { x, y } = getCoords(e);
+            lastX = x; lastY = y;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x+0.5, y+0.5);
+            ctx.stroke();
+            e.preventDefault();
+        };
+        const end = () => { painting = false; };
+        canvas.addEventListener('mousedown', start);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', end);
+        canvas.addEventListener('touchstart', start);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', end);
+    }
+    
+    function clearDrawingOnPage(pageId, canvasElem) {
+        const ctx = canvasElem.getContext('2d');
+        ctx.clearRect(0, 0, canvasElem.width, canvasElem.height);
+        const idx = pages.findIndex(p => p.id == pageId);
+        if(idx !== -1) pages[idx].drawDataURL = null;
+        showToast("Dibujo borrado");
+    }
+    
+    function deletePage(id) {
+        pages = pages.filter(p => p.id !== id);
+        if(pages.length === 0) addBlankPage(); // al menos una página
+        renderBook();
+    }
+    
+    function addBlankPage() {
+        const newId = nextId++;
+        pages.push({ id: newId, elements: [], drawDataURL: null });
+        renderBook();
+    }
+    
+    function convertToBlank(pageId) {
+        const idx = pages.findIndex(p => p.id === pageId);
+        if(idx !== -1) {
+            pages[idx].elements = [];
+            pages[idx].drawDataURL = null;
+            renderBook();
+            showToast("Página convertida a blanco");
         }
-        
-        function openPhotoModal(index) {
-            currentPhotoIndex = index;
-            const photo = filteredPhotos[index];
-            
-            elements.modalImage.src = photo.url;
-            elements.modalDate.textContent = photo.date;
-            elements.modalDescription.textContent = photo.description;
-            
-            elements.photoModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
+    }
+    
+    function addImageToPage(pageId, imageSrc) {
+        const idx = pages.findIndex(p => p.id === pageId);
+        if(idx !== -1) {
+            pages[idx].elements = [{ type: 'image', src: imageSrc }];
+            renderBook();
+            showToast("Imagen añadida");
         }
-        
-        function closePhotoModal() {
-            elements.photoModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+    }
+    
+    function openImageModalForPage(pageId) {
+        window.tempPageId = pageId;
+        const modal = document.getElementById('imageModal');
+        modal.style.display = 'flex';
+        document.getElementById('modalFileInput').value = '';
+        document.getElementById('modalUrlInput').value = '';
+        document.getElementById('modalPreview').innerHTML = '';
+    }
+    
+    // Subida de archivo o URL
+    document.getElementById('confirmAddImageBtn').onclick = () => {
+        const file = document.getElementById('modalFileInput').files[0];
+        const url = document.getElementById('modalUrlInput').value.trim();
+        if(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => { addImageToPage(window.tempPageId, e.target.result); closeModal(); };
+            reader.readAsDataURL(file);
+        } else if(url) {
+            addImageToPage(window.tempPageId, url);
+            closeModal();
+        } else {
+            alert("Selecciona una imagen o URL");
         }
-        
-        function showPrevPhoto() {
-            currentPhotoIndex = (currentPhotoIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
-            const photo = filteredPhotos[currentPhotoIndex];
-            elements.modalImage.src = photo.url;
-            elements.modalDate.textContent = photo.date;
-            elements.modalDescription.textContent = photo.description;
+    };
+    document.getElementById('closeModalBtn').onclick = closeModal;
+    function closeModal() { document.getElementById('imageModal').style.display = 'none'; }
+    
+    // Ordenamiento Drag & drop
+    let dragSrcIndex = null;
+    function handleDragStart(e) {
+        const pageDiv = e.target.closest('.book-page');
+        if(!pageDiv) return;
+        const id = parseInt(pageDiv.getAttribute('data-page-id'));
+        dragSrcIndex = pages.findIndex(p => p.id === id);
+        e.dataTransfer.setData('text/plain', id);
+        e.dataTransfer.effectAllowed = 'move';
+        pageDiv.classList.add('dragging-ghost');
+    }
+    function handleDragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }
+    function handleDrop(e) {
+        e.preventDefault();
+        const targetPage = e.target.closest('.book-page');
+        if(!targetPage || dragSrcIndex === null) return;
+        const targetId = parseInt(targetPage.getAttribute('data-page-id'));
+        const targetIndex = pages.findIndex(p => p.id === targetId);
+        if(dragSrcIndex !== targetIndex) {
+            const [moved] = pages.splice(dragSrcIndex, 1);
+            pages.splice(targetIndex, 0, moved);
+            renderBook();
         }
-        
-        function showNextPhoto() {
-            currentPhotoIndex = (currentPhotoIndex + 1) % filteredPhotos.length;
-            const photo = filteredPhotos[currentPhotoIndex];
-            elements.modalImage.src = photo.url;
-            elements.modalDate.textContent = photo.date;
-            elements.modalDescription.textContent = photo.description;
+        dragSrcIndex = null;
+        document.querySelectorAll('.book-page').forEach(p => p.classList.remove('dragging-ghost'));
+    }
+    function handleDragEnd(e) { document.querySelectorAll('.book-page').forEach(p => p.classList.remove('dragging-ghost')); dragSrcIndex = null; }
+    
+    function updatePageNumbers() { /* solo visual, se actualiza en render */ }
+    
+    // Guardar libro como PDF usando html2pdf
+    async function saveAsPDF() {
+        const element = document.getElementById('pagesContainer');
+        const opt = {
+            margin:        [0.5, 0.5, 0.5, 0.5],
+            filename:     'libro_amor_KIM.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, logging: false },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        showToast("Generando PDF... puede tomar unos segundos");
+        try {
+            await html2pdf().set(opt).from(element).save();
+            showToast("📖 PDF guardado exitosamente");
+        } catch(err) { showToast("Error generando PDF: "+err); }
+    }
+    
+    // Guardar proyecto (JSON)
+    function saveProject() {
+        const data = JSON.stringify({ pages, nextId });
+        const blob = new Blob([data], {type: 'application/json'});
+        const a = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = 'mi_libro_amor.json';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast("Proyecto guardado");
+    }
+    function loadProjectFromFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const obj = JSON.parse(e.target.result);
+                pages = obj.pages;
+                nextId = obj.nextId;
+                renderBook();
+                showToast("Libro cargado correctamente");
+            } catch(err) { alert("Archivo inválido"); }
+        };
+        reader.readAsText(file);
+    }
+    document.getElementById('exportDataBtn').onclick = saveProject;
+    document.getElementById('loadProjectBtn').onclick = () => document.getElementById('importProjectFile').click();
+    document.getElementById('importProjectFile').onchange = (e) => { if(e.target.files[0]) loadProjectFromFile(e.target.files[0]); };
+    document.getElementById('resetBookBtn').onclick = () => { pages = [{ id: 1, elements: [], drawDataURL: null }]; nextId=2; renderBook(); };
+    document.getElementById('addBlankPageBtn').onclick = addBlankPage;
+    document.getElementById('importImageBtn').onclick = () => { if(pages.length) openImageModalForPage(pages[0].id); else addBlankPage(); };
+    document.getElementById('importUrlBtn').onclick = () => { if(pages.length) openImageModalForPage(pages[0].id); else addBlankPage(); };
+    document.getElementById('saveAsPdfBtn').onclick = saveAsPDF;
+    
+    // Dibujar modal de opciones
+    function showToast(msg) {
+        let toast = document.querySelector('.notification-toast');
+        if(toast) toast.remove();
+        toast = document.createElement('div');
+        toast.className = 'notification-toast';
+        toast.innerHTML = `<i class="fas fa-heart"></i> ${msg}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
+    
+    // Inicializar libro por defecto con una página en blanco
+    pages = [{ id: 1, elements: [], drawDataURL: null }];
+    nextId = 2;
+    renderBook();
+    
+    // Adicional: botón para abrir panel de dibujo modal (opcional)
+    const drawModal = document.getElementById('drawModal');
+    document.getElementById('clearDrawingBtn').onclick = () => {
+        if(currentDrawingPageId) {
+            const canvas = document.querySelector(`.book-page[data-page-id='${currentDrawingPageId}'] .draw-canvas`);
+            if(canvas) clearDrawingOnPage(currentDrawingPageId, canvas);
         }
-        
-        function filterGallery(category) {
-            if (category === 'all') {
-                filteredPhotos = [...galleryPhotos];
-            } else {
-                filteredPhotos = galleryPhotos.filter(photo => photo.category === category);
-            }
-            loadGallery();
-        }
-        
-        function setupEventListeners() {
-            elements.closePhotoModal.addEventListener('click', closePhotoModal);
-            elements.prevPhoto.addEventListener('click', showPrevPhoto);
-            elements.nextPhoto.addEventListener('click', showNextPhoto);
-            
-            elements.photoModal.addEventListener('click', (e) => {
-                if (e.target === elements.photoModal) {
-                    closePhotoModal();
-                }
-            });
-            
-            document.addEventListener('keydown', (e) => {
-                if (elements.photoModal.style.display === 'block') {
-                    if (e.key === 'Escape') closePhotoModal();
-                    if (e.key === 'ArrowLeft') showPrevPhoto();
-                    if (e.key === 'ArrowRight') showNextPhoto();
-                }
-            });
-            
-            elements.galleryFilters.forEach(filter => {
-                filter.addEventListener('click', () => {
-                    elements.galleryFilters.forEach(f => f.classList.remove('active'));
-                    filter.classList.add('active');
-                    filterGallery(filter.dataset.filter);
-                });
-            });
-            
-            elements.photoUpload.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const newPhoto = {
-                            id: galleryPhotos.length + 1,
-                            url: event.target.result,
-                            title: "Nuevo Recuerdo",
-                            date: new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }),
-                            description: "Un momento especial añadido por ti",
-                            category: "special"
-                        };
-                        
-                        galleryPhotos.push(newPhoto);
-                        const currentFilter = document.querySelector('.gallery-filter.active').dataset.filter;
-                        filterGallery(currentFilter);
-                        showNotification("✨ ¡Foto añadida a nuestros recuerdos! 📸");
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    showNotification("❌ Por favor, selecciona una imagen válida");
-                }
-                e.target.value = '';
-            });
-        }
-        
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification show';
-            notification.innerHTML = `<i class="fas fa-heart" style="margin-right: 8px;"></i> ${message}`;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 500);
-            }, 3000);
-        }
-        
-        function initParticles() {
-            if (typeof particlesJS !== 'undefined') {
-                particlesJS('particles-js', {
-                    particles: {
-                        number: { value: 50, density: { enable: true, value_area: 800 } },
-                        color: { value: "#ff6b8b" },
-                        shape: { type: "circle" },
-                        opacity: { value: 0.5, random: true },
-                        size: { value: 3, random: true },
-                        line_linked: { enable: false },
-                        move: { enable: true, speed: 1, direction: "none", random: true, straight: false, out_mode: "out" }
-                    },
-                    interactivity: {
-                        detect_on: "canvas",
-                        events: { onhover: { enable: false }, onclick: { enable: false }, resize: true }
-                    }
-                });
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', initGallery);
-    </script>
+        drawModal.style.display = 'none';
+    };
+    document.getElementById('closeDrawModalBtn').onclick = () => drawModal.style.display = 'none';
+    // para acceder rápido a herramientas de dibujo se puede usar un botón extra, pero no interfiere
+    // asegurar que se guarde dibujo al cambiar página
+    window.addEventListener('beforeunload', () => { if(currentDrawingPageId) captureDrawData(currentDrawingPageId); });
+</script>
 </body>
 </html>
